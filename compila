@@ -1,0 +1,9 @@
+#!/bin/sh
+cd ./bin
+rm -rf *
+nasm -f aout ../src/libasm.asm -o libasm.o
+nasm -f aout ../src/kstart.asm -o kstart.o
+nasm -f aout ../src/loader.asm -o kstart.o
+gcc -m32 -g -c ../src/kernel.c -o kernel.o -fno-builtin
+gcc -m32 -g -c ../src/libc.c  -o libc.o -fno-builtin
+ld -melf_i386 -T ../src/link.ld -o kernel.bin kernel.o kstart.o libc.o libasm.o
