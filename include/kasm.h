@@ -8,6 +8,8 @@ kasm.h
 
 unsigned int    _read_msw();
 
+void		_outb(ushort data, ushort port);
+
 void            _lidt (IDTR *idtr);
 
 void		_mascaraPIC1 (byte mascara);  /* Escribe mascara de PIC1 */

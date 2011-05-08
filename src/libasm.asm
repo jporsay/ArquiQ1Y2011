@@ -2,7 +2,7 @@ GLOBAL  _read_msw,_lidt
 GLOBAL  _int_08_hand
 GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
 GLOBAL  _debug
-
+GLOBAL	_outb
 EXTERN  int_08
 
 
@@ -17,6 +17,16 @@ _Sti:
 
 	sti			; habilita interrupciones por flag
 	ret
+
+_outb:
+	push	ebp
+	mov	ebp, esp
+	mov	edx, [ss:ebp+8] ;Grab data
+	mov	eax, [ss:ebp+12] ;Grab port
+	out	dx, ax
+	pop ebp
+	ret
+
 
 _mascaraPIC1:			; Escribe mascara del PIC 1
 	push    ebp
