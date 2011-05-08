@@ -11,6 +11,9 @@
 
 #define OS_PID	0
 
+#define ROWS 25
+#define COLS 80
+
 int (*player)(void);
 
 typedef int size_t;
@@ -37,5 +40,7 @@ size_t __write(int fd, const void* buffer, size_t count);
 *
 **/
 size_t __read(int fd, void* buffer, size_t count);
+
+void setCursor(ushort row, ushort col);
 
 #endif
