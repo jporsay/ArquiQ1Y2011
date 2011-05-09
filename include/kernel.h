@@ -11,8 +11,7 @@
 
 #define OS_PID	0
 
-#define ROWS 25
-#define COLS 80
+#include "video.h"
 
 int (*player)(void);
 
