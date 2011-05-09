@@ -30,22 +30,22 @@
 
 /* Descriptor de segmento */
 typedef struct {
-  word limit,
-       base_l;
-  byte base_m,
-       access,
-       attribs,
-       base_h;
+	word	limit,
+	base_l;
+	byte	base_m,
+	access,
+	attribs,
+	base_h;
 } DESCR_SEG;
 
 
 /* Descriptor de interrupcion */
 typedef struct {
-  word      offset_l,
-            selector;
-  byte      cero,
-            access;
-  word	    offset_h;
+	word	offset_l,
+			selector;
+	byte	cero,
+			access;
+	word	offset_h;
 } DESCR_INT;
 
 /* IDTR  */
