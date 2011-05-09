@@ -22,7 +22,7 @@ void int_09() {
     char *video = (char *) 0xb8000;
 	char i = inb(0x60);
 	par++; //For some reason i'm reading twice
-	if (counter % 2) {
+	if (par % 2) {
     	video[(tickpos+=2) % (25 * 80 * 2)]=65 + (tickpos/2) % 26;
 	}
 	return;
