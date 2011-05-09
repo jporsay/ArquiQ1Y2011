@@ -12,6 +12,7 @@
 #define OS_PID	0
 
 #include "video.h"
+#include "interrupts.h"
 
 int (*player)(void);
 
@@ -39,7 +40,4 @@ size_t __write(int fd, const void* buffer, size_t count);
 *
 **/
 size_t __read(int fd, void* buffer, size_t count);
-
-void setCursor(ushort row, ushort col);
-
 #endif
