@@ -7,4 +7,5 @@ nasm -f aout ../src/loader.asm -o kstart.o
 gcc -m32 -g -c ../src/kernel.c -o kernel.o -fno-builtin
 gcc -m32 -g -c ../src/libc.c  -o libc.o -fno-builtin
 gcc -m32 -g -c ../src/video.c -o video.o -fno-builtin
-ld -melf_i386 -T ../src/link.ld -o kernel.bin kernel.o kstart.o libc.o libasm.o video.o
+gcc -m32 -g -c ../src/interrupts.c -o interrupts.o -fno-builtin
+ld -melf_i386 -T ../src/link.ld -o kernel.bin kernel.o kstart.o libc.o libasm.o video.o interrupts.o
