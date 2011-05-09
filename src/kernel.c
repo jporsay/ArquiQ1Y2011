@@ -3,15 +3,6 @@
 DESCR_INT idt[0xA];			/* IDT de 10 entradas*/
 IDTR idtr;				/* IDTR */
 
-int tickpos=-2;
-
-void int_08() {
-
-    char *video = (char *) 0xb8000;
-    video[(tickpos+=2) % (25 * 80 * 2)]=65 + (tickpos/2) % 27;
-
-}
-
 /**********************************************
 kmain() 
 Punto de entrada de código C.
@@ -39,8 +30,8 @@ kmain()
 	_Cli();
 
 	/* Habilito interrupcion de timer tick*/
-	_mascaraPIC1(0xFE);
-	_mascaraPIC2(0xFF);
+	_mascaraPIC1(NONE & INT_08);
+	_mascaraPIC2(NONE);
 	_Sti();
 
 	while (1) {
