@@ -8,7 +8,7 @@ kasm.h
 
 unsigned int _read_msw();
 
-void _outb(ushort data, ushort port);
+void _outb(ushort port, ushort data);
 
 void _lidt (IDTR *idtr);
 
@@ -17,6 +17,8 @@ void _mascaraPIC2 (byte mascara);  /* Escribe mascara de PIC2 */
 
 void _Cli(void);        /* Deshabilita interrupciones  */
 void _Sti(void);	 /* Habilita interrupciones  */
+
+void _reset();
 
 void _int_08_hand();      /* Timer tick */
 
