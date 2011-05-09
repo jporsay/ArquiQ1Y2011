@@ -14,7 +14,9 @@ floppya: 1_44=./img/tpe.img, status=inserted
 # choose the boot disk.
 cpu: ips=50000000
 boot: floppy
-gdbstub: enabled=1, port=1234, text_base=0, data_base=0, bss_base=0
+#uncoment to enable debugging.
+#to debug, run bochs.
+#from gdb: target remote localhost:1234
 #gdbstub: enabled=1, port=1234, text_base=0, data_base=0, bss_base=0
 #boot: disk
 #ata0-slave: type=cdrom,       path=/dev/cdrom
@@ -24,7 +26,7 @@ gdbstub: enabled=1, port=1234, text_base=0, data_base=0, bss_base=0
 display_library: x
 # other choices: win32 sdl wx carbon amigaos beos macintosh nogui rfb term
 # where do we send log messages?
-log: bochsout.txt
+#log: bochsout.txt
 mouse: enabled=0
 keyboard_mapping: enabled=1, map=$BXSHARE/keymaps/x11-pc-us.map
 #keyboard_mapping: enabled=1, map=$BXSHARE/keymaps/x11-pc-fr.map
