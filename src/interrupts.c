@@ -1,8 +1,5 @@
 #include "../include/interrupts.h"
 
-int tickpos=-2;
-int ticks = 0;
-
 static inline
 unsigned char inb( unsigned short port )
 {
@@ -22,9 +19,9 @@ void int_09() {
 	char i = inb(0x60);
 	if (i & KEY_RELEASE) {
 		i &= 0x7F; //Reset release bit;
-		if (i == 0x1E) { //Letter A
-    		video[(tickpos+=2) % (25 * 80 * 2)]=65 + (tickpos/2) % 26;
-		}
+		handleKeyRelease(i);
+	} else {
+		handleKeyPress(i);
 	}
 	return;
 }
