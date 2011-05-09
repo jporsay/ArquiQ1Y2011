@@ -21,6 +21,15 @@
 #define ACS_INT_386 	0x0E		/* Interrupt GATE 32 bits */
 #define ACS_INT         ( ACS_PRESENT | ACS_INT_386 )
 
+#define NONE	0xFF
+#define INT_08	0xFE
+#define INT_09	0xFD
+#define INT_0A	0xFB
+#define INT_0B	0xF7
+#define INT_0C	0xEF
+#define INT_0D	0xDF
+#define INT_0E	0xBF
+#define INT_0F	0x7F
 
 #define ACS_CODE        (ACS_PRESENT | ACS_CSEG | ACS_READ)
 #define ACS_DATA        (ACS_PRESENT | ACS_DSEG | ACS_WRITE)
