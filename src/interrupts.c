@@ -17,13 +17,14 @@ void int_08() {
 }
 
 //Keyboard
-int par = 0;
 void int_09() {
     char *video = (char *) 0xb8000;
 	char i = inb(0x60);
-	par++; //For some reason i'm reading twice
-	if (par % 2) {
-    	video[(tickpos+=2) % (25 * 80 * 2)]=65 + (tickpos/2) % 26;
+	if (i & KEY_RELEASE) {
+		i &= 0x7F; //Reset release bit;
+		if (i == 0x1E) { //Letter A
+    		video[(tickpos+=2) % (25 * 80 * 2)]=65 + (tickpos/2) % 26;
+		}
 	}
 	return;
 }
