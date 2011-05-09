@@ -20,7 +20,7 @@ void _Sti(void);	 /* Habilita interrupciones  */
 
 void _reset();
 
-void _int_08_hand();      /* Timer tick */
-
+void _int_08_hand();	/* Timer tick */
+void _int_09_hand();	/* Keyboard */
 void _debug (void);
 
