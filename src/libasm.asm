@@ -3,6 +3,7 @@ GLOBAL  _int_08_hand
 GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
 GLOBAL  _debug
 GLOBAL	_outb
+GLOBAL _reset
 EXTERN  int_08
 
 
@@ -76,8 +77,16 @@ _int_08_hand:				; Handler de INT 8 ( Timer tick)
         pop     ds
         iret
 
+_reset:
+.wait1:
+	in   al, 0x64
+	test al, 00000010b
+	jne  .wait1
+	mov  al, 0xFE
+	out  0x64, al
+	ret
 
-; Debug para el BOCHS, detiene la ejecució; Para continuar colocar en el BOCHSDBG: set $eax=0
+; Debug para el BOCHS, detiene la ejecución; Para continuar colocar en el BOCHSDBG: set $eax=0
 ;
 
 
