@@ -1,11 +1,12 @@
 GLOBAL  _read_msw,_lidt
 GLOBAL  _int_08_hand
+GLOBAL	_int_09_hand
 GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
 GLOBAL  _debug
 GLOBAL	_outb
 GLOBAL _reset
 EXTERN  int_08
-
+EXTERN	int_09
 
 SECTION .text
 
@@ -75,6 +76,12 @@ _int_08_hand:				; Handler de INT 8 ( Timer tick)
 	popa
 	pop		es
 	pop		ds
+	iret
+
+_int_09_hand:				; Handler de INT 8 ( Timer tick)
+	call	int_09
+	mov		al,20h			; Envio de EOI generico al PIC
+	out		20h,al
 	iret
 
 _reset:

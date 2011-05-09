@@ -19,18 +19,18 @@ kmain()
 
 	/* CARGA DE IDT CON LA RUTINA DE ATENCION DE IRQ0    */
 	setup_IDT_entry (&idt[0x08], 0x08, (dword)&_int_08_hand, ACS_INT, 0);
-
+	setup_IDT_entry (&idt[0x09], 0x09, (dword)&_int_09_hand, ACS_INT, 0);
 	/* Carga de IDTR    */
-	idtr.base = 0;  
+	idtr.base = 0;
 	idtr.base +=(dword) &idt;
 	idtr.limit = sizeof(idt)-1;
 
-	_lidt (&idtr);	
+	_lidt (&idtr);
 
 	_Cli();
 
 	/* Habilito interrupcion de timer tick*/
-	_mascaraPIC1(NONE & INT_08);
+	_mascaraPIC1(INT_08 & INT_09);
 	_mascaraPIC2(NONE);
 	_Sti();
 
