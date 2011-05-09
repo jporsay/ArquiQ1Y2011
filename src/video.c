@@ -23,11 +23,11 @@ void  setCursor(ushort row, ushort col) {
 void k_clear_screen() 
 {
 	char *vidmem = (char *) 0xb8000;
-	unsigned int i=0;
+	unsigned int i = 0;
 	while (i < TOTAL_VIDEO_SIZE) {
 		vidmem[i] = ' ';
 		i++;
-		vidmem[i]=WHITE_TXT;
+		vidmem[i] = WHITE_TXT;
 		i++;
 	};
 }
