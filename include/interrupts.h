@@ -3,6 +3,7 @@
 
 #include "defs.h"
 #include "keyboard.h"
+#include "io.h"
 
 void int_08();
 void int_09();
