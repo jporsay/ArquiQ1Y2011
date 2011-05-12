@@ -7,11 +7,11 @@ void  setCursor(ushort row, ushort col) {
 	ushort position = (row * 80) + col;
 
 	// cursor LOW port to vga INDEX register
-	_outb(0x3D4, 0x0F);
-	_outb(0x3D5, (ushort)(position & 0xFF));
+	outb(0x3D4, 0x0F);
+	outb(0x3D5, (ushort)(position & 0xFF));
 	// cursor HIGH port to vga INDEX register
-	_outb(0x3D4, 0x0E);
-	_outb(0x3D5, (ushort)((position >> 8) & 0xFF));
+	outb(0x3D4, 0x0E);
+	outb(0x3D5, (ushort)((position >> 8) & 0xFF));
 }
 
 /***************************************************************
