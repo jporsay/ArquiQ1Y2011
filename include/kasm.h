@@ -9,6 +9,7 @@ kasm.h
 unsigned int _read_msw();
 
 void _outb(ushort port, ushort data);
+unsigned char _inb(ushort port);
 
 void _lidt (IDTR *idtr);
 
