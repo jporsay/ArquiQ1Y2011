@@ -2,6 +2,7 @@
 #define VIDEO_H
 
 #include "defs.h"
+#include "io.h"
 
 #define ROWS 25
 #define COLS 80
