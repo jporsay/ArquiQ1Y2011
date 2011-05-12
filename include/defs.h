@@ -21,6 +21,7 @@
 #define ACS_INT_386 	0x0E		/* Interrupt GATE 32 bits */
 #define ACS_INT         ( ACS_PRESENT | ACS_INT_386 )
 
+/* Interrupt Masks */
 #define NONE	0xFF
 #define INT_08	0xFE
 #define INT_09	0xFD
