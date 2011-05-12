@@ -4,6 +4,7 @@ GLOBAL	_int_09_hand
 GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
 GLOBAL  _debug
 GLOBAL	_outb
+GLOBAL	_inb
 GLOBAL _reset
 EXTERN  int_08
 EXTERN	int_09
@@ -27,8 +28,16 @@ _outb:
 	mov		eax, [ss:ebp+12] ;Grab port
 	out		dx, ax
 	pop		ebp
-	ret
+	retn
 
+_inb:
+	push	ebp
+	mov		ebp, esp
+	mov		dx, [ss:ebp+8] ;Grab port
+	in		ax, dx
+	mov		esp, ebp
+	pop		ebp
+	retn
 
 _mascaraPIC1:			; Escribe mascara del PIC 1
 	push	ebp
@@ -79,9 +88,15 @@ _int_08_hand:				; Handler de INT 8 ( Timer tick)
 	iret
 
 _int_09_hand:				; Handler de INT 8 ( Timer tick)
+	push	ds
+	push	es
+	pusha
 	call	int_09
 	mov		al,20h			; Envio de EOI generico al PIC
 	out		20h,al
+	popa
+	pop		es
+	pop		ds
 	iret
 
 _reset:
