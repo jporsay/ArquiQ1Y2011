@@ -26,13 +26,13 @@ unsigned char ucase[60] =
   'Q', 'W', 'E', 'R',	/* 19 */
   'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', '\n',	/* Enter key */
     0,			/* 29   - Control */
-  'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':',	/* 39 */
+  'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':',
  '"', '~',   0,		/* Left shift */
- '|', 'Z', 'X', 'C', 'V', 'B', 'N',			/* 49 */
-  'M', '<', '>', '?', 0,				/* Right shift */
+ '|', 'Z', 'X', 'C', 'V', 'B', 'N',
+  'M', '<', '>', '?', 0, /* Right shift */
   '*',
-    0,	/* Alt */
-  ' '	/* Space bar */
+    0, /* Alt */
+  ' ' /* Space bar */
 };
 
 
@@ -46,11 +46,15 @@ void handleScanCode(unsigned char scanCode) {
 			}
 		}
 	}
-
 }
 
 int checkSpecialKey(unsigned char scanCode) {
 	int ret = TRUE;
+	
+	if(IS_ESCAPE()) {
+		return TRUE;
+	}
+	
 	switch (scanCode) {
 		/* Shifts */
 		case 0x2A:
@@ -100,6 +104,7 @@ int specialAscii(char ascii) {
 	int ret = TRUE;
 	switch (ascii) {
 		case '\n':
+			setPosition(getCurrRow() + 1, 0);
 			break;
 		case '\t':
 			break;
@@ -115,6 +120,6 @@ int specialAscii(char ascii) {
 }
 
 char translateSc(unsigned char scanCode) {
-	return SHIFT_PRESSED() ? ucase[scanCode] : lcase[scanCode];
+		return SHIFT_PRESSED() ? ucase[scanCode] : lcase[scanCode];
 }
 
