@@ -4,13 +4,20 @@
 #include "defs.h"
 #include "io.h"
 
+#define VIDEO_ADDRESS 0xb8000
+
 #define ROWS 25
-#define COLS 80
-#define TOTAL_VIDEO_SIZE ROWS * COLS * 2
+#define COLUMNS 80
+#define TOTAL_VIDEO_SIZE (ROWS * COLUMNS * 2)
 
 #define WHITE_TXT 0x07 // Atributo de video. Letras blancas, fondo negro
 
+void write(char ascii);
 void setCursor(ushort row, ushort col);
 void k_clear_screen();
+void k_pushOneline();
+void setPosition(int row, int column);
+int getCurrRow();
+int getCurrColumn();
 
 #endif
