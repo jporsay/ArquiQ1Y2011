@@ -9,6 +9,7 @@ void write(char ascii) {
 	if (position == TOTAL_VIDEO_SIZE) {
 		k_pushOneline();
 	}
+	setCursor(getCurrRow(), getCurrColumn());
 }
 
 void k_pushOneline() {
@@ -38,20 +39,29 @@ void setPosition(int row, int column) {
 	}
 }
 
+/*
+	Columns actual de fin de la ultimo caracter
+*/
 int getCurrRow() {
-	return position / COLUMNS; 
+	return (position/2) / COLUMNS; 
 }
 
+/*
+	Fila actual de fin de la ultimo caracter
+*/
 int getCurrColumn() {
-	return position % ROWS; 
+	return (position/2) % COLUMNS; 
 }
 
 
-void  setCursor(ushort row, ushort col) {
-	if (row >= ROWS || row < 0 || col >= COLUMNS || col < 0) {
+/*
+	Setea el cursor en la posicion row, column.
+*/
+void  setCursor(ushort row, ushort column) {
+	if (row >= ROWS || row < 0 || column >= COLUMNS || column < 0) {
 		return;
 	}
-	ushort position = (row * COLUMNS) + col;
+	ushort position = (row * COLUMNS) + column;
 
 	// cursor LOW port to vga INDEX register
 	outb(0x3D4, 0x0F);
@@ -61,12 +71,9 @@ void  setCursor(ushort row, ushort col) {
 	outb(0x3D5, (ushort)((position >> 8) & 0xFF));
 }
 
-/***************************************************************
-*k_clear_screen
-*
-* Borra la pantalla en modo texto color.
-****************************************************************/
-
+/*
+Borra la pantalla en modo texto color.
+*/
 void k_clear_screen() 
 {
 	char *vidmem = (char *) VIDEO_ADDRESS;
