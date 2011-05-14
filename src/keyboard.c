@@ -49,6 +49,16 @@ int checkSpecialKey(unsigned char scanCode) {
 	int ret = TRUE;
 	
 	if(IS_ESCAPE()) {
+		switch (scanCode) {
+			case 0x53:
+				kbFlags |= DEL;
+				break;
+			case 0xD3:
+				kbFlags &= ~DEL;
+				break;
+			default:
+				break;
+		}
 		return TRUE;
 	}
 	
@@ -100,4 +110,3 @@ int checkSpecialKey(unsigned char scanCode) {
 char translateSc(unsigned char scanCode) {
 		return SHIFT_PRESSED() ? ucase[scanCode] : lcase[scanCode];
 }
-

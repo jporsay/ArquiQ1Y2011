@@ -14,7 +14,9 @@
 #define SHIFT_PRESSED() (kbFlags & UCASE)
 #define IS_MAKE(A) ((A) & 0x80)
 #define IS_ESCAPE() (kbFlags & ESCAPE)
-
+#define IS_CTRL() (kbFlags & CTRL)
+#define IS_ALT() (kbFlags & ALT)
+#define IS_DEL() (kbFlags & DEL)
 char kbFlags;
 
 void handleScanCode(unsigned char scanCode);
