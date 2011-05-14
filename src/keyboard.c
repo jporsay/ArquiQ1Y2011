@@ -1,6 +1,5 @@
 #include "../include/keyboard.h"
-
-char *video = (char *) 0xb8000;
+#include "../include/video.h"
 
 unsigned char lcase[60] =
 {
@@ -43,7 +42,7 @@ void handleScanCode(unsigned char scanCode) {
 		if (IS_MAKE(scanCode)) {
 			char ascii = translateSc(CLEAR_BREAK_BIT(scanCode));
 			if (!specialAscii(ascii)) {
-				putc(ascii);
+				write(ascii);
 			}
 		}
 	}
@@ -119,6 +118,3 @@ char translateSc(unsigned char scanCode) {
 	return SHIFT_PRESSED() ? ucase[scanCode] : lcase[scanCode];
 }
 
-void putc(char ascii) {
-	video[tickpos+=2] = ascii;
-}

@@ -18,6 +18,5 @@ char kbFlags;
 void handleScanCode(unsigned char scanCode);
 int checkSpecialKey(unsigned char scanCode);
 int specialAscii(char ascii);
-void putc(char ascii);
 char translateSc(unsigned char scanCode);
 #endif
