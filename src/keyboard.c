@@ -42,7 +42,7 @@ void handleScanCode(unsigned char scanCode) {
 		if (IS_MAKE(scanCode)) {
 			char ascii = translateSc(CLEAR_BREAK_BIT(scanCode));
 			if (!specialAscii(ascii)) {
-				write(ascii);
+				putc(ascii);
 			}
 		}
 	}

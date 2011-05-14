@@ -2,7 +2,7 @@
 
 int position=0;
 
-void write(char ascii) {
+void putc(char ascii) {
 	char *video = (char *) VIDEO_ADDRESS;
 	video[position] = ascii;
 	position+=2;
