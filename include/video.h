@@ -16,6 +16,7 @@ void write(char ascii);
 void setCursor(ushort row, ushort col);
 void k_clear_screen();
 void k_pushOneline();
+int specialAscii(char ascii);
 void setPosition(int row, int column);
 int getCurrRow();
 int getCurrColumn();

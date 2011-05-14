@@ -40,10 +40,7 @@ int tickpos = -2;
 void handleScanCode(unsigned char scanCode) {
 	if (!checkSpecialKey(scanCode)) {
 		if (IS_MAKE(scanCode)) {
-			char ascii = translateSc(CLEAR_BREAK_BIT(scanCode));
-			if (!specialAscii(ascii)) {
-				putc(ascii);
-			}
+			putc(translateSc(CLEAR_BREAK_BIT(scanCode)));
 		}
 	}
 }
@@ -91,25 +88,6 @@ int checkSpecialKey(unsigned char scanCode) {
 			kbFlags |= ESCAPE;
 			break;
 		
-		default:
-			ret = FALSE;
-			break;
-	}
-	
-	return ret;
-	
-}
-
-int specialAscii(char ascii) {
-	int ret = TRUE;
-	switch (ascii) {
-		case '\n':
-			setPosition(getCurrRow() + 1, 0);
-			break;
-		case '\t':
-			break;
-		case '\b':
-			break;
 		default:
 			ret = FALSE;
 			break;

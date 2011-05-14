@@ -3,13 +3,17 @@
 int position=0;
 
 void putc(char ascii) {
-	char *video = (char *) VIDEO_ADDRESS;
-	video[position] = ascii;
-	position+=2;
-	if (position == TOTAL_VIDEO_SIZE) {
-		k_pushOneline();
+	if (!specialAscii(ascii)) {
+		char *video = (char *) VIDEO_ADDRESS;
+		video[position] = ascii;
+		position+=2;
+		
+		if (position == TOTAL_VIDEO_SIZE) {
+			k_pushOneline();
+		}
+		
+		setCursor(getCurrRow(), getCurrColumn());
 	}
-	setCursor(getCurrRow(), getCurrColumn());
 }
 
 void k_pushOneline() {
@@ -84,5 +88,23 @@ void k_clear_screen()
 		vidmem[i] = WHITE_TXT;
 		i++;
 	};
+}
+
+int specialAscii(char ascii) {
+	int ret = TRUE;
+	switch (ascii) {
+		case '\n':
+			setPosition(getCurrRow() + 1, 0);
+			break;
+		case '\t':
+			break;
+		case '\b':
+			break;
+		default:
+			ret = FALSE;
+			break;
+	}
+	
+	return ret;
 }
 
