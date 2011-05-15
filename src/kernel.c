@@ -16,6 +16,7 @@ kmain()
 	int i,num;
 
 	/* Borra la pantalla. */ 
+	initVideo();
 	k_clear_screen();
 
 	/* CARGA DE IDT CON LA RUTINA DE ATENCION DE IRQ0    */
