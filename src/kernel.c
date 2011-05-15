@@ -54,7 +54,7 @@ size_t __write(int fd, const void * buffer, size_t count) {
 void _memcpy(void* from, void* to, size_t nbytes) {
 	size_t i;
 	for (i = 0; i < nbytes; i++) {
-	* ((char *)to + i) = * ((char *)from + i);
+		* ((char *)to + i) = * ((char *)from + i);
 	}
 }
 
