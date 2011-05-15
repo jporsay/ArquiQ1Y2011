@@ -40,7 +40,8 @@ int tickpos = -2;
 void handleScanCode(unsigned char scanCode) {
 	if (!checkSpecialKey(scanCode)) {
 		if (IS_MAKE(scanCode)) {
-			putc(translateSc(CLEAR_BREAK_BIT(scanCode)));
+			char chara = translateSc(CLEAR_BREAK_BIT(scanCode));
+			writeInVideo(&chara, 1);
 		}
 	}
 }
