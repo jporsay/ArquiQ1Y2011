@@ -1,5 +1,7 @@
 #include "../include/kasm.h"
 #include "../include/defs.h"
+#include "../include/kernel.h"
+
 DESCR_INT idt[0xA];			/* IDT de 10 entradas*/
 IDTR idtr;				/* IDTR */
 
@@ -37,5 +39,22 @@ kmain()
 	while (1) {
 	}
 	
+}
+
+size_t __read(int fd, void * buffer, size_t count) {
+	_SysCall(SYSTEM_READ,fd, buffer, count);
+	return count;
+}
+
+size_t __write(int fd, const void * buffer, size_t count) {
+	_SysCall(SYSTEM_WRITE,fd, buffer, count);
+	return count;
+}
+
+void _memcpy(void* from, void* to, size_t nbytes) {
+	size_t i;
+	for (i = 0; i < nbytes; i++) {
+	* ((char *)to + i) = * ((char *)from + i);
+	}
 }
 
