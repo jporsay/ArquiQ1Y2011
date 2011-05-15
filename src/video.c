@@ -3,23 +3,33 @@
 
 void initVideo() {
 	video.address = (char*)VIDEO_ADDRESS;
-	setVideoColor(0, 0xF);
+	setVideoColor(0, 0x7);
 	setOffset(0);
 	setCursor(0, 0);
 }
 
-void putc(char ascii) {
-	if (!specialAscii(ascii)) {
-		video.address[getOffset()] = ascii;
+void dummyWrite(char ascii) {
+	video.address[getOffset()] = ascii;
+}
+
+void writeInVideo(char *string, size_t count) {
+	int i = 0;
+	while (i < count) {
+		char ascii = string[i];
+		if (!specialAscii(ascii)) {
+			dummyWrite(ascii);
 		
-		if (getOffset() == TOTAL_VIDEO_SIZE - 2) {
-			scroll(1);
-			setPosition(getCurrRow(), 0);
+			if (getOffset() == TOTAL_VIDEO_SIZE - 2) {
+				scroll(1);
+				setPosition(getCurrRow(), 0);
+			}
+		
+			setOffset(getOffset() + 2);
+			setCursor(getCurrRow(), getCurrColumn());
 		}
-		
-		setOffset(getOffset() + 2);
-		setCursor(getCurrRow(), getCurrColumn());
+		i++;
 	}
+	return;
 }
 
 void scroll(char lines) {
@@ -125,6 +135,9 @@ int getOffset() {
 }
 
 void setOffset(int offset) {
+	if (offset < 0) {
+		offset = 0;
+	}
 	video.offset = offset;
 }
 
@@ -169,6 +182,9 @@ int specialAscii(char ascii) {
 		case '\t': //Tab
 			break;
 		case '\b': //Backspace
+			setOffset(getOffset() - 2);
+			dummyWrite(' ');
+			setCursor(getCurrRow(), getCurrColumn());
 			break;
 		default:
 			ret = FALSE;
