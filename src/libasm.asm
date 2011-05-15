@@ -103,21 +103,25 @@ _int_09_hand:				; Handler de INT 9 ( Teclado )
 	iret
 
 _int_80_hand:				; Handler de INT 80h
-	iret		;<----------------iret!
 	push ebp
 	mov ebp, esp			;StackFrame
-	pusha
 	
-	push ebp				; Puntero al array de argumentos
+	push edx
+	push ecx
+	push ebx
+	
+	push esp				; Puntero al array de argumentos
 	push eax				; Numero de Systemcall
-		
 	call int_80
 	mov	al,20h			; Envio de EOI generico al PIC
 	out	20h,al
-	pop ebp
 	pop eax
+	pop esp
 
-	popa
+	pop ebx
+	pop ecx
+	pop edx
+	
 	mov esp, ebp
 	pop ebp
 	iret
@@ -128,12 +132,10 @@ _SysCall:
 	pusha
 
 	mov eax, [ebp + 8] ; Syscall number
-	mov ebx, [ebp + 12]; Arg1
-	mov ecx, [ebp + 16]; Arg2
-	mov edx, [ebp + 20]; Arg3
-	;mov esi, [ebp + 24]; Arg4
-	;mov edi, [ebp + 28]; Arg5
-
+	mov ebx, [ebp + 12]; file descriptor
+	mov ecx, [ebp + 16]; buffer
+	mov edx, [ebp + 20]; count
+	
 	int 80h
 
 	popa
