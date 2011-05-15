@@ -40,8 +40,8 @@
 #define TRUE	1
 #define FALSE	0
 
-#define SYSTEM_WRITE	0
-#define SYSTEM_READ		1
+#define SYSTEM_READ		3
+#define SYSTEM_WRITE	4
 /*
 0	STD	NOHIDE	{ int nosys(void); } syscall nosys_args int
 1	STD	NOHIDE	{ void exit(int rval); } exit rexit_args void
