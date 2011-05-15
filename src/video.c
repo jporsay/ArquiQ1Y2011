@@ -3,40 +3,51 @@
 
 void initVideo() {
 	video.address = (char*)VIDEO_ADDRESS;
-	setVideoColor(0, 0xF);
+	setVideoColor(0, 0x7);
 	setOffset(0);
 	setCursor(0, 0);
 }
 
-void putc(char ascii) {
-	if (!specialAscii(ascii)) {
-		video.address[getOffset()] = ascii;
-		setOffset(getOffset() + 2);
+void dummyWrite(char ascii) {
+	video.address[getOffset()] = ascii;
+}
+
+void writeInVideo(char *string, size_t count) {
+	int i = 0;
+	while (i < count) {
+		char ascii = string[i];
+		if (!specialAscii(ascii)) {
+			dummyWrite(ascii);
 		
-		if (getOffset() == TOTAL_VIDEO_SIZE) {
-			scroll(1);
-			setPosition(getCurrRow(), 0);
+			if (getOffset() == TOTAL_VIDEO_SIZE - 2) {
+				scroll(1);
+				setPosition(getCurrRow(), 0);
+			}
+		
+			setOffset(getOffset() + 2);
+			setCursor(getCurrRow(), getCurrColumn());
 		}
-		
-		setCursor(getCurrRow(), getCurrColumn());
+		i++;
 	}
+	return;
 }
 
 void scroll(char lines) {
-	if (lines >= 25 || lines <= 0) {
-		return;
-	}
 	
 	int i;
-	for (i = lines; i < ROWS; i++) {
-		copyRow(i - lines, i);
+	int start = getCurrRow();
+	for (i = lines; i <= start; i++) {
+		copyRow(i, i - lines);
 	}
 	
-	clearLinesRange(getCurrRow(), getCurrRow() + lines);
+	clearLinesRange(start - lines + 1, start);
 	
 }
 
-void copyRow(int dest, int source) {
+void copyRow(int source, int dest) {
+	if (dest < 0) {
+		return;
+	}
 	int posBak = getOffset();
 	
 	int column;
@@ -79,12 +90,13 @@ void setPosition(int row, int column) {
 	int offset;
 	if ( 0 <= row && row < ROWS && 0 <= column && column < COLUMNS) {
 		offset = (row * COLUMNS) + column;
-		offset *= 2;
-	} else {
-		offset = 0;
+	} else if (row >= ROWS) {
+		row = 24;
+		offset = row * COLUMNS;
+		scroll(1);
 	}
 	
-	setOffset(offset);
+	setOffset(offset * 2);
 }
 
 /*
@@ -123,6 +135,9 @@ int getOffset() {
 }
 
 void setOffset(int offset) {
+	if (offset < 0) {
+		offset = 0;
+	}
 	video.offset = offset;
 }
 
@@ -167,6 +182,9 @@ int specialAscii(char ascii) {
 		case '\t': //Tab
 			break;
 		case '\b': //Backspace
+			setOffset(getOffset() - 2);
+			dummyWrite(' ');
+			setCursor(getCurrRow(), getCurrColumn());
 			break;
 		default:
 			ret = FALSE;
