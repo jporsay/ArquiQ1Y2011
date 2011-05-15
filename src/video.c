@@ -3,9 +3,11 @@
 
 void initVideo() {
 	video.address = (char*)VIDEO_ADDRESS;
-	setVideoColor(0, 0x7);
+	setVideoColor(BLACK, GREEN);
+	cls();
 	setOffset(0);
 	setCursor(0, 0);
+	printShell();
 }
 
 void dummyWrite(char ascii) {
@@ -161,7 +163,7 @@ void setCursor(ushort row, ushort column) {
 /*
 Borra la pantalla en modo texto color.
 */
-void k_clear_screen() 
+void cls() 
 {
 	unsigned int i = 0;
 	while (i < TOTAL_VIDEO_SIZE) {
@@ -178,6 +180,7 @@ int specialAscii(char ascii) {
 		case '\n':
 			setPosition(getCurrRow() + 1, 0);
 			setCursor(getCurrRow(), getCurrColumn());
+			printShell();
 			break;
 		case '\t': //Tab
 			break;
@@ -194,3 +197,7 @@ int specialAscii(char ascii) {
 	return ret;
 }
 
+
+void printShell() {
+	writeInVideo(SHELL_TEXT, strlen(SHELL_TEXT));
+}
