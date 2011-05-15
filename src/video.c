@@ -1,67 +1,134 @@
 #include "../include/video.h"
 
-int position=0;
+void initVideo() {
+	video.address = (char*)VIDEO_ADDRESS;
+	setVideoColor(0, 0xF);
+	setOffset(0);
+	setCursor(0, 0);
+}
 
 void putc(char ascii) {
 	if (!specialAscii(ascii)) {
-		char *video = (char *) VIDEO_ADDRESS;
-		video[position] = ascii;
-		position+=2;
+		video.address[getOffset()] = ascii;
+		setOffset(getOffset() + 2);
 		
-		if (position == TOTAL_VIDEO_SIZE) {
-			k_pushOneline();
+		if (getOffset() == TOTAL_VIDEO_SIZE) {
+			scroll(1);
+			setPosition(getCurrRow(), 0);
 		}
 		
 		setCursor(getCurrRow(), getCurrColumn());
 	}
 }
 
-void k_pushOneline() {
-    char *video = (char *) VIDEO_ADDRESS;
-	int row, column;
-	for (row = 0; row < ROWS - 1; row++) {
-		for (column = 0; column < COLUMNS ; column++) {
-			setPosition(row, column);
-			int newIndex = position;
-			setPosition(row + 1, column);
-			video[newIndex] = video[position];
-		}
+void scroll(char lines) {
+	if (lines >= 25 || lines <= 0) {
+		return;
 	}
-	for(column = 0; column < COLUMNS; column++) {
-		setPosition(ROWS - 1, column);
-		video[position] = ' ';
+	
+	int i;
+	for (i = lines; i < ROWS; i++) {
+		copyRow(i - lines, i);
 	}
-	setPosition(ROWS - 1, 0);
+	
+	clearLinesRange(getCurrRow(), getCurrRow() + lines);
+	
+}
+
+void copyRow(int dest, int source) {
+	int posBak = getOffset();
+	
+	int column;
+	for (column = 0; column < COLUMNS; column++) {
+		setPosition(source, column);
+		int index = getOffset();
+		setPosition(dest, column);
+		video.address[getOffset()] = video.address[index];
+	}
+	
+	setOffset(posBak);
+}
+
+void clearLinesRange(int from, int to) {
+	to = to >= ROWS ? ROWS - 1 : to;
+	int i;
+	for (i = from; i <= to; i++) {
+		clearRow(i);
+	}
+}
+
+void clearToEnd(int from) {
+	clearLinesRange(from, ROWS);
+}
+
+void clearRow(int row) {
+	int i;
+	int offsetBackup = getOffset();
+	
+	for (i = 0; i < COLUMNS; i++) {
+		setPosition(row, i);
+		video.address[getOffset()] = ' ';
+	}
+	
+	setOffset(offsetBackup);
+	
 }
 
 void setPosition(int row, int column) {
+	int offset;
 	if ( 0 <= row && row < ROWS && 0 <= column && column < COLUMNS) {
-		position = (row * COLUMNS) + column;
-		position *= 2;
+		offset = (row * COLUMNS) + column;
+		offset *= 2;
 	} else {
-		position = 0;
+		offset = 0;
 	}
+	
+	setOffset(offset);
 }
 
 /*
 	Columns actual de fin de la ultimo caracter
 */
 int getCurrRow() {
-	return (position/2) / COLUMNS; 
+	return (getOffset() / 2) / COLUMNS; 
 }
 
 /*
 	Fila actual de fin de la ultimo caracter
 */
 int getCurrColumn() {
-	return (position/2) % COLUMNS; 
+	return (getOffset() / 2) % COLUMNS; 
 }
 
+void setVideoBackground(byte color) {
+	video.bgColor = color;
+}
+
+void setVideoForeground(byte color) {
+	video.fgColor = color;
+}
+
+void setVideoColor(byte bg, byte fg) {
+	setVideoForeground(fg);
+	setVideoBackground(bg);
+}
+
+char getVideoColor() {
+	return (video.bgColor << 4) | (video.fgColor & 0x0F);
+}
+
+int getOffset() {
+	return video.offset;
+}
+
+void setOffset(int offset) {
+	video.offset = offset;
+}
 
 /*
 	Setea el cursor en la posicion row, column.
 */
-void  setCursor(ushort row, ushort column) {
+void setCursor(ushort row, ushort column) {
 	if (row >= ROWS || row < 0 || column >= COLUMNS || column < 0) {
 		return;
 	}
@@ -80,12 +147,11 @@ Borra la pantalla en modo texto color.
 */
 void k_clear_screen() 
 {
-	char *vidmem = (char *) VIDEO_ADDRESS;
 	unsigned int i = 0;
 	while (i < TOTAL_VIDEO_SIZE) {
-		vidmem[i] = ' ';
+		video.address[i] = ' ';
 		i++;
-		vidmem[i] = WHITE_TXT;
+		video.address[i] = getVideoColor();
 		i++;
 	};
 }
@@ -95,10 +161,11 @@ int specialAscii(char ascii) {
 	switch (ascii) {
 		case '\n':
 			setPosition(getCurrRow() + 1, 0);
+			setCursor(getCurrRow(), getCurrColumn());
 			break;
-		case '\t':
+		case '\t': //Tab
 			break;
-		case '\b':
+		case '\b': //Backspace
 			break;
 		default:
 			ret = FALSE;
