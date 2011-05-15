@@ -1,12 +1,12 @@
 #include "../include/io.h"
+#include "../include/video.h"
 
 void sysRead(int fd, void * buffer, size_t count) {
-		//unsigned char c = getKey();
-		//_memcpy((void *)&c, buffer, count);
+	//unsigned char c = getKey();
+	//_memcpy((void *)&c, buffer, count);
 }
 
 void sysWrite(int fd, void * buffer, size_t count) {
-	//writeInVideo(*((char *) buffer));
+	writeInVideo(buffer, count);
 }
-
 

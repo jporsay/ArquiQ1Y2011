@@ -14,6 +14,9 @@ void int_09() {
 }
 
 void int_80(int sysCallNumber, void ** args) {
+	//FIXME: los args no estan bien desreferenciados
+	return;
+	
 	switch(sysCallNumber) {
 		case SYSTEM_WRITE:
 			sysWrite((int) args[0], args[1], (int)args[2]);

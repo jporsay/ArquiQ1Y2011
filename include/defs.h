@@ -31,16 +31,17 @@
 #define INT_0D	0xDF
 #define INT_0E	0xBF
 #define INT_0F	0x7F
+#define INT_80	0x7E
 
 #define ACS_CODE        (ACS_PRESENT | ACS_CSEG | ACS_READ)
 #define ACS_DATA        (ACS_PRESENT | ACS_DSEG | ACS_WRITE)
 #define ACS_STACK       (ACS_PRESENT | ACS_DSEG | ACS_WRITE)
 
-#define TRUE 1
-#define FALSE 0
+#define TRUE	1
+#define FALSE	0
 
-#define SYSTEM_WRITE	3
-#define SYSTEM_READ		4
+#define SYSTEM_WRITE	0
+#define SYSTEM_READ		1
 /*
 0	STD	NOHIDE	{ int nosys(void); } syscall nosys_args int
 1	STD	NOHIDE	{ void exit(int rval); } exit rexit_args void
