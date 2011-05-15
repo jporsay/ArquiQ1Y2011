@@ -38,7 +38,7 @@ void scroll(char lines);
 
 void setOffset(int offset);
 int getOffset();
-void copyRow(int dest, int source);
+void copyRow(int source, int dest);
 
 void clearLinesRange(int from, int to);
 void clearToEnd(int from);

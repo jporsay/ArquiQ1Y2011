@@ -10,32 +10,33 @@ void initVideo() {
 void putc(char ascii) {
 	if (!specialAscii(ascii)) {
 		video.address[getOffset()] = ascii;
-		setOffset(getOffset() + 2);
 		
-		if (getOffset() == TOTAL_VIDEO_SIZE) {
+		if (getOffset() == TOTAL_VIDEO_SIZE - 2) {
 			scroll(1);
 			setPosition(getCurrRow(), 0);
 		}
 		
+		setOffset(getOffset() + 2);
 		setCursor(getCurrRow(), getCurrColumn());
 	}
 }
 
 void scroll(char lines) {
-	if (lines >= 25 || lines <= 0) {
-		return;
-	}
 	
 	int i;
-	for (i = lines; i < ROWS; i++) {
-		copyRow(i - lines, i);
+	int start = getCurrRow();
+	for (i = lines; i <= start; i++) {
+		copyRow(i, i - lines);
 	}
 	
-	clearLinesRange(getCurrRow(), getCurrRow() + lines);
+	clearLinesRange(start - lines + 1, start);
 	
 }
 
-void copyRow(int dest, int source) {
+void copyRow(int source, int dest) {
+	if (dest < 0) {
+		return;
+	}
 	int posBak = getOffset();
 	
 	int column;
@@ -78,12 +79,13 @@ void setPosition(int row, int column) {
 	int offset;
 	if ( 0 <= row && row < ROWS && 0 <= column && column < COLUMNS) {
 		offset = (row * COLUMNS) + column;
-		offset *= 2;
-	} else {
-		offset = 0;
+	} else if (row >= ROWS) {
+		row = 24;
+		offset = row * COLUMNS;
+		scroll(1);
 	}
 	
-	setOffset(offset);
+	setOffset(offset * 2);
 }
 
 /*
