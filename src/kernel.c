@@ -13,9 +13,10 @@ Punto de entrada de código C.
 
 kmain(multiboot_info_t* mbd, unsigned int magic) 
 {
+	/* No descomentar hasta que funcione el Memory Manager
 	if(setMemory(mbd))
 		return;
-
+	*/
 	int i,num;
 
 	/* Borra la pantalla. */ 
