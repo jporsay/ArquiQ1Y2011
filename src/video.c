@@ -1,4 +1,5 @@
 #include "../include/video.h"
+#include "../include/interrupts.h"
 
 int position=0;
 

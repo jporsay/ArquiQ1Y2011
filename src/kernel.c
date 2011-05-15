@@ -1,5 +1,7 @@
 #include "../include/kasm.h"
 #include "../include/defs.h"
+#include "../include/kernel.h"
+
 DESCR_INT idt[0xA];			/* IDT de 10 entradas*/
 IDTR idtr;				/* IDTR */
 
@@ -15,7 +17,6 @@ kmain()
 
 	/* Borra la pantalla. */ 
 	k_clear_screen();
-	setCursor(13,40);
 
 	/* CARGA DE IDT CON LA RUTINA DE ATENCION DE IRQ0    */
 	setup_IDT_entry (&idt[0x08], 0x08, (dword)&_int_08_hand, ACS_INT, 0);
@@ -37,5 +38,22 @@ kmain()
 	while (1) {
 	}
 	
+}
+
+size_t __read(int fd, void * buffer, size_t count) {
+	_SysCall(SYSTEM_READ,fd, buffer, count);
+	return count;
+}
+
+size_t __write(int fd, const void * buffer, size_t count) {
+	_SysCall(SYSTEM_WRITE,fd, buffer, count);
+	return count;
+}
+
+void _memcpy(void* from, void* to, size_t nbytes) {
+	size_t i;
+	for (i = 0; i < nbytes; i++) {
+	* ((char *)to + i) = * ((char *)from + i);
+	}
 }
 

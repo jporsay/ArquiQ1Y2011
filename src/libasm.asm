@@ -1,13 +1,16 @@
 GLOBAL  _read_msw,_lidt
 GLOBAL  _int_08_hand
 GLOBAL	_int_09_hand
+GLOBAL _int_80_hand
 GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
 GLOBAL  _debug
 GLOBAL	_outb
 GLOBAL	_inb
 GLOBAL _reset
+GLOBAL _SysCall
 EXTERN  int_08
 EXTERN	int_09
+EXTERN	int_80
 
 SECTION .text
 
@@ -87,7 +90,7 @@ _int_08_hand:				; Handler de INT 8 ( Timer tick)
 	pop		ds
 	iret
 
-_int_09_hand:				; Handler de INT 8 ( Timer tick)
+_int_09_hand:				; Handler de INT 9 ( Teclado )
 	push	ds
 	push	es
 	pusha
@@ -98,6 +101,68 @@ _int_09_hand:				; Handler de INT 8 ( Timer tick)
 	pop		es
 	pop		ds
 	iret
+
+_int_80_hand:				; Handler de INT 80 ()
+	push ebp
+	mov ebp, esp	;StackFrame
+	
+	sti		
+	push edi
+	push esi
+	push edx
+	push ecx
+	push ebx
+
+	push esp		; Puntero al array de argumentos
+
+	push eax		; Numero de Systemcall
+
+	call int_80
+
+	; En eax debe dejar la
+	; respuesta
+
+	; Retornal al viejo stack
+	pop eax
+	pop esp
+	pop ebx
+	pop ecx
+	pop edx
+	pop esi
+	pop edi
+	mov esp, ebp
+	pop ebp
+
+	iret
+
+_SysCall:
+	push ebp
+	mov ebp, esp
+
+	push ebx
+	push ecx
+	push edx
+	push esi
+	push edi
+
+	mov eax, [ebp + 8] ; Syscall number
+	mov ebx, [ebp + 12]; Arg1
+	mov ecx, [ebp + 16]; Arg2
+	mov edx, [ebp + 20]; Arg3
+	mov esi, [ebp + 24]; Arg4
+	mov edi, [ebp + 28]; Arg5
+
+	int 80h
+
+	pop edi
+	pop esi
+	pop edx
+	pop ecx
+	pop ebx
+
+	mov esp, ebp
+	pop ebp
+	ret
 
 _reset:
 .wait1:
@@ -123,3 +188,5 @@ vuelve:
 	pop	ax
 	pop     bp
 	retn
+
+

@@ -39,7 +39,22 @@
 #define TRUE 1
 #define FALSE 0
 
+#define SYSTEM_WRITE	3
+#define SYSTEM_READ		4
+/*
+0	STD	NOHIDE	{ int nosys(void); } syscall nosys_args int
+1	STD	NOHIDE	{ void exit(int rval); } exit rexit_args void
+2	STD	POSIX	{ int fork(void); }
+3	STD	POSIX	{ ssize_t read(int fd, void *buf, size_t nbyte); }
+4	STD	POSIX	{ ssize_t write(int fd, const void *buf, size_t nbyte); }
+5	STD	POSIX	{ int open(char *path, int flags, int mode); }
+6	STD	POSIX	{ int close(int fd); }
+*/
+
 #pragma pack (1) 		/* Alinear las siguiente estructuras a 1 byte */
+
+typedef unsigned int size_t;
+typedef short int ssize_t;
 
 /* Descriptor de segmento */
 typedef struct {
