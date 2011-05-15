@@ -14,8 +14,6 @@ void int_09() {
 }
 
 void int_80(int sysCallNumber, void ** args) {
-	//FIXME: los args no estan bien desreferenciados
-	return;
 	
 	switch(sysCallNumber) {
 		case SYSTEM_WRITE:
@@ -27,5 +25,7 @@ void int_80(int sysCallNumber, void ** args) {
 		default:
 			break;
 	}
+	
+	return;
 }
 
