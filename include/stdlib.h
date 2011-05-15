@@ -3,7 +3,8 @@
 
 #include "defs.h"
 
-#define STD_OUT 1
+#define STDOUT 1
+#define STDIN 2
 
 void putc(char c);
 
