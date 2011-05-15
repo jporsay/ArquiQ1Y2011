@@ -1,6 +1,7 @@
 #include "../include/kasm.h"
 #include "../include/defs.h"
 #include "../include/kernel.h"
+#include "../include/multiboot.h"
 
 DESCR_INT idt[0xA];			/* IDT de 10 entradas*/
 IDTR idtr;				/* IDTR */
@@ -10,8 +11,10 @@ kmain()
 Punto de entrada de código C.
 *************************************************/
 
-kmain() 
+kmain(multiboot_info_t* mbd, unsigned int magic) 
 {
+	if(setMemory(mbd))
+		return;
 
 	int i,num;
 
