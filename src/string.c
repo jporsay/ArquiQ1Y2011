@@ -1,4 +1,13 @@
+#include "../include/string.h"
 
+size_t strlen(char* string) {
+	size_t count = 0;
+	while (string[count] != 0) {
+		count++;
+	}
+	
+	return count;
+}
 
 int strcmp(char * s1, char * s2){
 	int ret = 0;
@@ -20,3 +29,4 @@ int strncmp(char * s1, char * s2, unsigned int n){
 		
 	return ret;
 }
+

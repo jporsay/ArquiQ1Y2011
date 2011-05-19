@@ -8,7 +8,7 @@
 
 void int_08();
 void int_09();
-void int_80();
+void int_80(int sysCallNumber, void ** args);
 
 #endif
 

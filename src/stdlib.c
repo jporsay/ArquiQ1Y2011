@@ -1,4 +1,10 @@
 #include "../include/defs.h"
+#include "../include/stdlib.h"
+
+void putc(char c) {
+	__write(STDOUT, &c, 1);
+}
+
 
 #define NULL (void *)0
 #define MEM_START (void *)0x1FFE0 //A partir de los 2 MB
@@ -73,3 +79,4 @@ void free(void * pointer){
 	}
 	
 }
+

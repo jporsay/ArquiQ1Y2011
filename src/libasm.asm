@@ -102,64 +102,43 @@ _int_09_hand:				; Handler de INT 9 ( Teclado )
 	pop		ds
 	iret
 
-_int_80_hand:				; Handler de INT 80 ()
+_int_80_hand:				; Handler de INT 80h
 	push ebp
-	mov ebp, esp	;StackFrame
+	mov ebp, esp			;StackFrame
 	
-	sti		
-	push edi
-	push esi
 	push edx
 	push ecx
 	push ebx
-
-	push esp		; Puntero al array de argumentos
-
-	push eax		; Numero de Systemcall
-
+	
+	push esp				; Puntero al array de argumentos
+	push eax				; Numero de Systemcall
 	call int_80
-
-	; En eax debe dejar la
-	; respuesta
-
-	; Retornal al viejo stack
+	mov	al,20h			; Envio de EOI generico al PIC
+	out	20h,al
 	pop eax
 	pop esp
+
 	pop ebx
 	pop ecx
 	pop edx
-	pop esi
-	pop edi
+	
 	mov esp, ebp
 	pop ebp
-
 	iret
 
 _SysCall:
 	push ebp
 	mov ebp, esp
-
-	push ebx
-	push ecx
-	push edx
-	push esi
-	push edi
+	pusha
 
 	mov eax, [ebp + 8] ; Syscall number
-	mov ebx, [ebp + 12]; Arg1
-	mov ecx, [ebp + 16]; Arg2
-	mov edx, [ebp + 20]; Arg3
-	mov esi, [ebp + 24]; Arg4
-	mov edi, [ebp + 28]; Arg5
-
+	mov ebx, [ebp + 12]; file descriptor
+	mov ecx, [ebp + 16]; buffer
+	mov edx, [ebp + 20]; count
+	
 	int 80h
 
-	pop edi
-	pop esi
-	pop edx
-	pop ecx
-	pop ebx
-
+	popa
 	mov esp, ebp
 	pop ebp
 	ret
