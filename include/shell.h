@@ -15,6 +15,7 @@ shellCmd commands[10];
 
 char shellBuffer[BUFFER_SIZE];
 void echo();
+void append(char c);
 void cleanBuffer();
 void excecuteCmd();
 #endif
