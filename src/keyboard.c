@@ -41,8 +41,8 @@ void handleScanCode(unsigned char scanCode) {
 	if (!checkSpecialKey(scanCode)) {
 		if (IS_MAKE(scanCode)) {
 			char c = translateSc(CLEAR_BREAK_BIT(scanCode));
-			//TODO: esto tiene que escribir en el buffer de teclado
-			putc(c);
+			//writeInVideo(&c, 1);
+			append(c);
 		}
 	}
 }
