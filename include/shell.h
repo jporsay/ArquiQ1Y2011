@@ -1,5 +1,5 @@
-#ifndef VIDEO_H
-#define VIDEO_H
+#ifndef SHELL_H
+#define SHELL_H
 
 #include "defs.h"
 #include "io.h"
