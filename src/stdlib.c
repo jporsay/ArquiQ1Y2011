@@ -18,7 +18,7 @@ typedef memoryHeader_t * memoryNode;
 
 
 
-void setMemory(){
+void setMemory() {
 
 	memoryNode firstMemoryNode = MEM_START;
 	
@@ -28,7 +28,7 @@ void setMemory(){
 	
 }
 
-void * malloc(size_t neededMem){
+void * malloc(size_t neededMem) {
 	
 	memoryNode node, firstNode;
 	
@@ -63,7 +63,7 @@ void * malloc(size_t neededMem){
 	return NULL;
 }
 
-void free(void * pointer){
+void free(void * pointer) {
 	
 	memoryNode node = (memoryNode)(pointer - sizeof(memoryHeader_t));
 	
