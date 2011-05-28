@@ -13,7 +13,7 @@ void putc(char c) {
 typedef struct memoryHeader_t{
 	struct memoryHeader_t * next;
 	int size;
-	int reserverd;
+	int reserved;
 } memoryHeader_t;
 
 typedef memoryHeader_t * memoryNode;
@@ -25,7 +25,7 @@ void setMemory(){
 	memoryNode firstMemoryNode = MEM_START;
 	
 	firstMemoryNode->next = firstMemoryNode;
-	firstMemoryNode->size = MEM_LENGHT;
+	firstMemoryNode->size = MEM_LENGTH;
 	firstMemoryNode->reserved = FALSE;
 	
 }
