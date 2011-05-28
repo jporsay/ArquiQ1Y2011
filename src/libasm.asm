@@ -7,6 +7,7 @@ GLOBAL  _debug
 GLOBAL	_outb
 GLOBAL	_inb
 GLOBAL _reset
+GLOBAL _cpuIdTest
 GLOBAL _SysCall
 EXTERN  int_08
 EXTERN	int_09
@@ -150,6 +151,22 @@ _reset:
 	jne		.wait1
 	mov		al, 0FEh
 	out		64h, al
+	ret
+
+_cpuIdTest:
+	pushfd ; get
+	pop eax
+	mov ecx, eax ; save
+	xor eax, 0x200000 ; flip
+	push eax ; set
+	popfd
+	pushfd ; and test
+	pop eax
+	xor eax, ecx ; mask changed bits
+	shr eax, 21 ; move bit 21 to bit 0
+	and eax, 1 ; and mask others
+	push ecx
+	popfd ; restore original flags
 	ret
 
 ; Debug para el BOCHS, detiene la ejecución
