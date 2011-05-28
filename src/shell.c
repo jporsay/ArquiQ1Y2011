@@ -17,7 +17,7 @@ void append(char c) {
 	if (currPos < BUFFER_SIZE) {
 		shellBuffer[currPos++] = c;
 		writeInVideo(&c, 1);
-		if (c == '\n') {
+		if (c == '\n') { //There will be a problem with this
 			//excecuteCmd();
 			cleanBuffer();
 		}

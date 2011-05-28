@@ -185,7 +185,8 @@ int specialAscii(char ascii) {
 		case '\t': //Tab
 			break;
 		case '\b': //Backspace
-			if (getCurrColumn() > strlen(SHELL_TEXT)) {
+			if (getCurrColumn() > strlen(SHELL_TEXT)) { //Ojo con esto que no
+				//borra caracteres si se pasó de linea.
 				setOffset(getOffset() - 2);
 				dummyWrite(' ');
 				setCursor(getCurrRow(), getCurrColumn());
