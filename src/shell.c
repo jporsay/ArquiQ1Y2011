@@ -10,7 +10,12 @@ cmd_table_entry cmd_table[] = {
 	{"echo", "this is the echo help function", echo_cmd},
 	{"reset", "this is the reset help function", reset_cmd},
 	{"clear", "this is the clear screen help function", clear_cmd},
-	{"help", "this is the help help function", help_cmd}
+	{"help", "this is the help help function", help_cmd},
+	{"setPit", "this is the setPit help function", setPit_cmd},
+	{"resetPit", "this is the resetPit help function", resetPit_cmd},
+	{"countDown", "this is the countDown help function", countDown_cmd},
+	{"CPUspeed", "this is the CPUspeed help function", CPUspeed_cmd},
+	{"random", "this is the random help function", random_cmd}
 };
 
 void initShell() {
@@ -28,10 +33,9 @@ void append(char c) {
 		excecuteCmd(shellBuffer);
 		cleanBuffer();
 		writeInVideo(&c, 1);
-		//currPos = strlen(SHELL_TEXT);
 		myPrint(SHELL_TEXT);
 	} else if (c == '\b') {
-		if (currPos > strlen(SHELL_TEXT)) {
+		if (currPos > 0) {
 			writeInVideo(&c, 1);
 			currPos--;
 			shellBuffer[currPos] = '\0';
@@ -81,31 +85,5 @@ void cleanBuffer() {
 	currPos = 0;
 	shellBuffer[0] = '\0';
 }
-
-//-----CMD IMPLEMTATIONS------------------------
-
-int echo_cmd(int argc, char *argv[]) {
-	myPrint("\necho execution!\n");
-}
-
-int reset_cmd(int argc, char *argv[]) {
-	myPrint("\nreset execution!\n");
-}
-
-int clear_cmd(int argc, char *argv[]) {
-	myPrint("\nclear execution!\n");
-}
-
-int help_cmd(int argc, char *argv[]) {
-	myPrint("\nhelp execution!\n");
-}
-
-//----------------------------------------------
-
-void myPrint(char * s) {
-	int length = strlen(s);
-	writeInVideo(s, length);
-}
-
 
 
