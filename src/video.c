@@ -1,5 +1,4 @@
 #include "../include/video.h"
-#include "../include/interrupts.h"
 
 void initVideo() {
 	video.address = (char*)VIDEO_ADDRESS;
@@ -7,7 +6,6 @@ void initVideo() {
 	cls();
 	setOffset(0);
 	setCursor(0, 0);
-	printShell();
 }
 
 void dummyWrite(char ascii) {
@@ -180,17 +178,13 @@ int specialAscii(char ascii) {
 		case '\n':
 			setPosition(getCurrRow() + 1, 0);
 			setCursor(getCurrRow(), getCurrColumn());
-			printShell();
 			break;
 		case '\t': //Tab
 			break;
 		case '\b': //Backspace
-			if (getCurrColumn() > strlen(SHELL_TEXT)) { //Ojo con esto que no
-				//borra caracteres si se pasó de linea.
-				setOffset(getOffset() - 2);
-				dummyWrite(' ');
-				setCursor(getCurrRow(), getCurrColumn());
-			}
+			setOffset(getOffset() - 2);
+			dummyWrite(' ');
+			setCursor(getCurrRow(), getCurrColumn());
 			break;
 		default:
 			ret = FALSE;
@@ -200,7 +194,3 @@ int specialAscii(char ascii) {
 	return ret;
 }
 
-
-void printShell() {
-	writeInVideo(SHELL_TEXT, strlen(SHELL_TEXT));
-}

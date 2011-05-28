@@ -1,4 +1,3 @@
-#include "../include/defs.h"
 #include "../include/stdlib.h"
 
 void putc(char c) {

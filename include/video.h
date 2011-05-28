@@ -4,6 +4,7 @@
 #include "defs.h"
 #include "io.h"
 #include "string.h"
+#include "interrupts.h"
 
 #define VIDEO_ADDRESS 0xb8000
 
@@ -29,7 +30,6 @@
 #define YELLOW			0xE
 #define WHITE			0xF
 
-#define SHELL_TEXT		"InutilOs>"
 typedef struct video_info {
 	char* address;
 	byte bgColor;
@@ -104,6 +104,4 @@ void clearToEnd(int from);
 /* limpia una linea */
 void clearRow(int row);
 
-/* prints Shell header */
-void printShell();
 #endif
