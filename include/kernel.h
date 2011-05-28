@@ -13,6 +13,7 @@
 
 #include "video.h"
 #include "interrupts.h"
+#include "timer.h"
 
 int (*player)(void);
 
