@@ -153,6 +153,7 @@ _reset:
 	out		64h, al
 	ret
 
+; Returns 1 if cpuid function is present.
 _cpuIdTest:
 	pushfd ; get
 	pop eax

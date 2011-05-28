@@ -16,6 +16,7 @@ void setPitInterval(size_t frequency) {
 	 */
 	outb(0x43, 0x34);
 	
+	// Set PIT frequency
 	byte low = (byte)(divisor & 0xFF);
 	byte high = (byte)(divisor >> 8 & 0xFF);
 	
