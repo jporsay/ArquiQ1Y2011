@@ -1,3 +1,6 @@
+#ifndef ROUTINES_H
+#define ROUTINES_H
+
 #include "defs.h"
 #include "stdlib.h"
 #include "interpreter.h"
@@ -7,3 +10,9 @@ typedef struct retStruct{
 	void * returnEnviroment;
 	char * msg;
 } retStruct;
+
+void echo(char * args);
+void restart(char * args);
+void help(char * args);
+
+#endif

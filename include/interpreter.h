@@ -1,3 +1,6 @@
+#ifndef INTERPRETER_H
+#define INTERPRETER_H
+
 #include "defs.h"
 #include "stdlib.h"
 #include "routines.h"
@@ -30,3 +33,9 @@ typedef struct{
 	
 typedef routineList_t * routineList;
 
+
+void setRoutineSpace();
+int addNewRoutine(char* routineName, void (*routineFnc)(char *));
+int parse(char * feedLine);
+
+#endif
