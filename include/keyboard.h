@@ -4,6 +4,7 @@
 #include "kasm.h"
 #include "defs.h"
 #include "video.h"
+#include "shell.h"
 
 #define ESCAPE	0x01
 #define UCASE	0x02
@@ -17,6 +18,7 @@
 #define IS_CTRL() (kbFlags & CTRL)
 #define IS_ALT() (kbFlags & ALT)
 #define IS_DEL() (kbFlags & DEL)
+
 char kbFlags;
 
 void handleScanCode(unsigned char scanCode);
