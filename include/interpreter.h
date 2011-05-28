@@ -11,22 +11,22 @@ typedef struct routine_t {
 	char * help;
 	void (*fnc)(char *);
 	//void (*fnc)(char ** params);
-	} routine_t;
+} routine;
+
+typedef routine * routine_p;
+
+typedef struct routineNode {
+	routine_p myRoutine;
+	struct routineNode * next;
+} routineNode;
+
+typedef routineNode * routineNode_p;
+
+typedef struct {
+	routineNode_p head;
+} routineList;
 	
+typedef routineList * routineList_p;
 
-typedef routine_t * routine;
-
-typedef struct routineNode_t {
-	routine myRoutine;
-	struct routineNode_t * next;
-	} routineNode_t;
-	
-typedef routineNode_t * routineNode;
-
-
-typedef struct{
-	routineNode head;
-	} routineList_t;
-	
-typedef routineList_t * routineList;
+routineList_p routines;
 

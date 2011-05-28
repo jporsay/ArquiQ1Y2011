@@ -1,16 +1,13 @@
 #include "../include/interpreter.h"
 
-
-static routineList routines;
-
 void setRoutineSpace(){
-	routines = malloc(sizeof(routineList_t));
+	routines = malloc(sizeof(routineList));
 	
 	routines->head = NULL;
 }
 
-int addNewRoutine(char* routineName, void (*routineFnc)(char *)
-	/*void* (*routineFnc)(char ** params)*/){
+int addNewRoutine(char* routineName, void (*routineFnc)(char *)) {
+	/*void* (*routineFnc)(char ** params)*/
 /* Ya hay malloc, pero tal vez sirva todavía.	
 	if(uglyRoutineCounter == ROUTINEQTY)
 		return 1;
@@ -27,11 +24,12 @@ int addNewRoutine(char* routineName, void (*routineFnc)(char *)
 */
 	
 
-	if(routineName == NULL || routineFnc == NULL)
+	if (routineName == NULL || routineFnc == NULL) {
 		return 1;
+	}
 		
-	routine r = malloc(sizeof(routine_t));
-	routineNode rn = malloc(sizeof(routineNode_t));
+	routine_p r = malloc(sizeof(routine));
+	routineNode_p rn = malloc(sizeof(routineNode));
 	
 	r->name = routineName;
 	r->fnc = routineFnc;
@@ -39,11 +37,11 @@ int addNewRoutine(char* routineName, void (*routineFnc)(char *)
 	rn->myRoutine = r;
 	rn->next = NULL;
 	
-	if(routines->head == NULL){
+	if (routines->head == NULL) {
 		routines->head = rn;
 		return 0;
 	}
-	routineNode tempRN = routines->head;
+	routineNode_p tempRN = routines->head;
 	
 	while(tempRN->next != NULL)
 		tempRN = tempRN->next;
@@ -70,7 +68,7 @@ int parse(char * feedLine){
 	
 	//int routineID = 0; //viejo código sin malloc
 	
-	routineNode tempRN = routines->head;
+	routineNode_p tempRN = routines->head;
 	
 	while(tempRN->next != NULL && strncmp(firstWordStart, 
 		tempRN->myRoutine->name, firstWordEnd))
@@ -86,3 +84,4 @@ int parse(char * feedLine){
 	
 	return 0;
 }
+

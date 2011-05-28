@@ -13,4 +13,5 @@ gcc -m32 -g -c ../src/io.c -o io.o -fno-builtin
 gcc -m32 -g -c ../src/string.c -o string.o -fno-builtin
 gcc -m32 -g -c ../src/stdlib.c -o stdlib.o -fno-builtin
 gcc -m32 -g -c ../src/shell.c -o shell.o -fno-builtin
-ld -melf_i386 -T ../src/link.ld -o kernel.bin kernel.o kstart.o libc.o libasm.o video.o interrupts.o keyboard.o io.o stdlib.o string.o shell.o
+gcc -m32 -g -c ../src/interpreter.c -o interpreter.o -fno-builtin
+ld -melf_i386 -T ../src/link.ld -o kernel.bin kernel.o kstart.o libc.o libasm.o video.o interrupts.o keyboard.o io.o stdlib.o string.o shell.o interpreter.o
