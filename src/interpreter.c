@@ -1,7 +1,7 @@
 #include "../include/interpreter.h"
 
 void setRoutineSpace(){
-	routines = malloc(sizeof(routineList));
+//	routines = malloc(sizeof(routineList));
 	
 	routines->head = NULL;
 }
@@ -24,7 +24,7 @@ int addNewRoutine(char* routineName, void (*routineFnc)(char *)) {
 */
 	
 
-	if (routineName == NULL || routineFnc == NULL) {
+/*	if (routineName == NULL || routineFnc == NULL) {
 		return 1;
 	}
 		
@@ -47,12 +47,12 @@ int addNewRoutine(char* routineName, void (*routineFnc)(char *)) {
 		tempRN = tempRN->next;
 	
 	tempRN->next = rn;
-	
+	*/
 	return 0;	
 }
 	
 int parse(char * feedLine){
-	
+	/*
 	while(*feedLine == ' ')
 		feedLine++;
 		
@@ -81,7 +81,7 @@ int parse(char * feedLine){
 		feedLine++;
 	
 	tempRN->myRoutine->fnc(feedLine);
-	
+	*/
 	return 0;
 }
 

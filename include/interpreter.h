@@ -6,7 +6,8 @@
 #define NO_ROUTINE 1
 #define ROUTINE_NOT_FOUND 2
 
-typedef struct routine_t {
+
+typedef struct routine {
 	char * name;
 	char * help;
 	void (*fnc)(char *);
@@ -29,4 +30,5 @@ typedef struct {
 typedef routineList * routineList_p;
 
 routineList_p routines;
+
 
