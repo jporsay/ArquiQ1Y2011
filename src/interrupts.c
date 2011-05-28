@@ -1,24 +1,8 @@
 #include "../include/interrupts.h"
 
-int counter = 0;
-int booool = 0;
-
 //Timer Tick
 void int_08() {
-	if (counter > 100 && !booool) {
-		setPitInterval(100);
-		booool = 1;
-		counter = 0;
-	}
-	if (booool == 1) {
-		if (counter == 100) {
-			putc('s');
-			counter = 0;
-		}
-	} else {
-		putc('i');
-	}
-	counter++;
+	
 }
 
 //Keyboard
