@@ -1,6 +1,7 @@
 #include "../include/kasm.h"
 #include "../include/defs.h"
 #include "../include/kernel.h"
+#include "../include/multiboot.h"
 
 DESCR_INT idt[0x81];			/* IDT de 81h entradas*/
 IDTR idtr;						/* IDTR */
@@ -10,9 +11,12 @@ kmain()
 Punto de entrada de código C.
 *************************************************/
 
-kmain() 
+kmain(multiboot_info_t* mbd, unsigned int magic) 
 {
-
+	/* No descomentar hasta que funcione el Memory Manager
+	if(setMemory(mbd))
+		return;
+	*/
 	int i,num;
 
 	/* Borra la pantalla. */ 

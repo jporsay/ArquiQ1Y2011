@@ -41,8 +41,8 @@ void handleScanCode(unsigned char scanCode) {
 	if (!checkSpecialKey(scanCode)) {
 		if (IS_MAKE(scanCode)) {
 			char c = translateSc(CLEAR_BREAK_BIT(scanCode));
-			//writeInVideo(&chara, 1);
-			putc(c);
+			//writeInVideo(&c, 1);
+			append(c);
 		}
 	}
 }

@@ -1,12 +1,9 @@
-#include "../include/defs.h"
-#include "../include/stdlib.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-void putc(char c) {
-	__write(STDOUT, &c, 1);
-}
-
-#define MEM_START (void *)0x1FFE0 //A partir de los 2 MB
-#define MEM_LENGTH 8388608 //8 MB de RAM
+#define MEM_LENGHT 8388608
+#define FALSE 0
+#define TRUE !FALSE
 
 typedef struct memoryHeader_t{
 	struct memoryHeader_t * next;
@@ -16,30 +13,31 @@ typedef struct memoryHeader_t{
 
 typedef memoryHeader_t * memoryNode;
 
+void* FMN;
 
+void setMemory(void * mem_start){
 
-void setMemory(){
-
-	memoryNode firstMemoryNode = MEM_START;
+	memoryNode firstMemoryNode = mem_start;
 	
 	firstMemoryNode->next = firstMemoryNode;
-	firstMemoryNode->size = MEM_LENGTH;
+	firstMemoryNode->size = MEM_LENGHT;
 	firstMemoryNode->reserved = FALSE;
 	
 }
 
-void * malloc(size_t neededMem){
+void * myMalloc(size_t neededMem){
 	
 	memoryNode node, firstNode;
 	
 	int chunkFound = FALSE;
 	
-	node = firstNode = MEM_START;
+	node = firstNode = FMN;
 	
 	do{
 		if(node->reserved == FALSE && node->size >= neededMem){
 			chunkFound = TRUE;
 			node->reserved = TRUE;
+			printf("reservo memoria\n");
 			if(node->size > neededMem){
 				memoryNode newNode = (memoryNode)(node + sizeof(memoryHeader_t)
 					 + neededMem);
@@ -50,10 +48,12 @@ void * malloc(size_t neededMem){
 				
 				node->next = newNode;
 				node->size = neededMem;
+				printf("cree nuevo zodape\n");
 			}
 		
 		}else{
 			node = node->next;
+			printf("este no me sirve\n");
 		}
 	}while(!chunkFound && node != firstNode);
 	
@@ -63,12 +63,12 @@ void * malloc(size_t neededMem){
 	return NULL;
 }
 
-void free(void * pointer){
+void myFree(void * pointer){
 	
 	memoryNode node = (memoryNode)(pointer - sizeof(memoryHeader_t));
 	
 	node->reserved = FALSE;
-
+	printf("liberé el bloque\n");
 	memoryNode startingNode = node;
 	
 	while(node->next != startingNode && node->next->reserved == FALSE){
@@ -78,3 +78,29 @@ void free(void * pointer){
 	
 }
 
+int main(void){
+	
+	setMemory(FMN = malloc(MEM_LENGHT + sizeof(memoryHeader_t)));
+	
+	int * firstVector = myMalloc(5*sizeof(int));
+	
+	int i = 0;
+	for(i = 0; i<5; i++){
+		firstVector[i] = i;
+	}
+	
+	for(i = 0; i<5; i++){
+		printf("%d\n", firstVector[i]);
+	}
+	
+	myFree(firstVector);
+	
+	void * allMem = myMalloc(MEM_LENGHT);
+	printf("reservo toda la memoria\n");
+	if(myMalloc(1) == NULL)
+		printf("malloc tira null\n");
+		
+	myFree(allMem);
+	
+	return 0;
+}
