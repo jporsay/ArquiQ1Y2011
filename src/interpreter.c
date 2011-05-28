@@ -3,14 +3,15 @@
 
 static routineList routines;
 
-void setRoutineSpace(){
+void setRoutineSpace() {
 	routines = malloc(sizeof(routineList_t));
 	
 	routines->head = NULL;
 }
 
-int addNewRoutine(char* routineName, void (*routineFnc)(char *)
-	/*void* (*routineFnc)(char ** params)*/){
+/*int addNewRoutine(char* routineName, void (*routineFnc)(char *)
+	void* (*routineFnc)(char ** params)){ */
+int addNewRoutine(char* routineName, void (*routineFnc)(char *)) {
 /* Ya hay malloc, pero tal vez sirva todavía.	
 	if(uglyRoutineCounter == ROUTINEQTY)
 		return 1;
@@ -53,7 +54,7 @@ int addNewRoutine(char* routineName, void (*routineFnc)(char *)
 	return 0;	
 }
 	
-int parse(char * feedLine){
+int parse(char * feedLine) {
 	
 	while(*feedLine == ' ')
 		feedLine++;
