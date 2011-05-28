@@ -1,16 +1,9 @@
-#include "../include/defs.h"
-
-/********************************** 
-*
-*  Kernel
-*
-***********************************/
-
 #ifndef _kernel_
 #define _kernel_
 
 #define OS_PID	0
 
+#include "defs.h"
 #include "video.h"
 #include "interrupts.h"
 #include "timer.h"

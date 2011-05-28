@@ -16,9 +16,9 @@
 #define CMD_OK		1
 
 typedef struct cmd_table_entry {
-     char* name;
-     char* help;
-     int (*func)(int argc, char *argv[]);
+	char* name;
+	char* help;
+	int (*func)(int argc, char *argv[]);
 } cmd_table_entry;
 
 int echo_cmd(int argc, char *argv[]);
@@ -33,12 +33,6 @@ void cleanBuffer();
 void excecuteCmd();
 
 char shellBuffer[BUFFER_SIZE];
-cmd_table_entry cmd_table[] = {
-	{"echo", "this is the echo help function", echo_cmd},
-	{"reset", "this is the reset help function", reset_cmd},
-	{"clear", "this is the clear screen help function", clear_cmd},
-	{"help", "this is the help help function", help_cmd}
-};
 
 #endif
 

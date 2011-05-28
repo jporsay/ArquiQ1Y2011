@@ -1,5 +1,4 @@
 #include "../include/video.h"
-#include "../include/interrupts.h"
 
 void initVideo() {
 	video.address = (char*)VIDEO_ADDRESS;

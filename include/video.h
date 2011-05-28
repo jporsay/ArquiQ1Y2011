@@ -4,6 +4,7 @@
 #include "defs.h"
 #include "io.h"
 #include "string.h"
+#include "interrupts.h"
 
 #define VIDEO_ADDRESS 0xb8000
 

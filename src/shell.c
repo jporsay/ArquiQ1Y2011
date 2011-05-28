@@ -6,6 +6,12 @@ int execute(int cmdId);
 void myPrint(char * s);
 
 int currPos;
+cmd_table_entry cmd_table[] = {
+	{"echo", "this is the echo help function", echo_cmd},
+	{"reset", "this is the reset help function", reset_cmd},
+	{"clear", "this is the clear screen help function", clear_cmd},
+	{"help", "this is the help help function", help_cmd}
+};
 
 void initShell() {
 	cleanBuffer();
