@@ -1,33 +1,5 @@
-#include "../include/defs.h"
-#include "../include/stdlib.h"
-#include "./string.c"
+#include "../include/interpreter.h"
 
-#define NO_ROUTINE 1
-#define ROUTINE_NOT_FOUND 2
-#define ROUTINEQTY 10
-
-typedef struct routine_t {
-	char * name;
-	void (*fnc)(char *);
-	//void (*fnc)(char ** params);
-	} routine_t;
-	
-
-typedef routine_t * routine;
-
-typedef struct routineNode_t {
-	routine myRoutine;
-	struct routineNode_t * next;
-	} routineNode_t;
-	
-typedef routineNode_t * routineNode;
-
-
-typedef struct{
-	routineNode head;
-	} routineList_t;
-	
-typedef routineList_t * routineList;
 
 static routineList routines;
 
