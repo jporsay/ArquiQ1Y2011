@@ -84,16 +84,35 @@ void putui(unsigned int n) {
 }
 
 void puth(int n, int upperCase) {
+	char *letters = upperCase ? "ABCDEF" : "abcdef";
+	char c;
+	int num;
+	if (n <= 0) {
+		return;
+	}
+	num = n % 16;
+	c = num > 9 ? letters[num - 10] : (num + '0');
+	
+	puth(n / 16, upperCase);
+	putc(c);
 }
 
 void puts(char* s) {
 	char c;
 	while ((c = *s++) != 0) {
-		//putc(c);
+		putc(c);
 	}
 }
 
 void putf(double n) {
+	putc((int)(3) + '0');
+	putc('.');
+	/*
+	n = n - (int)n;
+	if (n == 0) return;
+	n = n * pow(10, F_PRECISION);
+	puti((int)n);
+	*/
 }
 
 void pute(double n, int upperE) {
@@ -102,7 +121,7 @@ void pute(double n, int upperE) {
 void printf(const char *fmt, ...) {
 	va_list args;
 	va_start(args, fmt);
-
+	double t;
 	char c;
 	while ((c = *fmt++) != 0) {
 		if (c != '%') {
@@ -129,13 +148,15 @@ void printf(const char *fmt, ...) {
 					puts(va_arg(args, char*));
 					break;
 				case 'f':
-					putf(va_arg(args, double));
+					t = va_arg(args, double);
+					puti((int)t);
+					//putf(va_arg(args, double));
 					break;
 				case 'e':
 					pute(va_arg(args, double), FALSE);
 					break;
 				case 'E':
-					pute(va_arg(args, double), FALSE);
+					pute(va_arg(args, double), TRUE);
 					break;
 				default:
 					break;
