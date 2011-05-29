@@ -5,7 +5,6 @@ void sysRead(int fd, void * buffer, size_t count) {
 }
 
 void sysWrite(int fd, void * buffer, size_t count) {
-	//writeInVideo(buffer, count);
-	memcpy((void *)buffer, (void*) fd , count);
+	writeInVideo(buffer, count);
 }
 

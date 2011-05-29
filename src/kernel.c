@@ -11,17 +11,8 @@ kmain()
 Punto de entrada de código C.
 *************************************************/
 
-kmain(multiboot_info_t* mbd, unsigned int magic) 
-{
-	/* No descomentar hasta que funcione el Memory Manager
-	if(setMemory(mbd))
-		return;
-	*/
+kmain(multiboot_info_t* mbd, unsigned int magic)  {
 	int i,num;
-
-	/* Borra la pantalla. */ 
-	initVideo();
-	initShell();
 	
 	/* CARGA DE IDT CON LA RUTINA DE ATENCION DE IRQ0    */
 	setup_IDT_entry (&idt[0x08], 0x08, (dword)&_int_08_hand, ACS_INT, 0);
@@ -41,6 +32,9 @@ kmain(multiboot_info_t* mbd, unsigned int magic)
 	_mascaraPIC1(0x00);
 	_mascaraPIC2(NONE);
 	_Sti();
+	
+	initVideo();
+	initShell();
 
 	while (1) {
 	}
@@ -67,7 +61,7 @@ buffer = Data to be written..
 count = Maximum number of bytes.
 */
 size_t __write(int fd, const void * buffer, size_t count) {
-	_SysCall(SYSTEM_WRITE,fd, buffer, count);
+	_SysCall(SYSTEM_WRITE, fd, buffer, count);
 	return count;
 }
 

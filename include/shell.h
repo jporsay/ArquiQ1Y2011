@@ -1,6 +1,7 @@
 #ifndef _shell_
 #define _shell_
 
+#include "kernel.h"
 #include "defs.h"
 #include "io.h"
 #include "stdlib.h"

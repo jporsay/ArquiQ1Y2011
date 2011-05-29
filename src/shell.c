@@ -26,7 +26,7 @@ cmd_table_entry cmd_table[] = {
 
 void initShell() {
 	cleanBuffer();
-	myPrint(SHELL_TEXT);
+	printf(SHELL_TEXT);
 }
 
 
@@ -36,9 +36,9 @@ void append(char c) {
 	}
 	
 	if (c == '\n') {
-		myPrint("\n");
+		printf("\n");
 		excecuteCmd(shellBuffer);
-		myPrint(SHELL_TEXT);
+		printf(SHELL_TEXT);
 		cleanBuffer();
 	} else if (c == '\b') {
 		if (currPos > 0) {
@@ -63,9 +63,9 @@ void excecuteCmd(char* buffer) {
 		cmdLen = strlen(cmd_table[cmdIndex].name);
 		arguments = getArguments(buffer + cmdLen, &argc);
 		cmd_table[cmdIndex].func(argc, arguments);
-		myPrint("\n");
-	} else if( buffer[0]!='\0' ) {
-		myPrint("\n\tUnknown command\n");
+		printf("\n");
+	} else if(buffer[0]!='\0') {
+		printf("\n\tUnknown command\n");
 	}
 }
 

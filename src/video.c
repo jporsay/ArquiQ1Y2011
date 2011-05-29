@@ -8,11 +8,6 @@ void initVideo() {
 	setCursor(0, 0);
 }
 
-//@deprecated
-void dummyWrite(char ascii) {
-	video.address[getOffset()] = ascii;
-}
-
 void writeInVideo(char *string, size_t count) {
 	int i = 0;
 	while (i < count) {
