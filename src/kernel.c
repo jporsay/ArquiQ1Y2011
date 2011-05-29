@@ -47,20 +47,28 @@ kmain(multiboot_info_t* mbd, unsigned int magic)
 	
 }
 
+/*
+fd = File descriptor referring to the open file.
+
+buffer = Storage location for data.
+
+count = Maximum number of bytes.
+*/
 size_t __read(int fd, void * buffer, size_t count) {
 	_SysCall(SYSTEM_READ,fd, buffer, count);
 	return count;
 }
 
+/*
+fd = File descriptor of file into which data is written.
+
+buffer = Data to be written..
+
+count = Maximum number of bytes.
+*/
 size_t __write(int fd, const void * buffer, size_t count) {
 	_SysCall(SYSTEM_WRITE,fd, buffer, count);
 	return count;
 }
 
-void _memcpy(void* from, void* to, size_t nbytes) {
-	size_t i;
-	for (i = 0; i < nbytes; i++) {
-		* ((char *)to + i) = * ((char *)from + i);
-	}
-}
 
