@@ -106,13 +106,17 @@ void puts(char* s) {
 
 void putf(double n) {
 	putc((int)(3) + '0');
-	putc('.');
-	/*
 	n = n - (int)n;
 	if (n == 0) return;
-	n = n * pow(10, F_PRECISION);
-	puti((int)n);
-	*/
+	putc('.');
+	int precision = 0;
+	while (n != 0 && precision < F_PRECISION) {
+		n *= 10;
+		puti((int)n);
+		n = n - (int)n;
+		precision++;
+	}
+		
 }
 
 void pute(double n, int upperE) {
