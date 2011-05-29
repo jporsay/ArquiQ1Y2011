@@ -7,7 +7,6 @@ int echo_cmd(int argc, char *argv[]) {
 			printf("%s ", argv[i]);
 		}
 	}
-	video.offset = 0;
 }
 
 int restart_cmd(int argc, char *argv[]) {
@@ -26,7 +25,6 @@ int setPit_cmd(int argc, char *argv[]) {
 }
 
 int resetPit_cmd(int argc, char *argv[]) {
-	puts("\nreset Pit!\n");
 }
 
 int countDown_cmd(int argc, char *argv[]) {
@@ -36,12 +34,20 @@ int CPUspeed_cmd(int argc, char *argv[]) {
 }
 
 int random_cmd(int argc, char *argv[]) {
-	puts("\n583012830921\n");
+	int repeats = 0, i;
+	if (argc >= 1) {
+		repeats = (int)(argv[0] - '0');
+		for(i = 0; i < repeats; i++) {
+			printf("%d", random());
+		}
+	} else {
+		printf("%d", random());
+	}
 }
 
 int test_cmd(int argc, char *argv[]) {
-	float a = (float)321;
-	printf("I have %f years and %s\n", a, "gonzalo is gay!");
+	float a = (float)321.3 + 5.4;
+	printf("I have %f years and %s\n", a, "gonzalo is not gay!");
 }
 
 

@@ -2,5 +2,7 @@
 #define MATH_H
 
 int pow(int base, int power);
+int random();
+void setSeed(long s);
 
 #endif
