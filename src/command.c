@@ -46,7 +46,17 @@ int random_cmd(int argc, char *argv[]) {
 }
 
 int test_cmd(int argc, char *argv[]) {
-	detect_cpu();
+	setPitInterval(100);
+	unsigned int low, low1, high, high1;
+	rdtsc(&low, &high);
+	while (*counter != 0) {
+		printf("test: %d\n", *counter);
+	}
+	rdtsc(&low1, &high1);
+	printf("start: %d%d\n", high, low);
+	printf("end: %d%d\n", high1, low1);
+	printf("total: %d%d\n", high1 - high, low1 - low);
+	setPitInterval(0);
 }
 
 

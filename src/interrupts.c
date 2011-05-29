@@ -1,8 +1,23 @@
 #include "../include/interrupts.h"
 
+void setTestConditions(int count) {
+	*counter = count;
+	*cpuTest = TRUE;
+}
+
+int getCounter() {
+	return *count;
+}
+
 //Timer Tick
 void int_08() {
-	
+	printf("int: %d\n", *counter);
+	if (*cpuTest == TRUE) {
+		*counter--;
+		if (*counter == 0) {
+			*cpuTest = FALSE;
+		}
+	}
 }
 
 //Keyboard

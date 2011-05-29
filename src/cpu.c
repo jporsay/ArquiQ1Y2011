@@ -31,6 +31,19 @@
 //#include <stdio.h> /* for printf(); */
 
 /* Required Declarations */
+
+__inline__ void rdtsc(unsigned int* low, unsigned int* high) {
+	unsigned int lo, hi;
+	__asm__ __volatile__ (      // serialize
+		"xorl %%eax,%%eax \n        cpuid"
+		::: "%rax", "%rbx", "%rcx", "%rdx"
+	);
+	/* We cannot use "=A", since this would use %rax on x86_64 and return only the lower 32bits of the TSC */
+	__asm__ __volatile__ ("rdtsc" : "=a" (lo), "=d" (hi));
+	*low = lo;
+	*high = hi;
+}
+
 int do_intel(void);
 int do_amd(void);
 void printregs(int eax, int ebx, int ecx, int edx);
