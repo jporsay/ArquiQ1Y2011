@@ -1,27 +1,25 @@
 #include "../include/command.h"
 
 int echo_cmd(int argc, char *argv[]) {
-	puts("\necho execution!\n");
+	int i;
+	if (argc > 0) {
+		for( i = 0; i < argc; i++) {
+			printf("%s ", argv[i]);
+		}
+	}
+	video.offset = 0;
 }
 
-int reset_cmd(int argc, char *argv[]) {
-	puts("\nreset execution!\n");
+int restart_cmd(int argc, char *argv[]) {
+	_reset();
 }
 
 int clear_cmd(int argc, char *argv[]) {
-	puts("\nclear execution!\n");
+	cls();
 }
 
 int help_cmd(int argc, char *argv[]) {
-	myPrint("Comandos: ");
-	char c = argc + '0';
-	putc(c);
-	myPrint("\n---\n");
-	int i;
-	for( i = 0; i < argc; i++) {
-		myPrint(argv[i]);
-		myPrint("\n");
-	}
+	puts("Available commands:\n\thelp,\n\treset,\nclear,\n\tCPUspeed,\n\tcountDown,\n\tresetPit,\n\tsetPit,\n\trandom,\n\techo.\n");
 }
 
 int setPit_cmd(int argc, char *argv[]) {

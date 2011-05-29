@@ -22,10 +22,10 @@ void * malloc(size_t neededMem) {
 	node = firstNode = MEM_START;
 	
 	do{
-		if(node->reserved == FALSE && node->size >= neededMem){
+		if (node->reserved == FALSE && node->size >= neededMem) {
 			chunkFound = TRUE;
 			node->reserved = TRUE;
-			if(node->size > neededMem){
+			if (node->size > neededMem) {
 				memoryNode newNode = (memoryNode)(node + sizeof(memoryHeader_t)
 					 + neededMem);
 				
@@ -37,12 +37,12 @@ void * malloc(size_t neededMem) {
 				node->size = neededMem;
 			}
 		
-		}else{
+		} else {
 			node = node->next;
 		}
-	}while(!chunkFound && node != firstNode);
+	} while(!chunkFound && node != firstNode);
 	
-	if(chunkFound)
+	if (chunkFound)
 		return (void *)(node + 1);
 	
 	return NULL;
@@ -56,7 +56,7 @@ void free(void * pointer) {
 
 	memoryNode startingNode = node;
 	
-	while(node->next != startingNode && node->next->reserved == FALSE){
+	while(node->next != startingNode && node->next->reserved == FALSE) {
 		node->size = node->size + node->next->size + sizeof(memoryHeader_t);
 		node->next = node->next->next;
 	}
