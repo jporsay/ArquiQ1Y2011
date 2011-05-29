@@ -1,5 +1,5 @@
-#ifndef SHELL_H
-#define SHELL_H
+#ifndef _shell_
+#define _shell_
 
 #include "defs.h"
 #include "io.h"
