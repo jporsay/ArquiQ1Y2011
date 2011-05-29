@@ -4,13 +4,12 @@
 #include "defs.h"
 #include "io.h"
 #include "stdlib.h"
+#include "command.h"
 
 #define SHELL_TEXT		"InutilOs> "
 
 #define BUFFER_SIZE	1024
 #define ROUTINES_SIZE	5
-
-//#define CMD_ENTRY(cmd) {#cmd, "help", cmd}
 
 #define CMD_FAIL	0
 #define CMD_OK		1
@@ -26,9 +25,6 @@ int reset_cmd(int argc, char *argv[]);
 int clear_cmd(int argc, char *argv[]);
 int help_cmd(int argc, char *argv[]);
 int test_cmd(int argc, char *argv[]);
-
-char shellBuffer[BUFFER_SIZE];
-void echo();
 void append(char c);
 void cleanBuffer();
 void excecuteCmd();

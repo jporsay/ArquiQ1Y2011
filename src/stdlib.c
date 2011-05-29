@@ -1,23 +1,19 @@
 #include "../include/stdlib.h"
 
-typedef struct memoryHeader_t{
-	struct memoryHeader_t * next;
-	int size;
-	int reserved;
-} memoryHeader_t;
+void putc(char c) {
+	__write(STDOUT, &c, 1);
+}
 
-typedef memoryHeader_t * memoryNode;
-
-
+void myPrint(char * s) {
+	int length = strlen(s);
+	writeInVideo(s, length);
+}
 
 void setMemory() {
-
 	memoryNode firstMemoryNode = MEM_START;
-	
 	firstMemoryNode->next = firstMemoryNode;
 	firstMemoryNode->size = MEM_LENGTH;
 	firstMemoryNode->reserved = FALSE;
-	
 }
 
 void * malloc(size_t neededMem) {
