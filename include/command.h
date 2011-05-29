@@ -6,7 +6,7 @@
 #include "video.h"
 
 int echo_cmd(int argc, char *argv[]);
-int reset_cmd(int argc, char *argv[]);
+int restart_cmd(int argc, char *argv[]);
 int clear_cmd(int argc, char *argv[]);
 int help_cmd(int argc, char *argv[]);
 int setPit_cmd(int argc, char *argv[]);

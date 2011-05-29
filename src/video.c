@@ -8,6 +8,7 @@ void initVideo() {
 	setCursor(0, 0);
 }
 
+//@deprecated
 void dummyWrite(char ascii) {
 	video.address[getOffset()] = ascii;
 }
@@ -17,7 +18,7 @@ void writeInVideo(char *string, size_t count) {
 	while (i < count) {
 		char ascii = string[i];
 		if (!specialAscii(ascii)) {
-			dummyWrite(ascii);
+			video.address[getOffset()] = ascii;
 		
 			if (getOffset() == TOTAL_VIDEO_SIZE - 2) {
 				scroll(1);
@@ -91,7 +92,7 @@ void setPosition(int row, int column) {
 	if ( 0 <= row && row < ROWS && 0 <= column && column < COLUMNS) {
 		offset = (row * COLUMNS) + column;
 	} else if (row >= ROWS) {
-		row = 24;
+		row = ROWS - 1;
 		offset = row * COLUMNS;
 		scroll(1);
 	}
@@ -159,10 +160,9 @@ void setCursor(ushort row, ushort column) {
 }
 
 /*
-Borra la pantalla en modo texto color.
+	Borra la pantalla en modo texto color.
 */
-void cls() 
-{
+void cls() {
 	unsigned int i = 0;
 	while (i < TOTAL_VIDEO_SIZE) {
 		video.address[i] = ' ';
@@ -170,6 +170,7 @@ void cls()
 		video.address[i] = getVideoColor();
 		i++;
 	};
+	setOffset(0);
 }
 
 int specialAscii(char ascii) {
@@ -183,7 +184,7 @@ int specialAscii(char ascii) {
 			break;
 		case '\b': //Backspace
 			setOffset(getOffset() - 2);
-			dummyWrite(' ');
+			video.address[getOffset()] = ' ';
 			setCursor(getCurrRow(), getCurrColumn());
 			break;
 		default:

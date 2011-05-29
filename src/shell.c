@@ -8,9 +8,10 @@ char** getArguments(char* buffer, int* argc);
 char* argv[MAX_ARG_DIM];
 int currPos;
 char shellBuffer[BUFFER_SIZE];
+
 cmd_table_entry cmd_table[] = {
 	{"help", "this is the help help function", help_cmd},
-	{"reset", "this is the reset help function", reset_cmd},
+	{"restart", "this is the restart help function", restart_cmd},
 	{"clear", "this is the clear screen help function", clear_cmd},
 	{"CPUspeed", "this is the CPUspeed help function", CPUspeed_cmd},
 	{"countDown", "this is the countDown help function", countDown_cmd},
@@ -62,6 +63,8 @@ void excecuteCmd(char* buffer) {
 		arguments = getArguments(buffer + cmdLen, &argc);
 		cmd_table[cmdIndex].func(argc, arguments);
 		myPrint("\n");
+	} else if( buffer[0]!='\0' ) {
+		myPrint("\n\tUnknown command\n");
 	}
 }
 
