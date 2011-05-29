@@ -10,7 +10,8 @@ cmd_table_entry cmd_table[] = {
 	{"echo", "this is the echo help function", echo_cmd},
 	{"reset", "this is the reset help function", reset_cmd},
 	{"clear", "this is the clear screen help function", clear_cmd},
-	{"help", "this is the help help function", help_cmd}
+	{"help", "this is the help help function", help_cmd},
+	{"test", "this is the help help function", test_cmd}
 };
 
 void initShell() {
@@ -47,6 +48,7 @@ void append(char c) {
 void excecuteCmd(char* buffer) {
 	int cmdId = parse_cmd(buffer);
 	if (cmdId != -1) {
+		putc('\n');
 		execute(cmdId);
 	}
 }
@@ -84,8 +86,11 @@ void cleanBuffer() {
 
 //-----CMD IMPLEMTATIONS------------------------
 
+int test_cmd(int argc, char *argv[]) {
+	printf("I have %d years and %s\n", 21, "gonzalo is gay!");
+}
+
 int echo_cmd(int argc, char *argv[]) {
-	myPrint("\necho execution!\n");
 }
 
 int reset_cmd(int argc, char *argv[]) {
