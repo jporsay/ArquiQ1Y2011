@@ -1,9 +1,5 @@
 #include "../include/stdlib.h"
 
-void putc(char c) {
-	__write(STDOUT, &c, 1);
-}
-
 typedef struct memoryHeader_t{
 	struct memoryHeader_t * next;
 	int size;
@@ -74,3 +70,84 @@ void free(void * pointer) {
 	
 }
 
+void putc(char c) {
+	__write(STDOUT, &c, 1);
+}
+
+void puti(int n) {
+	if (n < 0) {
+		putc('-');
+		n = 0 - n;
+	}
+	putui(n);
+}
+
+void putui(unsigned int n) {
+	if (n <= 0) {
+		return;
+	}
+	putui(n / 10);
+	putc((n % 10) + '0');
+}
+
+void puth(int n, int upperCase) {
+}
+
+void puts(char* s) {
+	char c;
+	while ((c = *s++) != 0) {
+		putc(c);
+	}
+}
+
+void putf(double n) {
+}
+
+void pute(double n, int upperE) {
+}
+
+void printf(const char *fmt, ...) {
+	va_list args;
+	va_start(args, fmt);
+
+	char c;
+	while ((c = *fmt++) != 0) {
+		if (c != '%') {
+			putc(c);
+		} else {
+			c = *fmt++;
+			switch(c) {
+				case '%':
+					putc('%');
+					break;
+				case 'i':
+				case 'd':
+					puti(va_arg(args, int));
+					break;
+				case 'u':
+					putui(va_arg(args, int));
+				case 'x':
+					puth(va_arg(args, int), FALSE);
+					break;
+				case 'X':
+					puth(va_arg(args, int), TRUE);
+					break;
+				case 's':
+					puts(va_arg(args, char*));
+					break;
+				case 'f':
+					putf(va_arg(args, double));
+					break;
+				case 'e':
+					pute(va_arg(args, double), FALSE);
+					break;
+				case 'E':
+					pute(va_arg(args, double), FALSE);
+					break;
+				default:
+					break;
+			}
+		}
+	}
+	va_end(args);
+}
