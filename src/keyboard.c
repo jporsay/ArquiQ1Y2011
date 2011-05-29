@@ -1,5 +1,4 @@
 #include "../include/keyboard.h"
-#include "../include/video.h"
 
 unsigned char lcase[60] =
 {
@@ -60,6 +59,7 @@ int checkSpecialKey(unsigned char scanCode) {
 			default:
 				break;
 		}
+		kbFlags &= ~ESCAPE;
 		return TRUE;
 	}
 	
