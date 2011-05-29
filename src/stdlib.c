@@ -1,10 +1,5 @@
 #include "../include/stdlib.h"
 
-//@deprecated
-void myPrint(char * s) {
-	int length = strlen(s);
-	writeInVideo(s, length);
-}
 
 void setMemory() {
 	memoryNode firstMemoryNode = MEM_START;
