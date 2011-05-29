@@ -46,8 +46,8 @@ int random_cmd(int argc, char *argv[]) {
 }
 
 int test_cmd(int argc, char *argv[]) {
-	float a = (float)321.3 + 5.4;
-	printf("I have %f years and %s\n", a, "gonzalo is not gay!");
+	double a = 321.3;
+	printf("I have %f years and %s\n", a, "gonzalo is gay!");
 }
 
 
