@@ -21,5 +21,4 @@ int random_cmd(int argc, char *argv[]);
 int test_cmd(int argc, char *argv[]);
 int asd_cmd(int argc, char *argv[]);
 
-int *counter; //private use for getCPUSpeed
 #endif

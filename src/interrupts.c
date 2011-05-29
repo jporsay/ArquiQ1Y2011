@@ -6,7 +6,7 @@ void setTestConditions(int count) {
 }
 
 int getCounter() {
-	return *count;
+	return *counter;
 }
 
 //Timer Tick

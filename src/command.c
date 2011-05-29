@@ -40,8 +40,9 @@ int random_cmd(int argc, char *argv[]) {
 int test_cmd(int argc, char *argv[]) {
 	setPitInterval(100);
 	unsigned int low, low1, high, high1;
+	setTestConditions(100);
 	rdtsc(&low, &high);
-	while (*counter != 0) {
+	while (getCounter() != 0) {
 		printf("test: %d\n", *counter);
 	}
 	rdtsc(&low1, &high1);
