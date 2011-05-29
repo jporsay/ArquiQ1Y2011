@@ -33,10 +33,11 @@ void append(char c) {
 	}
 	
 	if (c == '\n') {
+		myPrint("\n");
 		excecuteCmd(shellBuffer);
-		cleanBuffer();
-		writeInVideo("\n", 1);
+		myPrint("\n");
 		myPrint(SHELL_TEXT);
+		cleanBuffer();
 	} else if (c == '\b') {
 		if (currPos > 0) {
 			writeInVideo(&c, 1);
