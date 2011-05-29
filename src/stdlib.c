@@ -160,6 +160,10 @@ void printf(const char *fmt, ...) {
 				case 'E':
 					pute(va_arg(args, double), TRUE);
 					break;
+				case 'c':
+					c = (char)va_arg(args, int);
+					putc(c);
+					break;
 				default:
 					break;
 			}
