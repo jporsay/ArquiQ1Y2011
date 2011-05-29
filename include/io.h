@@ -2,6 +2,7 @@
 #define IO_H
 
 #include "defs.h"
+#include "video.h"
 
 void sysRead(int fd, void * buffer, size_t count);
 

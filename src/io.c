@@ -1,5 +1,4 @@
 #include "../include/io.h"
-#include "../include/video.h"
 
 void sysRead(int fd, void * buffer, size_t count) {
 	//unsigned char c = getKey();
