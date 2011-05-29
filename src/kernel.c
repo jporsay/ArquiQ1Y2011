@@ -1,18 +1,10 @@
-#include "../include/kasm.h"
-#include "../include/defs.h"
 #include "../include/kernel.h"
-#include "../include/multiboot.h"
 
 DESCR_INT idt[0x81];			/* IDT de 81h entradas*/
 IDTR idtr;						/* IDTR */
 
-/**********************************************
-kmain() 
-Punto de entrada de código C.
-*************************************************/
 
-
-kmain(multiboot_info_t* mbd, unsigned int magic)  {
+kmain() {
 	int i,num;
 	
 	/* CARGA DE IDT CON LA RUTINA DE ATENCION DE IRQ0    */
