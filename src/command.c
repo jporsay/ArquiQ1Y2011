@@ -46,8 +46,7 @@ int random_cmd(int argc, char *argv[]) {
 }
 
 int test_cmd(int argc, char *argv[]) {
-	double a = 321.3;
-	printf("I have %f years and %s\n", a, "gonzalo is gay!");
+	detect_cpu();
 }
 
 
