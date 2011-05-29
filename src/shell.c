@@ -20,6 +20,7 @@ cmd_table_entry cmd_table[] = {
 	{"random", "this is the random help function", random_cmd},
 	{"echo", "this is the echo help function", echo_cmd},
 	{"test", "", test_cmd},
+	{"asd", "", asd_cmd},
 	{"", "", NULL}
 };
 
