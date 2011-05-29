@@ -18,7 +18,7 @@ int clear_cmd(int argc, char *argv[]) {
 }
 
 int help_cmd(int argc, char *argv[]) {
-	puts("Available commands:\n\thelp,\n\treset,\nclear,\n\tCPUspeed,\n\tcountDown,\n\tresetPit,\n\tsetPit,\n\trandom,\n\techo.\n");
+	puts("\nAvailable commands:\n\thelp,\n\treset,\nclear,\n\tCPUspeed,\n\tcountDown,\n\tresetPit,\n\tsetPit,\n\trandom,\n\techo.\n");
 }
 
 int setPit_cmd(int argc, char *argv[]) {
@@ -39,6 +39,10 @@ int random_cmd(int argc, char *argv[]) {
 
 int test_cmd(int argc, char *argv[]) {
 	detect_cpu();
+}
+
+int asd_cmd(int argc, char *argv[]) {
+
 }
 
 
