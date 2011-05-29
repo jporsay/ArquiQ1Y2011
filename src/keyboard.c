@@ -36,13 +36,14 @@ unsigned char ucase[60] =
 
 
 int tickpos = -2;
-void handleScanCode(unsigned char scanCode) {
+char handleScanCode(unsigned char scanCode) {
+	char c = -1;
 	if (!checkSpecialKey(scanCode)) {
 		if (IS_MAKE(scanCode)) {
-			char c = translateSc(CLEAR_BREAK_BIT(scanCode));
-			append(c);
+			c = translateSc(CLEAR_BREAK_BIT(scanCode));
 		}
 	}
+	return c;
 }
 
 int checkSpecialKey(unsigned char scanCode) {

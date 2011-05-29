@@ -11,17 +11,9 @@ kmain()
 Punto de entrada de código C.
 *************************************************/
 
-kmain() 
-{
-	/* No descomentar hasta que funcione el Memory Manager
-	if(setMemory(mbd))
-		return;
-	*/
-	int i,num;
 
-	/* Borra la pantalla. */ 
-	initVideo();
-	initShell();
+kmain(multiboot_info_t* mbd, unsigned int magic)  {
+	int i,num;
 	
 	/* CARGA DE IDT CON LA RUTINA DE ATENCION DE IRQ0    */
 	setup_IDT_entry (&idt[0x08], 0x08, (dword)&_int_08_hand, ACS_INT, 0);
@@ -41,26 +33,37 @@ kmain()
 	_mascaraPIC1(0x00);
 	_mascaraPIC2(NONE);
 	_Sti();
+	
+	initVideo();
+	initShell();
 
 	while (1) {
 	}
 	
 }
 
+/*
+fd = File descriptor referring to the open file.
+
+buffer = Storage location for data.
+
+count = Maximum number of bytes.
+*/
 size_t __read(int fd, void * buffer, size_t count) {
 	_SysCall(SYSTEM_READ,fd, buffer, count);
 	return count;
 }
 
+/*
+fd = File descriptor of file into which data is written.
+
+buffer = Data to be written..
+
+count = Maximum number of bytes.
+*/
 size_t __write(int fd, const void * buffer, size_t count) {
-	_SysCall(SYSTEM_WRITE,fd, buffer, count);
+	_SysCall(SYSTEM_WRITE, fd, buffer, count);
 	return count;
 }
 
-void _memcpy(void* from, void* to, size_t nbytes) {
-	size_t i;
-	for (i = 0; i < nbytes; i++) {
-		* ((char *)to + i) = * ((char *)from + i);
-	}
-}
 
