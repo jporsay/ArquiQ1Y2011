@@ -148,9 +148,7 @@ void printf(const char *fmt, ...) {
 					puts(va_arg(args, char*));
 					break;
 				case 'f':
-					t = va_arg(args, double);
-					puti((int)t);
-					//putf(va_arg(args, double));
+					putf(va_arg(args, double));
 					break;
 				case 'e':
 					pute(va_arg(args, double), FALSE);
