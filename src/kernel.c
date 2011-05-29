@@ -11,7 +11,7 @@ kmain()
 Punto de entrada de código C.
 *************************************************/
 
-kmain(multiboot_info_t* mbd, unsigned int magic) 
+kmain() 
 {
 	/* No descomentar hasta que funcione el Memory Manager
 	if(setMemory(mbd))
