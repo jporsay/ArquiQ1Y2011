@@ -18,7 +18,8 @@ cmd_table_entry cmd_table[] = {
 	{"setPit", "this is the setPit help function", setPit_cmd},
 	{"random", "this is the random help function", random_cmd},
 	{"echo", "this is the echo help function", echo_cmd},
-	{"test", "this is test help function", test_cmd}
+	{"test", "", test_cmd},
+	{"", "", NULL}
 };
 
 void initShell() {
@@ -35,7 +36,6 @@ void append(char c) {
 	if (c == '\n') {
 		myPrint("\n");
 		excecuteCmd(shellBuffer);
-		myPrint("\n");
 		myPrint(SHELL_TEXT);
 		cleanBuffer();
 	} else if (c == '\b') {
@@ -61,15 +61,17 @@ void excecuteCmd(char* buffer) {
 		cmdLen = strlen(cmd_table[cmdIndex].name);
 		arguments = getArguments(buffer + cmdLen, &argc);
 		cmd_table[cmdIndex].func(argc, arguments);
+		myPrint("\n");
 	}
 }
 
-//FIXME: no tiene que depender del valor de ROUTINES_SIZE!
+
+//FIXME: comandos como resetBLABLABVLA se ejecutan ya que matchea con reset.
 int parse_cmd(char* buffer) {
 	int i, cmdLength = -1, aux;
 	int match = -1;
 
-	for( i = 0; i < ROUTINES_SIZE; i++) {
+	for(i = 0; cmd_table[i].func != NULL; i++) {
 		if (substr(cmd_table[i].name, buffer)) {
 			aux = strlen(cmd_table[i].name);
 			if (aux > cmdLength) {
