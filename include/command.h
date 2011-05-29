@@ -4,6 +4,7 @@
 #include "defs.h"
 #include "shell.h"
 #include "video.h"
+#include "math.h"
 
 int echo_cmd(int argc, char *argv[]);
 int reset_cmd(int argc, char *argv[]);
