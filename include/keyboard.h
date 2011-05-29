@@ -5,6 +5,8 @@
 #include "defs.h"
 #include "video.h"
 #include "shell.h"
+#include "video.h"
+#include "stdlib.h"
 
 #define ESCAPE	0x01
 #define UCASE	0x02
