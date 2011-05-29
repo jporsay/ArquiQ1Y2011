@@ -5,6 +5,7 @@
 #include "shell.h"
 #include "video.h"
 #include "math.h"
+#include "cpu.h"
 
 int echo_cmd(int argc, char *argv[]);
 int restart_cmd(int argc, char *argv[]);
