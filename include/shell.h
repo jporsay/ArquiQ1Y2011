@@ -1,5 +1,5 @@
-#ifndef SHELL_H
-#define SHELL_H
+#ifndef _shell_
+#define _shell_
 
 #include "defs.h"
 #include "io.h"
@@ -9,7 +9,6 @@
 #define SHELL_TEXT	"Inutil@OS> "
 
 #define BUFFER_SIZE	1024
-#define ROUTINES_SIZE	9
 
 #define CMD_FAIL	0
 #define CMD_OK		1
