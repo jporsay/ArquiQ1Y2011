@@ -1,5 +1,6 @@
 #include "../include/stdlib.h"
 
+//@deprecated
 void myPrint(char * s) {
 	int length = strlen(s);
 	writeInVideo(s, length);
@@ -88,7 +89,7 @@ void puth(int n, int upperCase) {
 void puts(char* s) {
 	char c;
 	while ((c = *s++) != 0) {
-		putc(c);
+		//putc(c);
 	}
 }
 

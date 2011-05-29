@@ -14,5 +14,6 @@ int resetPit_cmd(int argc, char *argv[]);
 int countDown_cmd(int argc, char *argv[]);
 int CPUspeed_cmd(int argc, char *argv[]);
 int random_cmd(int argc, char *argv[]);
+int test_cmd(int argc, char *argv[]);
 
 #endif
