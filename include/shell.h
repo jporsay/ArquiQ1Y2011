@@ -9,7 +9,7 @@
 #define SHELL_TEXT	"Inutil@OS> "
 
 #define BUFFER_SIZE	1024
-#define ROUTINES_SIZE	9
+#define ROUTINES_SIZE	10
 
 #define CMD_FAIL	0
 #define CMD_OK		1
