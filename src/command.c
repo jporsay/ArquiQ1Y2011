@@ -34,15 +34,7 @@ int CPUspeed_cmd(int argc, char *argv[]) {
 }
 
 int random_cmd(int argc, char *argv[]) {
-	int repeats = 0, i;
-	if (argc >= 1) {
-		repeats = (int)(argv[0] - '0');
-		for(i = 0; i < repeats; i++) {
-			printf("%d", random());
-		}
-	} else {
-		printf("%d", random());
-	}
+	printf("%d", random());
 }
 
 int test_cmd(int argc, char *argv[]) {
