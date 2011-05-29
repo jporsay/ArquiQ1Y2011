@@ -160,6 +160,10 @@ void printf(const char *fmt, ...) {
 				case 'E':
 					pute(va_arg(args, double), TRUE);
 					break;
+				case 'c':
+					c = (char)va_arg(args, int);
+					putc(c);
+					break;
 				default:
 					break;
 			}
@@ -167,3 +171,11 @@ void printf(const char *fmt, ...) {
 	}
 	va_end(args);
 }
+
+void memcpy(void* from, void* src, size_t count) {
+	size_t i;
+	for (i = 0; i < count; i++) {
+		*((char *)src + i) = *((char *)from + i);
+	}
+}
+

@@ -18,7 +18,7 @@ int clear_cmd(int argc, char *argv[]) {
 }
 
 int help_cmd(int argc, char *argv[]) {
-	puts("Available commands:\n\thelp,\n\treset,\nclear,\n\tCPUspeed,\n\tcountDown,\n\tresetPit,\n\tsetPit,\n\trandom,\n\techo.\n");
+	puts("\nAvailable commands:\n\thelp,\n\treset,\nclear,\n\tCPUspeed,\n\tcountDown,\n\tresetPit,\n\tsetPit,\n\trandom,\n\techo.\n");
 }
 
 int setPit_cmd(int argc, char *argv[]) {
@@ -34,15 +34,7 @@ int CPUspeed_cmd(int argc, char *argv[]) {
 }
 
 int random_cmd(int argc, char *argv[]) {
-	int repeats = 0, i;
-	if (argc >= 1) {
-		repeats = (int)(argv[0] - '0');
-		for(i = 0; i < repeats; i++) {
-			printf("%d", random());
-		}
-	} else {
-		printf("%d", random());
-	}
+	printf("%d", random());
 }
 
 int test_cmd(int argc, char *argv[]) {
@@ -57,6 +49,10 @@ int test_cmd(int argc, char *argv[]) {
 	printf("end: %d%d\n", high1, low1);
 	printf("total: %d%d\n", high1 - high, low1 - low);
 	setPitInterval(0);
+}
+
+int asd_cmd(int argc, char *argv[]) {
+	printf("HOLA COMO %s\n", "estas");
 }
 
 

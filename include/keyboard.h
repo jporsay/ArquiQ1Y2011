@@ -23,7 +23,7 @@
 
 char kbFlags;
 
-void handleScanCode(unsigned char scanCode);
+char handleScanCode(unsigned char scanCode);
 int checkSpecialKey(unsigned char scanCode);
 char translateSc(unsigned char scanCode);
 #endif
