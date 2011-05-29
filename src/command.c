@@ -13,14 +13,22 @@ int clear_cmd(int argc, char *argv[]) {
 }
 
 int help_cmd(int argc, char *argv[]) {
-	char * helpMenu = "\nList of commands:\n  clear\n  echo\n  reset\n  help\n";
-	myPrint(helpMenu);
+	/*myPrint("\nComandos: ");
+	char c = argc + '0';
+	putc(c);
+	myPrint("\n---\n");
+	int i;
+	for( i = 0; i < argc; i++) {
+		myPrint(argv[i]);
+		myPrint("\n");
+	}*/
 }
 
 int setPit_cmd(int argc, char *argv[]) {
 }
 
 int resetPit_cmd(int argc, char *argv[]) {
+	myPrint("\nreset Pit!\n");
 }
 
 int countDown_cmd(int argc, char *argv[]) {
@@ -30,5 +38,11 @@ int CPUspeed_cmd(int argc, char *argv[]) {
 }
 
 int random_cmd(int argc, char *argv[]) {
+	myPrint("\n583012830921\n");
 }
+
+int test_cmd(int argc, char *argv[]) {
+	printf("I have %d years and %s\n", 21, "gonzalo is gay!");
+}
+
 

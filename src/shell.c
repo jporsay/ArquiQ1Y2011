@@ -3,20 +3,22 @@
 void excecuteCmd(char* buffer);
 int parse_cmd(char* buffer);
 int execute(int cmdId);
-void myPrint(char * s);
+char** getArguments(char* buffer, int* argc);
 
+char* argv[MAX_ARG_DIM];
 int currPos;
+char shellBuffer[BUFFER_SIZE];
 cmd_table_entry cmd_table[] = {
-	{"echo", "this is the echo help function", echo_cmd},
+	{"help", "this is the help help function", help_cmd},
 	{"reset", "this is the reset help function", reset_cmd},
 	{"clear", "this is the clear screen help function", clear_cmd},
-	{"help", "this is the help help function", help_cmd},
-	{"setPit", "this is the setPit help function", setPit_cmd},
-	{"resetPit", "this is the resetPit help function", resetPit_cmd},
-	{"countDown", "this is the countDown help function", countDown_cmd},
 	{"CPUspeed", "this is the CPUspeed help function", CPUspeed_cmd},
+	{"countDown", "this is the countDown help function", countDown_cmd},
+	{"resetPit", "this is the resetPit help function", resetPit_cmd},
+	{"setPit", "this is the setPit help function", setPit_cmd},
 	{"random", "this is the random help function", random_cmd},
-	{"test", "this is the help help function", test_cmd}
+	{"echo", "this is the echo help function", echo_cmd},
+	{"test", "this is test help function", test_cmd}
 };
 
 void initShell() {
@@ -33,7 +35,7 @@ void append(char c) {
 	if (c == '\n') {
 		excecuteCmd(shellBuffer);
 		cleanBuffer();
-		writeInVideo(&c, 1);
+		writeInVideo("\n", 1);
 		myPrint(SHELL_TEXT);
 	} else if (c == '\b') {
 		if (currPos > 0) {
@@ -50,21 +52,46 @@ void append(char c) {
 }
 
 void excecuteCmd(char* buffer) {
-	int cmdId = parse_cmd(buffer);
-	if (cmdId != -1) {
-		putc('\n');
-		execute(cmdId);
+	int cmdLen, argc;
+	char ** arguments;
+	
+	int cmdIndex = parse_cmd(buffer);
+	if (cmdIndex != -1) {
+		cmdLen = strlen(cmd_table[cmdIndex].name);
+		arguments = getArguments(buffer + cmdLen, &argc);
+		cmd_table[cmdIndex].func(argc, arguments);
 	}
 }
 
+//FIXME: no tiene que depender del valor de ROUTINES_SIZE!
 int parse_cmd(char* buffer) {
-	int i;
+	int i, cmdLength = -1, aux;
+	int match = -1;
+
 	for( i = 0; i < ROUTINES_SIZE; i++) {
-		if(substr(cmd_table[i].name, buffer)) {
-			return i;
+		if (substr(cmd_table[i].name, buffer)) {
+			aux = strlen(cmd_table[i].name);
+			if (aux > cmdLength) {
+				match = i;
+				cmdLength = aux;
+			}
 		}
 	}
-	return -1;
+	return match;
+}
+
+
+char** getArguments(char* buffer, int* argc) {
+	int i = 0, arg = 0;
+	while(buffer[i] != '\0' && arg < MAX_ARG_DIM) {
+		if (buffer[i] == ' ') {
+			argv[arg++] = buffer + i + 1;
+			buffer[i] = '\0';
+		}
+		i++;
+	}
+	*argc = arg;
+	return argv;
 }
 
 /*Retorna true si s1 es subString de s2*/
@@ -79,34 +106,10 @@ int substr(const char * s1, const char *s2) {
 	return isSubstr;
 }
 
-int execute(int cmdId) {
-	cmd_table[cmdId].func(0, NULL);
-}
-
 void cleanBuffer() {
 	currPos = 0;
 	shellBuffer[0] = '\0';
 }
 
-//-----CMD IMPLEMTATIONS------------------------
 
-int test_cmd(int argc, char *argv[]) {
-	printf("I have %d years and %s\n", 21, "gonzalo is gay!");
-}
 
-int echo_cmd(int argc, char *argv[]) {
-}
-
-int reset_cmd(int argc, char *argv[]) {
-	puts("\nreset execution!\n");
-}
-
-int clear_cmd(int argc, char *argv[]) {
-	puts("\nclear execution!\n");
-}
-
-int help_cmd(int argc, char *argv[]) {
-	puts("\nhelp execution!\n");
-}
-
-//----------------------------------------------
