@@ -18,7 +18,7 @@
 #define MEM_LENGTH 8388608 			//8 MB de RAM
 
 typedef __builtin_va_list va_list;
-typedef struct memoryHeader_t{
+typedef struct memoryHeader_t {
 	struct memoryHeader_t * next;
 	int size;
 	int reserved;
@@ -30,13 +30,16 @@ void setMemory();
 void * malloc(size_t neededMem);
 void free(void * pointer);
 void printf(const char *fmt, ...);
-void putc(char c);
+void putc(char c, int fd);
+char getc(int fd);
 void puti(int n);
 void putui(unsigned int n);
 void puth(int n, int upperCase);
 void puts(char* s);
 void putf(double n);
 void pute(double n, int upperE);
+char getchar();
+void putchar(char c);
 
 #endif
 

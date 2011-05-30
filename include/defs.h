@@ -48,6 +48,9 @@ typedef unsigned long long int uint64_t;
 5	STD	POSIX	{ int open(char *path, int flags, int mode); }
 6	STD	POSIX	{ int close(int fd); }
 */
+#define STD_IN		0
+#define STD_OUT		1
+#define STD_ERROR	2
 
 #pragma pack (1) 		/* Alinear las siguiente estructuras a 1 byte */
 
@@ -80,7 +83,15 @@ typedef struct {
   dword base;
 } IDTR;
 
-     
+#define K_BUFFER_SIZE	10
+
+typedef struct {
+	int from;
+	int to;
+	char buffer[K_BUFFER_SIZE]; 
+} K_BUFFER;
+
+K_BUFFER keyboard_buffer;
 
 #endif
 

@@ -1,10 +1,23 @@
 #include "../include/io.h"
 
 void sysRead(int fd, void * buffer, size_t count) {
-	memcpy((void *) fd, (void*) buffer, count);
+	int i;
+	char c;
+	char * aux;
+	if (fd == STD_IN) {
+		//COPIA DEL BUFFER DE TECLADO al BUFFER ENTREGADO
+		for (i = 0; i < count; i++) {
+			aux = (char*) buffer;
+			c = getKeyFromBuffer();
+			*(aux+i) = c;
+		}
+	}
 }
 
 void sysWrite(int fd, void * buffer, size_t count) {
-	writeInVideo(buffer, count);
+	if (fd == STD_OUT) {
+		//COPIA DEL BUFFER ENTREGADO A LA PANTALLA
+		writeInVideo((char*) buffer, count);
+	}
 }
 

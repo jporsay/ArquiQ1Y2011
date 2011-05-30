@@ -30,11 +30,14 @@ void initShell() {
 }
 
 
-void append(char c) {
+void updateShell() {
+	if (bufferIsEmpty()) {
+		return;
+	}
+	char c = getKeyFromBuffer();
 	if (currPos >= BUFFER_SIZE) {
 		return;
 	}
-	
 	if (c == '\n') {
 		printf("\n");
 		excecuteCmd(shellBuffer);
@@ -118,5 +121,7 @@ void cleanBuffer() {
 	shellBuffer[0] = '\0';
 }
 
-
+char getLastKey() {
+	return shellBuffer[currPos - 1];
+}
 

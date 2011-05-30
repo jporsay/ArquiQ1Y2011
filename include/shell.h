@@ -7,7 +7,7 @@
 #include "stdlib.h"
 #include "command.h"
 
-#define SHELL_TEXT	"Inutil@OS> "
+#define SHELL_TEXT	"gatOS> "
 
 #define BUFFER_SIZE	1024
 
@@ -22,8 +22,9 @@ typedef struct cmd_table_entry {
 	int (*func)(int argc, char *argv[]);
 } cmd_table_entry;
 
-void append(char c);
+void updateShell();
 void cleanBuffer();
+char getLastKey();
 
 #endif
 

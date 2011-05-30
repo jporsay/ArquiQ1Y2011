@@ -26,10 +26,12 @@ kmain() {
 	_mascaraPIC2(NONE);
 	_Sti();
 	
+	initKeyBoard();
 	initVideo();
 	initShell();
-
+	
 	while (1) {
+		updateShell();
 	}
 	
 }

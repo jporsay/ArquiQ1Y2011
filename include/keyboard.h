@@ -23,7 +23,15 @@
 
 char kbFlags;
 
-char handleScanCode(unsigned char scanCode);
+int handleScanCode(unsigned char scanCode);
 int checkSpecialKey(unsigned char scanCode);
 char translateSc(unsigned char scanCode);
+
+void putKeyInBuffer(char c);
+char getKeyFromBuffer();
+void initKeyBoard();
+int bufferIsEmpty();
+
 #endif
+
+

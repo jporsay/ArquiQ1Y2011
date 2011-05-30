@@ -11,25 +11,16 @@ int getCounter() {
 
 //Timer Tick
 void int_08() {
-	printf("int: %d\n", *counter);
-	if (*cpuTest == TRUE) {
-		*counter--;
-		if (*counter == 0) {
-			*cpuTest = FALSE;
-		}
-	}
 }
 
 //Keyboard
 void int_09() {
-	char c = handleScanCode(inb(0x60));
-	if (c != -1) {
-		append(c);
+	if (handleScanCode(inb(0x60))) {
+		//keyPressed();
 	}
 	if (IS_CTRL() && IS_ALT() && IS_DEL()) {
 		_reset();
 	}
-	return;
 }
 
 void int_80(int sysCallNumber, void ** args) {

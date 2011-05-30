@@ -9,62 +9,66 @@ void setMemory() {
 }
 
 void * malloc(size_t neededMem) {
-	
 	memoryNode node, firstNode;
-	
 	int chunkFound = FALSE;
-	
 	node = firstNode = MEM_START;
-	
-	do{
+	do {
 		if (node->reserved == FALSE && node->size >= neededMem) {
 			chunkFound = TRUE;
 			node->reserved = TRUE;
 			if (node->size > neededMem) {
 				memoryNode newNode = (memoryNode)(node + sizeof(memoryHeader_t)
 					 + neededMem);
-				
 				newNode->next = node->next;
 				newNode->size = node->size - neededMem - sizeof(memoryHeader_t);
 				newNode->reserved = FALSE;
-				
 				node->next = newNode;
 				node->size = neededMem;
 			}
-		
 		} else {
 			node = node->next;
 		}
-	} while(!chunkFound && node != firstNode);
+	} while (!chunkFound && node != firstNode);
 	
-	if (chunkFound)
+	if (chunkFound) {
 		return (void *)(node + 1);
-	
+	}
 	return NULL;
 }
 
 void free(void * pointer) {
-	
 	memoryNode node = (memoryNode)(pointer - sizeof(memoryHeader_t));
-	
 	node->reserved = FALSE;
-
 	memoryNode startingNode = node;
-	
 	while(node->next != startingNode && node->next->reserved == FALSE) {
 		node->size = node->size + node->next->size + sizeof(memoryHeader_t);
 		node->next = node->next->next;
 	}
-	
 }
 
-void putc(char c) {
-	__write(STDOUT, &c, 1);
+char getchar() {
+	return getc(STD_IN);
+}
+
+char getc(int fd) {
+	char c;
+	while(bufferIsEmpty()) {
+	}
+	__read(fd, &c, 1);
+	return c;
+}
+
+void putchar(char c) {
+	putc(c, STD_OUT);
+}
+
+void putc(char c, int fd) {
+	__write(STD_OUT, &c, 1);
 }
 
 void puti(int n) {
 	if (n < 0) {
-		putc('-');
+		putchar('-');
 		n = 0 - n;
 	}
 	putui(n);
@@ -75,7 +79,7 @@ void putui(unsigned int n) {
 		return;
 	}
 	putui(n / 10);
-	putc((n % 10) + '0');
+	putchar((n % 10) + '0');
 }
 
 void puth(int n, int upperCase) {
@@ -89,21 +93,21 @@ void puth(int n, int upperCase) {
 	c = num > 9 ? letters[num - 10] : (num + '0');
 	
 	puth(n / 16, upperCase);
-	putc(c);
+	putchar(c);
 }
 
 void puts(char* s) {
 	char c;
 	while ((c = *s++) != 0) {
-		putc(c);
+		putchar(c);
 	}
 }
 
 void putf(double n) {
-	putc((int)(3) + '0');
+	putchar((int)(3) + '0');
 	n = n - (int)n;
 	if (n == 0) return;
-	putc('.');
+	putchar('.');
 	int precision = 0;
 	while (n != 0 && precision < F_PRECISION) {
 		n *= 10;
@@ -124,12 +128,12 @@ void printf(const char *fmt, ...) {
 	char c;
 	while ((c = *fmt++) != 0) {
 		if (c != '%') {
-			putc(c);
+			putchar(c);
 		} else {
 			c = *fmt++;
 			switch(c) {
 				case '%':
-					putc('%');
+					putchar('%');
 					break;
 				case 'i':
 				case 'd':
@@ -157,7 +161,7 @@ void printf(const char *fmt, ...) {
 					break;
 				case 'c':
 					c = (char)va_arg(args, int);
-					putc(c);
+					putchar(c);
 					break;
 				default:
 					break;

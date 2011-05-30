@@ -3,6 +3,7 @@
 
 #include "defs.h"
 #include "video.h"
+#include "shell.h"
 
 void sysRead(int fd, void * buffer, size_t count);
 

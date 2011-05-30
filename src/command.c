@@ -53,7 +53,8 @@ int test_cmd(int argc, char *argv[]) {
 }
 
 int asd_cmd(int argc, char *argv[]) {
-	printf("HOLA COMO %s\n", "estas");
+	printf("\nIngrese un caracter: ");
+	printf("%c", getchar());
 }
 
 
