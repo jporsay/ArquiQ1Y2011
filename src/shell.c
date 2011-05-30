@@ -4,6 +4,7 @@ void excecuteCmd(char* buffer);
 int parse_cmd(char* buffer);
 int execute(int cmdId);
 char** getArguments(char* buffer, int* argc);
+void prntWelcomeMsg();
 
 char* argv[MAX_ARG_DIM];
 int currPos;
@@ -27,6 +28,7 @@ cmd_table_entry cmd_table[] = {
 
 void initShell() {
 	cleanBuffer();
+	prntWelcomeMsg();
 	printf(SHELL_TEXT);
 	int* i = getIrq0CountPointer();
 	*i = 0;
@@ -142,4 +144,8 @@ int getCmdIndex(char * cmdName) {
 	return -1;
 }
 
+void prntWelcomeMsg() {
+	//TODO: Podria mostrarse un msj con colores y logo ascii eventualmente.
+	printf(WELCOME_MSG);
+}
 
