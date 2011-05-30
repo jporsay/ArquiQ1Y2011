@@ -11,6 +11,8 @@ GLOBAL _cpuIdTest
 GLOBAL _SysCall
 GLOBAL _cpuFreqTest
 GLOBAL _getCpuSpeed
+GLOBAL _getTTCounter
+GLOBAL _initTTCounter
 EXTERN getIrq0Count
 EXTERN dummyFunc
 EXTERN  int_08
@@ -23,10 +25,32 @@ OFFSET_TICK_COUNT	equ 6Ch
 INTERVAL_IN_TICKS	equ 10
 
 SECTION .bss
-low		resb 0
-high	resb 0
+ttcounter 	resd 0
+low			resb 0
+high		resb 0
+dlow		resb 0
+dhigh		resb 0
 
 SECTION .text
+
+_initTTCounter:
+	push ebp
+	mov ebp, esp
+	push ax
+	mov eax, 0
+	mov [ttcounter], eax
+	pop ax
+	mov esp, ebp
+	pop ebp
+	ret
+
+_getTTCounter:
+	push ebp
+	mov ebp, esp
+	mov eax, [ttcounter]
+	mov esp, ebp
+	pop ebp
+	ret
 
 _Cli:
 	cli	; limpia flag de interrupciones
@@ -92,6 +116,13 @@ _int_08_hand:				; Handler de INT 8 ( Timer tick)
 	push	ds
 	push	es              ; Se salvan los registros
 	pusha                   ; Carga de DS y ES con el valor del selector
+	
+	push eax
+	mov eax, [ttcounter]
+	inc eax
+	mov [ttcounter], eax
+	pop eax
+	
 	mov		ax, 10h			; a utilizar.
 	mov		ds, ax
 	mov		es, ax
@@ -186,33 +217,22 @@ _getCpuSpeed:
 	push ebp
 	mov ebp, esp
 	
-	push eax
-	mov eax, 0
-	mov [low], eax
-	mov [high], eax
-	call getIrq0Count
-	mov ebx, eax
-	pop eax
-	
-	push eax
+	mov ebx, [ttcounter]
 .wait_irq0:
-	call getIrq0Count
-	cmp  ebx, eax
+	cmp  ebx, [ttcounter]
 	jz	.wait_irq0
-	pop eax
+	cpuid
 	rdtsc                   ; read time stamp counter
 	mov	[low], eax
 	mov	[high], edx
-	add	ebx, 2             ; Set time delay value ticks.
+	add	ebx, 5             ; Set time delay value ticks.
 	; remember: so far ebx = ~[irq0]-1, so the next tick is
 	; two steps ahead of the current ebx ;)
 
-	push eax
 .wait_for_elapsed_ticks:
-	call getIrq0Count
-	cmp	ebx, eax ; Have we hit the delay?
+	cmp	ebx, [ttcounter] ; Have we hit the delay?
 	jnz	.wait_for_elapsed_ticks
-	pop	eax
+	cpuid
 	rdtsc
 	sub eax, [low]  ; Calculate TSC
 	sbb edx, [high]
@@ -220,8 +240,6 @@ _getCpuSpeed:
 	; This adjusts for MHz.
 	; so for this: f(100) = (1/100) * 1,000,000 = 10000
 	; we use 18.2, so 1/18.2 * 1000000 = 54945
-	mov ebx, 54945
-	div ebx
 	; ax contains measured speed in MHz
 .endasd:
 	mov esp, ebp
@@ -231,68 +249,27 @@ _getCpuSpeed:
 _cpuFreqTest:
 	push ebp
 	mov ebp, esp
-	sub esp, 16
-	mov dword [esp], 0 ;tscLoDword
-	mov dword [esp + 4], 0 ;tscHiDword
-	mov dword [esp + 8], 0 ;tscDeltaLo
-	mov dword [esp + 12], 0 ;tscDeltaHi
-	push eax
-	call getIrq0Count
-	mov	ebx, eax
-	pop eax
-	
-	push eax
+
+	mov	ebx, [ttcounter]
 .wait_for_new_tick:
-	call getIrq0Count
-	push eax
-	push ebx
-	call dummyFunc
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	cmp	ebx, eax
+	cmp	ebx, [ttcounter]
 	je	.wait_for_new_tick
-	pop eax
 
 	rdtsc
-	mov	dword [esp + 4], eax ; set tscLoDword
-	mov dword [esp + 8], edx ; set tscHiDword
-	
+	mov	[low], eax ; set tscLoDword
+	mov [high], edx ; set tscHiDword
 	add ebx, INTERVAL_IN_TICKS + 1
-
-
-	mov edx, 0
-	push eax
 .wait_for_elapsed_ticks:
-	call getIrq0Count
-	push eax
-	push ebx
-	call dummyFunc
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	cmp	ebx, eax
+	cmp	ebx, [ttcounter]
 	jg	.wait_for_elapsed_ticks
-	pop eax
 	
 	rdtsc
-	sub eax, dword [esp + 4]
-	sbb edx, dword [esp + 8]
+	sub eax, [low]
+	sbb edx, [high]
 	
-	mov dword [esp + 12], eax
-	mov dword [esp + 16], edx
 	; 1 / 18.2 * 1000000 = 54945
 	mov ebx, 54945*INTERVAL_IN_TICKS
+	and eax, 0x1ffffff
 	div ebx ; result is in ax
 .cpufexit:
 	mov esp, ebp

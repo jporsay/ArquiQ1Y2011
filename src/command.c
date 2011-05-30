@@ -57,18 +57,10 @@ void dummyFunc(int eax, int ebx) {
 }
 
 int test_cmd(int argc, char *argv[]) {
-	int asd = 0;
-	while(1) {
-		if (asd % 10 == 0) {
-			int cpuspeed = _getCpuSpeed();
-			printf("Detected CPU speed: %i\n", (int)cpuspeed);
-		}
-		asd++;
-	}
+	int cpuspeed = _getCpuSpeed();
+	printf("Detected CPU speed: %i\n", (int)cpuspeed);
 }
 
 int asd_cmd(int argc, char *argv[]) {
-	printf("\nIngrese un caracter: ");
-	printf("%c", getchar());
+	printf("ttCounter: %d\n", _getTTCounter());
 }
-

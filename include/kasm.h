@@ -21,6 +21,8 @@ void _int_08_hand();	/* Timer tick */
 void _int_09_hand();	/* Keyboard */
 void _int_80_hand();
 void _SysCall();
+void _initTTCounter();
+int _getTTCounter();
 int _getCpuSpeed();
 int _cpuFreqTest();
 void _debug (void);
