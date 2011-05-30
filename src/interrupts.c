@@ -1,5 +1,7 @@
 #include "../include/interrupts.h"
 
+void prtProm();
+
 int getIrq0Count() {
 	int count2 = count;
 	return count2;
@@ -11,7 +13,24 @@ int *getIrq0CountPointer() {
 
 //Timer Tick
 void int_08() {
-	count++;
+	if (pos < 100) {
+		int speed = count / 18.2;
+		printf("%d\n", speed);
+		resp[pos] = speed;
+		count = 0;
+		pos++;
+	} else {
+		prtProm();
+	}
+}
+
+void prtProm() {
+	int total = 0;
+	int i;
+	for (i=0; i < 100; i++) {
+		total += resp[i];
+	}
+	printf("TOTAL: %d\n", (total / 100));
 }
 
 //Keyboard

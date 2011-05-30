@@ -12,6 +12,10 @@ void int_09();
 void int_80(int sysCallNumber, void ** args);
 int getIrq0Count();
 int *getIrq0CountPointer();
+
 int count;
+int resp[100];
+int pos;
+int strted;
 #endif
 
