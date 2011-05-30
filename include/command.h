@@ -22,7 +22,12 @@
 #define HELP_GETCPUSPEED	"Measures the CPU speed and prints out its value."
 #define HELP_RANDOM			"Creates a random number from 0 to 100"
 #define HELP_ECHO			"[arguments ...]\n\nPrints on screen the recived \
-arguments"
+								arguments"
+#define HELP_SETAPPEARANCE	"[foregroundColor backgroundColor]\n\n Sets the \
+								foreground and background to the given colors\
+								.\nBoth arguments must be a number between 0 \
+								 and F.\n\nWarning: Using a background with \
+								 highest bit in 1 will make text blink"
 
 int echo_cmd(int argc, char *argv[]);
 int restart_cmd(int argc, char *argv[]);

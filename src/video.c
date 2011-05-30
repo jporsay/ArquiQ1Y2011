@@ -111,6 +111,10 @@ void setVideoForeground(byte color) {
 void setVideoColor(byte bg, byte fg) {
 	setVideoForeground(fg);
 	setVideoBackground(bg);
+	int i;
+	for (i = 1; i < TOTAL_VIDEO_SIZE; i+=2) {
+		video.address[i] = getVideoColor();
+	}
 }
 
 char getVideoColor() {

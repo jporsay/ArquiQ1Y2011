@@ -19,7 +19,7 @@ cmd_table_entry cmd_table[] = {
 	{"setPit", 			HELP_SETPIT, setPit_cmd},
 	{"random", 			HELP_RANDOM, random_cmd},
 	{"echo", 			HELP_ECHO, echo_cmd},
-	{"setAppareance",	HELP_ECHO, setAppearance_cmd},
+	{"setAppareance",	HELP_SETAPPEARANCE, setAppearance_cmd},
 	{"test", "", test_cmd},
 	{"asd", "", asd_cmd},
 	{"", "", NULL}
