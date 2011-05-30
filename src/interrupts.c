@@ -2,10 +2,6 @@
 
 void prtAvg();
 
-int getIsTesting() {
-	return isTesting;
-}
-
 int getIrq0Count() {
 	int count2 = count;
 	return count2;
