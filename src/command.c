@@ -38,9 +38,17 @@ int help_cmd(int argc, char *argv[]) {
 }
 
 int setPit_cmd(int argc, char *argv[]) {
+	size_t interval = (size_t) *argv[0];
+	if (interval > 0) {
+		printf("Setting PIT Interval timer to: %d\n", interval);
+		setPitInterval(interval);
+	} else {
+		printf("Invalid PIT interval.\n");
+	}
 }
 
 int resetPit_cmd(int argc, char *argv[]) {
+	return setPit_cmd(BASE_FREQUENCY);
 }
 
 int countDown_cmd(int argc, char *argv[]) {
@@ -70,7 +78,8 @@ int test_cmd(int argc, char *argv[]) {
 }
 
 int asd_cmd(int argc, char *argv[]) {
-
+	printf("Ingrese un caracter: ");
+	printf("%c\n", getchar());
 }
 
 int setAppearance_cmd(int argc, char *argv[]) {
