@@ -51,7 +51,7 @@ unsigned int measureClockCyclesForWhile() {
 
 double getCpuSpeed() {
 	double ccpi = measureClockCyclesForWhile();
-	unsigned int* count = getIrq0Count();
+	unsigned int* count = getIrq0CountPointer();
 	unsigned int cnt = 0;
 	uint64_t cc;
 	*count = 0;
