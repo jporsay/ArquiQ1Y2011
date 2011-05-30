@@ -1,0 +1,197 @@
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Trabajo Práctico Especial
+\end_layout
+
+\begin_layout Standard
+Objetivo: Realizar un programa que muestre algunas de las características
+ del Modo protegido de los microprocesadores de Intel.
+ 
+\end_layout
+
+\begin_layout Section
+Implementacion
+\end_layout
+
+\begin_layout Standard
+En esta seccion se explicara el funcionamiento interno del sistema operativo
+ desarollado y porque se eligio tal implementacion.
+\end_layout
+
+\begin_layout Standard
+Para una buena organizacion del codigo, se decidió realizar varios archivos
+ que se encargarían de manejar tareas especificas y de este modo poder lograr
+ un programa modularizado por sobre todo implementable.
+\end_layout
+
+\begin_layout Standard
+A continuacion se listan los mas importantes:
+\end_layout
+
+\begin_layout Standard
+Interrupt: Cada vez que llega una iterrupcion al micro (ya sea por software
+ o por harware), se ejecuta el handler correspondiente (programado en ASM)
+ que se ocupa de llamar a la funcion en C que la maneja.
+ Aqui es donde entra en juego el archivo Interrupt.c.
+ Este contiene la logica necesaria para cada interrupcion.
+\end_layout
+
+\begin_layout Standard
+Actualmente solo se manejan las interrupciones 
+\begin_inset Formula $80h$
+\end_inset
+
+, 
+\begin_inset Formula $9$
+\end_inset
+
+
+\begin_inset Formula $(teclado)$
+\end_inset
+
+, y la 
+\begin_inset Formula $8$
+\end_inset
+
+
+\begin_inset Formula $(timer$
+\end_inset
+
+ 
+\begin_inset Formula $tick)$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Keyboard: Luego de leido el scanCode de la tecla presionada (desde el manejador
+ de la interrupcion correspondiente), se 
+\begin_inset Quotes eld
+\end_inset
+
+avisa
+\begin_inset Quotes erd
+\end_inset
+
+ a este archivo el scanCode y este se encarga de guardar el caracter que
+ corresponda en el buffer del teclado.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Para el buffer de teclado de decidió implementar un buffer circular, en
+ donde cada vez que llega un caracter, se agrega al a continuacion del anterior.
+ Esto tiene la ventaja que nunca hace falta limpiar el buffer ya que aunque
+ se llene, solo hay que 
+\begin_inset Quotes eld
+\end_inset
+
+tomar
+\begin_inset Quotes erd
+\end_inset
+
+ las caracteres no leidos del buffer para que automaticamente se haga lugar
+ para las nuevas.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Video: Es el encargado de administrar el sector de video.
+ Ya que por cada letra hay que grabar el caracter y a continuacion siu color.
+ Para futros agregados se considero que el que tener por separado este archivo
+ seria de gran utilidad.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Si bien en memoria el sector destinado para la pantalla es contínuo, se
+ implemto todo como si se estuviese trabajando sobre una matriz (
+\begin_inset Formula $getCurrRow()$
+\end_inset
+
+ y 
+\begin_inset Formula $getCurrColumn()$
+\end_inset
+
+ se encargan de realizar las transormaciones matematicas correspondientes).
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Shell: Se encarga de tomar los caracteres del buffer del teclado (siempre
+ que los halla) y decidir si se muestran o no en pantalla.
+ En la actual implementacion, se tiene una shell con un buffer de tamaño
+ fijo en donde se van guardando los caracteres tomados del buffer del teclado.
+ Cuando el usuario indica que quiere ejecutar el comando ingresado, se busca
+ si lo escrito coincide con el nombre de algún comando que tiene guardado
+ internamente en el vector de comandos.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Vector de comandos: Es un vector de estructuras en donde cada elemento es
+ una estructua que contiene: nombre de comando, puntero a la funcion que
+ ejecuta dicho comando y un char* que es la ayuda del comando.
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\end_deeper
+\end_body
+\end_document
