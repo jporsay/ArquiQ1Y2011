@@ -3,6 +3,7 @@
 
 #include "kernel.h"
 #include "defs.h"
+#include "interrupts.h"
 #include "io.h"
 #include "stdlib.h"
 #include "command.h"
