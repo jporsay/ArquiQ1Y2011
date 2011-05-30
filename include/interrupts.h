@@ -7,16 +7,18 @@
 #include "kernel.h"
 #include "command.h"
 
+#define TT_MEDITIONS	100
+
 void int_08();
 void int_09();
 void int_80(int sysCallNumber, void ** args);
 int getIrq0Count();
+
 int *getIrq0CountPointer();
-int *getIsTesting();
+int getIsTesting();
 int isTesting;
+int resp[TT_MEDITIONS];
 int count;
-int resp[100];
 int pos;
-int strted;
 #endif
 

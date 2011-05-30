@@ -2,8 +2,8 @@
 
 void prtAvg();
 
-int *getIsTesting() {
-	return &isTesting;
+int getIsTesting() {
+	return isTesting;
 }
 
 int getIrq0Count() {
@@ -18,11 +18,10 @@ int *getIrq0CountPointer() {
 //Timer Tick
 void int_08() {
 	if (isTesting == TRUE) {
-		if (pos < 100) {
-			int speed = count / 182;
-			resp[pos] = speed;
+		if (pos < TT_MEDITIONS) {
+			int speed = count / 182.0;
+			resp[pos++] = speed;
 			count = 0;
-			pos++;
 		} else {
 			prtAvg();
 			isTesting = FALSE;
@@ -36,7 +35,7 @@ void prtAvg() {
 	for (i=0; i < 100; i++) {
 		total += resp[i];
 	}
-	printf("TOTAL: %d\n", (total / 100));
+	printf("TOTAL: %d\n", (total / TT_MEDITIONS));
 }
 
 //Keyboard

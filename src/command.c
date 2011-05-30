@@ -45,7 +45,14 @@ int resetPit_cmd(int argc, char *argv[]) {
 int countDown_cmd(int argc, char *argv[]) {
 }
 
-int CPUspeed_cmd(int argc, char *argv[]) {
+int getCPUspeed_cmd(int argc, char *argv[]) {
+	printf("Beginning IPS calculation...\n");
+	isTesting = TRUE;
+	count = 0;
+	pos = 0;
+	while(isTesting == TRUE) {
+		count++;
+	}
 }
 
 int random_cmd(int argc, char *argv[]) {
@@ -62,13 +69,27 @@ int test_cmd(int argc, char *argv[]) {
 }
 
 int asd_cmd(int argc, char *argv[]) {
-	printf("Beginning IPS calculation...\n");
-	int* isTesting = getIsTesting();
-	*isTesting = TRUE;
-	count = 0;
-	pos = 0;
-	while(*(isTesting = getIsTesting()) == TRUE) {
-		count++;
+
+}
+
+int setAppearance_cmd(int argc, char *argv[]) {
+	if (argc != 2) {
+		printf("You need to call this function with 2 colors\n");
+	} else {
+		char* foreGround = argv[0];
+		char* backGround = argv[1];
+		
+		int fg = parseHexa(foreGround[0]);
+		int bg = parseHexa(backGround[0]);
+		printf("%d  %d\n", fg, bg);
+		if (strlen(foreGround) != 1 || strlen(backGround) != 1 || fg == -1
+			|| bg == -1) {
+			printf("Both arguments must be a hexadecimal number between 0 \
+				and F\n");
+			return;
+		}
+		setVideoColor(bg, fg);
 	}
 }
+
 

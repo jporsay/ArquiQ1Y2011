@@ -10,15 +10,16 @@ int currPos;
 char shellBuffer[BUFFER_SIZE];
 
 cmd_table_entry cmd_table[] = {
-	{"help", "this is the help help function", help_cmd},
-	{"restart", "this is the restart help function", restart_cmd},
-	{"clear", "this is the clear screen help function", clear_cmd},
-	{"CPUspeed", "this is the CPUspeed help function", CPUspeed_cmd},
-	{"countDown", "this is the countDown help function", countDown_cmd},
-	{"resetPit", "this is the resetPit help function", resetPit_cmd},
-	{"setPit", "this is the setPit help function", setPit_cmd},
-	{"random", "this is the random help function", random_cmd},
-	{"echo", "this is the echo help function", echo_cmd},
+	{"help", 			HELP_HELP, help_cmd},
+	{"restart", 		HELP_RESTART, restart_cmd},
+	{"clear", 			HELP_CLEAR, clear_cmd},
+	{"getCPUspeed", 	HELP_GETCPUSPEED, getCPUspeed_cmd},
+	{"countDown", 		HELP_COUNTDOWN, countDown_cmd},
+	{"resetPit", 		HELP_RESETPIT, resetPit_cmd},
+	{"setPit", 			HELP_SETPIT, setPit_cmd},
+	{"random", 			HELP_RANDOM, random_cmd},
+	{"echo", 			HELP_ECHO, echo_cmd},
+	{"setAppareance",	HELP_ECHO, setAppearance_cmd},
 	{"test", "", test_cmd},
 	{"asd", "", asd_cmd},
 	{"", "", NULL}
@@ -29,8 +30,7 @@ void initShell() {
 	printf(SHELL_TEXT);
 	int* i = getIrq0CountPointer();
 	*i = 0;
-	int* isTesting = getIsTesting();
-	*isTesting = FALSE;
+	isTesting = FALSE;
 }
 
 

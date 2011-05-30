@@ -41,5 +41,8 @@ void pute(double n, int upperE);
 char getchar();
 void putchar(char c);
 
+int parseHexa(char c);
+int isDigit(char c);
+char toLower(char c);
 #endif
 
