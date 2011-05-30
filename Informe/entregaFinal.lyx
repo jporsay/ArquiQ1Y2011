@@ -61,13 +61,18 @@ En esta seccion se explicara el funcionamiento interno del sistema operativo
 \end_layout
 
 \begin_layout Standard
-Para una buena organizacion del codigo, se decidió realizar varios archivos
- que se encargarían de manejar tareas especificas y de este modo poder lograr
- un programa modularizado por sobre todo implementable.
+Para una buena organizacion del codigo, se trato de realizar varios archivos
+ que se encargarían de manejar tareas especificas(un estilo 
+\begin_inset Formula $"objetoso"$
+\end_inset
+
+) y de este modo poder lograr un programa modularizado y por sobre todo
+ implementable.
 \end_layout
 
 \begin_layout Standard
-A continuacion se listan los mas importantes:
+A continuacion se listan los archivos que se han considerado como los mas
+ importantes:
 \begin_inset Newline newline
 \end_inset
 
@@ -75,9 +80,13 @@ A continuacion se listan los mas importantes:
 \end_layout
 
 \begin_layout Itemize
-Interrupt: Cada vez que llega una iterrupcion al micro (ya sea por software
- o por harware), se ejecuta el handler correspondiente (programado en ASM)
- que se ocupa de llamar a la funcion en C que la maneja.
+
+\bar under
+Interrupt:
+\bar default
+ Cada vez que llega una iterrupcion al micro (ya sea por software o por
+ harware), se ejecuta el handler correspondiente (programado en ASM) que
+ se ocupa de llamar a la funcion en C que la maneja.
  Aqui es donde entra en juego el archivo Interrupt.c.
  Este contiene la logica necesaria para cada interrupcion.
 \end_layout
@@ -117,8 +126,12 @@ Actualmente solo se manejan las interrupciones
 
 \end_deeper
 \begin_layout Itemize
-Keyboard: Luego de leido el scanCode de la tecla presionada (desde el manejador
- de la interrupcion correspondiente), se 
+
+\bar under
+Keyboard:
+\bar default
+ Luego de leido el scanCode de la tecla presionada (desde el manejador de
+ la interrupcion correspondiente), se 
 \begin_inset Quotes eld
 \end_inset
 
@@ -153,7 +166,11 @@ tomar
 
 \end_deeper
 \begin_layout Itemize
-Video: Funciona como un controlador de video.
+
+\bar under
+Video:
+\bar default
+ Funciona como un controlador de video.
  Es el encargado de administrar el la porcion de memoria asigada a memoria.
  Ya que por cada caracter que se quiera mostrar, hay que decidir en que
  columna hay que ponerlo, en que fila y con que colores, se decidió que
@@ -193,8 +210,12 @@ Si bien en memoria el sector destinado para la pantalla es contínuo, se
 
 \end_deeper
 \begin_layout Itemize
-Shell: Se encarga de tomar los caracteres del buffer del teclado (siempre
- que los halla) y decidir si se muestran o no en pantalla.
+
+\bar under
+Shell:
+\bar default
+ Se encarga de tomar los caracteres del buffer del teclado (siempre que
+ los halla) y decidir si se muestran o no en pantalla.
  En la actual implementacion, se tiene una shell con un buffer de tamaño
  fijo en donde se van guardando los caracteres tomados del buffer del teclado.
  Cuando el usuario indica que quiere ejecutar el comando ingresado, se busca
@@ -219,8 +240,11 @@ Actualmente la shell es capaz de aceptar argumentos por linea de comandos.
 
 \end_deeper
 \begin_layout Itemize
-Commands: Aqui se encuentra la rutina de cada comando mencionado en el punto
- anterior.
+
+\bar under
+Commands:
+\bar default
+ Aqui se encuentra la rutina de cada comando mencionado en el punto anterior.
  Para ver una lista de comandos que se ofrecen basta ejecutar 
 \begin_inset Formula $“help”$
 \end_inset
@@ -229,8 +253,12 @@ Commands: Aqui se encuentra la rutina de cada comando mencionado en el punto
 \end_layout
 
 \begin_layout Itemize
-Kernel: Esta es la parte mas imprtante de la implentacion ya que, siempre
- que se desea realiza un 
+
+\bar under
+Kernel: 
+\bar default
+Esta es la parte mas imprtante de la implentacion ya que, siempre que se
+ desea realiza un 
 \begin_inset Formula $read$
 \end_inset
 
@@ -330,11 +358,11 @@ _
 \end_layout
 
 \begin_layout Standard
-Cada vez que alguna de las funciones es invocada, se ejectua un 
+Cada vez que alguna de estas funciones es invocada, se ejectua un _
 \begin_inset Formula $SystemCall$
 \end_inset
 
- quien se ocupa de invocar a la interupcion 
+ (llamda a ASM) quien se ocupa de invocar a la interupcion 
 \begin_inset Formula $int80h$
 \end_inset
 
@@ -450,10 +478,6 @@ random
 
 \begin_layout Itemize
 setAppareance
-\end_layout
-
-\begin_layout Itemize
-RDTSC
 \begin_inset Newline newline
 \end_inset
 
