@@ -9,12 +9,18 @@ GLOBAL	_inb
 GLOBAL _reset
 GLOBAL _cpuIdTest
 GLOBAL _SysCall
+GLOBAL _cpuFreqTest
+EXTERN getIrq0Count
+EXTERN dummyFunc
 EXTERN  int_08
 EXTERN	int_09
 EXTERN	int_80
 
+SECTION .data
+SEG_BIOS_DATA_AREA	equ	40h
+OFFSET_TICK_COUNT	equ 6Ch
+INTERVAL_IN_TICKS	equ 10
 SECTION .text
-
 
 _Cli:
 	cli	; limpia flag de interrupciones
@@ -169,6 +175,78 @@ _cpuIdTest:
 	push ecx
 	popfd ; restore original flags
 	ret
+
+_cpuFreqTest:
+	push ebp
+	mov ebp, esp
+	sub esp, 16
+	mov dword [esp], 0 ;tscLoDword
+	mov dword [esp + 4], 0 ;tscHiDword
+	mov dword [esp + 8], 0 ;tscDeltaLo
+	mov dword [esp + 12], 0 ;tscDeltaHi
+	push eax
+	call getIrq0Count
+	mov	ebx, eax
+	pop eax
+	
+	push eax
+.wait_for_new_tick:
+	call getIrq0Count
+	push eax
+	push ebx
+	call dummyFunc
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	cmp	ebx, eax
+	je	.wait_for_new_tick
+	pop eax
+
+	rdtsc
+	mov	dword [esp + 4], eax ; set tscLoDword
+	mov dword [esp + 8], edx ; set tscHiDword
+	
+	add ebx, INTERVAL_IN_TICKS + 1
+
+
+	mov edx, 0
+	push eax
+.wait_for_elapsed_ticks:
+	call getIrq0Count
+	push eax
+	push ebx
+	call dummyFunc
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	cmp	ebx, eax
+	jg	.wait_for_elapsed_ticks
+	pop eax
+	
+	rdtsc
+	sub eax, dword [esp + 4]
+	sbb edx, dword [esp + 8]
+	
+	mov dword [esp + 12], eax
+	mov dword [esp + 16], edx
+	; 1 / 18.2 * 1000000 = 54945
+	mov ebx, 54945*INTERVAL_IN_TICKS
+	div ebx ; result is in ax
+.cpufexit:
+	mov esp, ebp
+	pop ebp
+	ret
+
 
 ; Debug para el BOCHS, detiene la ejecución
 ; Para continuar colocar en el BOCHSDBG: set $eax=0
