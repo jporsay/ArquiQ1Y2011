@@ -209,10 +209,18 @@ Vector de comandos: Es un vector de estructuras en donde cada elemento es
  ejecuta dicho comando y un char* que es la ayuda del comando.
 \end_layout
 
+\begin_layout Standard
+Actualmente la shell es capaz de aceptar argumentos por linea de comandos.
+ Esto fue logrado con relativa facilidad gracias a que se convino que todos
+ los comandos recibirian los mismos argumentos, por lo que, visto desde
+ esta perspectiva, invocar a uno u otro comando con los argumentos tomados
+ es indiferente.
+\end_layout
+
 \end_deeper
 \begin_layout Itemize
-Commands: Aqui se encuentra la definicion de cada comando mencionado en
- el punto anterior.
+Commands: Aqui se encuentra la rutina de cada comando mencionado en el punto
+ anterior.
  Para ver una lista de comandos que se ofrecen basta ejecutar 
 \begin_inset Formula $“help”$
 \end_inset
@@ -347,7 +355,7 @@ Manual de uso
 \end_layout
 
 \begin_layout Standard
-Para ver cuales son son comandos disponibles, basta con ejecutar el comando
+Para ver cuales son los comandos disponibles, basta con ejecutar el comando
  
 \begin_inset Formula $help$
 \end_inset
@@ -394,6 +402,123 @@ Para ejecutar cualquier comando valido, basta escribir
 
 , se desplegara un menu con una breve explicacion de como funciona el comando
  random.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Comandos actualmente disponibles:
+\end_layout
+
+\begin_layout Itemize
+help
+\end_layout
+
+\begin_layout Itemize
+echo
+\end_layout
+
+\begin_layout Itemize
+restart
+\end_layout
+
+\begin_layout Itemize
+clear
+\end_layout
+
+\begin_layout Itemize
+getCPUspeed
+\end_layout
+
+\begin_layout Itemize
+countDown
+\end_layout
+
+\begin_layout Itemize
+setPit
+\end_layout
+
+\begin_layout Itemize
+resetPit
+\end_layout
+
+\begin_layout Itemize
+random
+\end_layout
+
+\begin_layout Itemize
+setAppareance
+\end_layout
+
+\begin_layout Itemize
+RDTSC
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Observaciones: 
+\end_layout
+
+\begin_layout Itemize
+Notar que se considera a cada espacio como un nuevo argumento.
+ Por lo que la invoacion a una funcion con varios espacios en entre los
+ argumentos, es lo mismo que mandar un argumento 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ (char * apuntando a un 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\noun off
+\color none
+'
+\backslash
+0'
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\noun default
+\color inherit
+) en el medio.
+ 
+\end_layout
+
+\begin_layout Itemize
+Si se colocan espacios al principio de cada comando, el resultado final
+ no debe esperarse igual a que poner el comando sin los espacios.
+ Es decir: 
+\begin_inset Quotes erd
+\end_inset
+
+ echo
+\begin_inset Quotes erd
+\end_inset
+
+ no va a ejecutar el comando llamado 
+\begin_inset Quotes eld
+\end_inset
+
+echo
+\begin_inset Quotes erd
+\end_inset
+
+ (sin espacio al principio)
 \end_layout
 
 \begin_layout Section
