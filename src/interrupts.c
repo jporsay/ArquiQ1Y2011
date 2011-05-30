@@ -2,8 +2,8 @@
 
 unsigned int count = 0;
 
-unsigned int getIrq0Count() {
-	return count;
+unsigned int *getIrq0Count() {
+	return &count;
 }
 
 //Timer Tick

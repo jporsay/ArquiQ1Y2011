@@ -10,6 +10,6 @@
 void int_08();
 void int_09();
 void int_80(int sysCallNumber, void ** args);
-unsigned int getIrq0Count();
+unsigned int *getIrq0Count();
 #endif
 
