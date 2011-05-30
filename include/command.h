@@ -2,6 +2,7 @@
 #define _command_
 
 #include "defs.h"
+#include "kasm.h"
 #include "shell.h"
 #include "video.h"
 #include "timer.h"
@@ -20,5 +21,5 @@ int CPUspeed_cmd(int argc, char *argv[]);
 int random_cmd(int argc, char *argv[]);
 int test_cmd(int argc, char *argv[]);
 int asd_cmd(int argc, char *argv[]);
-
+void dummyFunc(int eax, int ebx);
 #endif
