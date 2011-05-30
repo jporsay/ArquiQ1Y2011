@@ -18,7 +18,22 @@ int clear_cmd(int argc, char *argv[]) {
 }
 
 int help_cmd(int argc, char *argv[]) {
-	puts("\nAvailable commands:\n\thelp,\n\treset,\nclear,\n\tCPUspeed,\n\tcountDown,\n\tresetPit,\n\tsetPit,\n\trandom,\n\techo.\n");
+	int cmdIndex;
+	if (argc == 1) {
+		cmdIndex = getCmdIndex(argv[0]);
+		if (cmdIndex != -1) {
+			printf("\n%s\n", getCmdsTable()[cmdIndex].help);
+		} else {
+			printf("\nCommand not found\n");
+		}
+	} else if (argc == 0) {
+		int i;
+		printf("\nAvailable commands:\n\n");
+		for( i=0; getCmdsTable()[i].func != NULL; i++) {
+			printf("%s\n", getCmdsTable()[i].name);
+		}
+		printf("\nType in help \"cmdName\" to see the help menu for that command.\n");
+	}
 }
 
 int setPit_cmd(int argc, char *argv[]) {
@@ -49,5 +64,4 @@ int asd_cmd(int argc, char *argv[]) {
 	printf("\nIngrese un caracter: ");
 	printf("%c", getchar());
 }
-
 

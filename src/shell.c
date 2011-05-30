@@ -124,4 +124,18 @@ void cleanBuffer() {
 	shellBuffer[0] = '\0';
 }
 
+cmd_table_entry* getCmdsTable() {
+	return cmd_table;
+}
+
+int getCmdIndex(char * cmdName) {
+	int i;
+	for( i=0; cmd_table[i].func != NULL; i++) {
+		if (strcmp(cmdName, cmd_table[i].name) == 0) {
+			return i;
+		}
+	}
+	return -1;
+}
+
 
