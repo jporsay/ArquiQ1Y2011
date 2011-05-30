@@ -13,12 +13,7 @@ void int_08() {
 
 //Keyboard
 void int_09() {
-	if (handleScanCode(inb(0x60))) {
-		//keyPressed();
-	}
-	if (IS_CTRL() && IS_ALT() && IS_DEL()) {
-		_reset();
-	}
+	handleScanCode(inb(0x60));
 }
 
 void int_80(int sysCallNumber, void ** args) {

@@ -41,16 +41,14 @@ void initKeyBoard() {
 }
 
 int tickpos = -2;
-int handleScanCode(unsigned char scanCode) {
+void handleScanCode(unsigned char scanCode) {
 	char c;
 	if (!checkSpecialKey(scanCode)) {
 		if (IS_MAKE(scanCode)) {
 			c = translateSc(CLEAR_BREAK_BIT(scanCode));
 			putKeyInBuffer(c);
-			return TRUE;
 		}
 	}
-	return FALSE;
 }
 
 int checkSpecialKey(unsigned char scanCode) {
