@@ -21,9 +21,16 @@
 #define IS_ALT() (kbFlags & ALT)
 #define IS_DEL() (kbFlags & DEL)
 
+typedef struct {
+	int from;
+	int to;
+	char buffer[K_BUFFER_SIZE]; 
+} K_BUFFER;
+
+K_BUFFER keyboard_buffer;
 char kbFlags;
 
-int handleScanCode(unsigned char scanCode);
+void handleScanCode(unsigned char scanCode);
 int checkSpecialKey(unsigned char scanCode);
 char translateSc(unsigned char scanCode);
 

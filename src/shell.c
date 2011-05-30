@@ -31,6 +31,9 @@ void initShell() {
 
 
 void updateShell() {
+	if (IS_CTRL() && IS_ALT() && IS_DEL()) {
+		_reset();
+	}
 	if (bufferIsEmpty()) {
 		return;
 	}
@@ -121,7 +124,4 @@ void cleanBuffer() {
 	shellBuffer[0] = '\0';
 }
 
-char getLastKey() {
-	return shellBuffer[currPos - 1];
-}
 

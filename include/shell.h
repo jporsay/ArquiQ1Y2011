@@ -24,7 +24,6 @@ typedef struct cmd_table_entry {
 
 void updateShell();
 void cleanBuffer();
-char getLastKey();
 
 #endif
 

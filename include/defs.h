@@ -52,6 +52,8 @@ typedef unsigned long long int uint64_t;
 #define STD_OUT		1
 #define STD_ERROR	2
 
+#define K_BUFFER_SIZE	10
+
 #pragma pack (1) 		/* Alinear las siguiente estructuras a 1 byte */
 
 typedef unsigned int size_t;
@@ -82,16 +84,6 @@ typedef struct {
   word  limit;
   dword base;
 } IDTR;
-
-#define K_BUFFER_SIZE	10
-
-typedef struct {
-	int from;
-	int to;
-	char buffer[K_BUFFER_SIZE]; 
-} K_BUFFER;
-
-K_BUFFER keyboard_buffer;
 
 #endif
 
