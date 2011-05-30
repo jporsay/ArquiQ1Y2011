@@ -6,8 +6,8 @@
 #include "string.h"
 #include "interrupts.h"
 
-#define VIDEO_ADDRESS 0xb8000
-
+#define VIDEO_ADDRESS 	0xb8000
+#define TAB_SIZE		4
 /*
  * Color Defines
  * See http://wiki.osdev.org/Text_mode for color visuals
