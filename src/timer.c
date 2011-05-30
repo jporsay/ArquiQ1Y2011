@@ -1,13 +1,15 @@
 #include "../include/timer.h"
 
 void setPitInterval(size_t frequency) {
-	if (frequency == 0) {
-		frequency = BASE_FREQUENCY;
-	}
 	// Since what we send to the PIT is a divisor, generate a
 	// number which, when divided by the pit's original frequency
 	// generates the required freq.
-	size_t divisor = BASE_FREQUENCY / frequency;
+	size_t divisor;
+	if (frequency == 0) {
+		divisor = 1;
+	} else {
+		divisor = BASE_FREQUENCY / frequency;
+	}
 	
 	/* 
 	 * Setting PIT's command
