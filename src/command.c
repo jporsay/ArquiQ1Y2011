@@ -30,10 +30,10 @@ int help_cmd(int argc, char *argv[]) {
 		int i;
 		printf("\nAvailable commands:\n\n");
 		for( i=0; getCmdsTable()[i].func != NULL; i++) {
-			printf("%s\n", getCmdsTable()[i].name);
+			printf("\t%s\n", getCmdsTable()[i].name);
 		}
 		printf("\nType in help \"cmdName\" to see the help menu for that \
-			command.\n");
+command.\n");
 	}
 }
 
