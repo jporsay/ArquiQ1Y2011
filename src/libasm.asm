@@ -10,6 +10,7 @@ GLOBAL _reset
 GLOBAL _cpuIdTest
 GLOBAL _SysCall
 GLOBAL _cpuFreqTest
+GLOBAL _getCpuSpeed
 EXTERN getIrq0Count
 EXTERN dummyFunc
 EXTERN  int_08
@@ -20,6 +21,11 @@ SECTION .data
 SEG_BIOS_DATA_AREA	equ	40h
 OFFSET_TICK_COUNT	equ 6Ch
 INTERVAL_IN_TICKS	equ 10
+
+SECTION .bss
+low		resb 0
+high	resb 0
+
 SECTION .text
 
 _Cli:
@@ -84,8 +90,8 @@ _lidt:				; Carga el IDTR
 
 _int_08_hand:				; Handler de INT 8 ( Timer tick)
 	push	ds
-	push	es                      ; Se salvan los registros
-	pusha                           ; Carga de DS y ES con el valor del selector
+	push	es              ; Se salvan los registros
+	pusha                   ; Carga de DS y ES con el valor del selector
 	mov		ax, 10h			; a utilizar.
 	mov		ds, ax
 	mov		es, ax
@@ -174,6 +180,58 @@ _cpuIdTest:
 	and eax, 1 ; and mask others
 	push ecx
 	popfd ; restore original flags
+	ret
+
+_getCpuSpeed:
+	push ebp
+	mov ebp, esp
+	
+	push eax
+	mov eax, 0
+	mov [low], eax
+	mov [high], eax
+	call getIrq0Count
+	mov ebx, eax
+	pop eax
+	
+	push eax
+.wait_irq0:
+	call getIrq0Count
+	cmp  ebx, eax
+	jz	.wait_irq0
+	push eax
+	push ebx
+	call dummyFunc
+	pop eax
+	rdtsc                   ; read time stamp counter
+	mov	[low], eax
+	mov	[high], edx
+	add	ebx, 2             ; Set time delay value ticks.
+	; remember: so far ebx = ~[irq0]-1, so the next tick is
+	; two steps ahead of the current ebx ;)
+
+	push eax
+.wait_for_elapsed_ticks:
+	call getIrq0Count
+	cmp	ebx, eax ; Have we hit the delay?
+	jnz	.wait_for_elapsed_ticks
+	push eax
+	push ebx
+	call dummyFunc
+	pop	eax
+	rdtsc
+	sub eax, [low]  ; Calculate TSC
+	sbb edx, [high]
+	; f(total_ticks_per_Second) =  (1 / total_ticks_per_Second) * 1,000,000
+	; This adjusts for MHz.
+	; so for this: f(100) = (1/100) * 1,000,000 = 10000
+	; we use 18.2, so 1/18.2 * 1000000 = 54945
+	mov ebx, 54945
+	div ebx
+	; ax contains measured speed in MHz
+.endasd:
+	mov esp, ebp
+	pop ebp
 	ret
 
 _cpuFreqTest:
