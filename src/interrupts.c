@@ -1,6 +1,10 @@
 #include "../include/interrupts.h"
 
-void prtProm();
+void prtAvg();
+
+int *getIsTesting() {
+	return &isTesting;
+}
 
 int getIrq0Count() {
 	int count2 = count;
@@ -13,18 +17,20 @@ int *getIrq0CountPointer() {
 
 //Timer Tick
 void int_08() {
-	if (pos < 100) {
-		int speed = count / 18.2;
-		printf("%d\n", speed);
-		resp[pos] = speed;
-		count = 0;
-		pos++;
-	} else {
-		prtProm();
+	if (isTesting == TRUE) {
+		if (pos < 100) {
+			int speed = count / 182;
+			resp[pos] = speed;
+			count = 0;
+			pos++;
+		} else {
+			prtAvg();
+			isTesting = FALSE;
+		}
 	}
 }
 
-void prtProm() {
+void prtAvg() {
 	int total = 0;
 	int i;
 	for (i=0; i < 100; i++) {

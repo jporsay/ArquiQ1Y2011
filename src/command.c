@@ -62,9 +62,12 @@ int test_cmd(int argc, char *argv[]) {
 }
 
 int asd_cmd(int argc, char *argv[]) {
+	printf("Beginning IPS calculation...\n");
+	int* isTesting = getIsTesting();
+	*isTesting = TRUE;
 	count = 0;
 	pos = 0;
-	while(1) {
+	while(*(isTesting = getIsTesting()) == TRUE) {
 		count++;
 	}
 }

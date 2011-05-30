@@ -29,6 +29,8 @@ void initShell() {
 	printf(SHELL_TEXT);
 	int* i = getIrq0CountPointer();
 	*i = 0;
+	int* isTesting = getIsTesting();
+	*isTesting = FALSE;
 }
 
 
