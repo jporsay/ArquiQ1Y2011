@@ -42,17 +42,9 @@ void dummyFunc(int eax, int ebx) {
 }
 
 int test_cmd(int argc, char *argv[]) {
-	unsigned int* count = getIrq0Count();
-	unsigned int cnt = 0;
-	int l1, h1, l2, h2;
-	*count = 0;
-	rdtsc(&l1, &h1);
-	while (*count < 100) {
-		cnt++;
-	}
-	rdtsc(&l2, &h2);
-	printf("%d%d\n", h2 - h1, l2 - l1);
-//	printf("CpuFreq: %d\n", _cpuFreqTest());
+	double cpuspeed = getCpuSpeed();
+	printf("Detected CPU speed: %u\n", (unsigned int)cpuspeed);
+	
 }
 
 int asd_cmd(int argc, char *argv[]) {

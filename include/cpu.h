@@ -1,6 +1,10 @@
 #ifndef CPU_H
 #define CPU_H
 
+#include "defs.h"
+#include "interrupts.h"
+
 int detect_cpu(void);
-__inline__ void rdtsc(unsigned int* low, unsigned int* high);
+__inline__ uint64_t rdtsc();
+double getCpuSpeed();
 #endif

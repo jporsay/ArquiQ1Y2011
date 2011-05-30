@@ -32,7 +32,40 @@
 
 /* Required Declarations */
 
-__inline__ void rdtsc(unsigned int* low, unsigned int* high) {
+unsigned int measureClockCyclesForWhile() {
+	uint64_t cc;
+	uint64_t ccp = 0;
+	int iterations = 100;
+	int i = 1;
+	int j = iterations;
+	while (j-- > 0) {
+		cc = rdtsc();
+		while (i-- > 0){}
+		cc = cc - rdtsc();
+		ccp += cc;
+	}
+	int test = ((unsigned int) ccp) / iterations;
+	return ((unsigned int) ccp) / iterations;
+	
+}
+
+double getCpuSpeed() {
+	double ccpi = measureClockCyclesForWhile();
+	unsigned int* count = getIrq0Count();
+	unsigned int cnt = 0;
+	uint64_t cc;
+	*count = 0;
+	cc = rdtsc();
+	while (*count < 20) {
+		cnt++;
+	}
+	cc = rdtsc() - cc;
+	double cpufreq = cnt * ccpi / 1000;
+//	printf("%u\n", (unsigned int)cpufreq);
+	return cpufreq;
+}
+
+__inline__ uint64_t rdtsc() {
 	unsigned int lo, hi;
 	__asm__ __volatile__ (      // serialize
 		"xorl %%eax,%%eax \n        cpuid"
@@ -40,8 +73,9 @@ __inline__ void rdtsc(unsigned int* low, unsigned int* high) {
 	);
 	/* We cannot use "=A", since this would use %rax on x86_64 and return only the lower 32bits of the TSC */
 	__asm__ __volatile__ ("rdtsc" : "=a" (lo), "=d" (hi));
-	*low = lo;
-	*high = hi;
+	lo;
+	hi;
+	return hi << 32 + lo;
 }
 
 int do_intel(void);
