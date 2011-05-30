@@ -15,7 +15,7 @@ void sysRead(int fd, void * buffer, size_t count) {
 }
 
 void sysWrite(int fd, void * buffer, size_t count) {
-	if (fd == STD_OUT) {
+	if (fd == STD_OUT || fd == STD_ERROR) {
 		//COPIA DEL BUFFER ENTREGADO A LA PANTALLA
 		writeInVideo((char*) buffer, count);
 	}
