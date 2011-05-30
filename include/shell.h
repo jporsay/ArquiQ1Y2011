@@ -24,6 +24,8 @@ typedef struct cmd_table_entry {
 
 void updateShell();
 void cleanBuffer();
+cmd_table_entry* getCmdsTable();
+int getCmdIndex(char * cmdName);
 
 #endif
 
