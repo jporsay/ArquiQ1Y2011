@@ -27,6 +27,8 @@ cmd_table_entry cmd_table[] = {
 void initShell() {
 	cleanBuffer();
 	printf(SHELL_TEXT);
+	int* i = getIrq0CountPointer();
+	*i = 0;
 }
 
 
