@@ -57,8 +57,14 @@ void dummyFunc(int eax, int ebx) {
 }
 
 int test_cmd(int argc, char *argv[]) {
-	int cpuspeed = _getCpuSpeed();
-	printf("Detected CPU speed: %i\n", (int)cpuspeed);
+	int asd = 0;
+	while(1) {
+		if (asd % 10 == 0) {
+			int cpuspeed = _getCpuSpeed();
+			printf("Detected CPU speed: %i\n", (int)cpuspeed);
+		}
+		asd++;
+	}
 }
 
 int asd_cmd(int argc, char *argv[]) {

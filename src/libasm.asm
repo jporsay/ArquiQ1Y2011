@@ -199,9 +199,6 @@ _getCpuSpeed:
 	call getIrq0Count
 	cmp  ebx, eax
 	jz	.wait_irq0
-	push eax
-	push ebx
-	call dummyFunc
 	pop eax
 	rdtsc                   ; read time stamp counter
 	mov	[low], eax
@@ -215,9 +212,6 @@ _getCpuSpeed:
 	call getIrq0Count
 	cmp	ebx, eax ; Have we hit the delay?
 	jnz	.wait_for_elapsed_ticks
-	push eax
-	push ebx
-	call dummyFunc
 	pop	eax
 	rdtsc
 	sub eax, [low]  ; Calculate TSC
