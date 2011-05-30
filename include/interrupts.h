@@ -10,10 +10,6 @@
 void int_08();
 void int_09();
 void int_80(int sysCallNumber, void ** args);
-void setTestConditions(int count);
-int getCounter();
-
-int *cpuTest;
-int *counter;
+unsigned int getIrq0Count();
 #endif
 

@@ -37,19 +37,12 @@ int random_cmd(int argc, char *argv[]) {
 	printf("%d", random());
 }
 
+void dummyFunc(int eax, int ebx) {
+	printf("%d %d\n", eax, ebx);
+}
+
 int test_cmd(int argc, char *argv[]) {
-	setPitInterval(100);
-	unsigned int low, low1, high, high1;
-	setTestConditions(100);
-	rdtsc(&low, &high);
-	while (getCounter() != 0) {
-		printf("test: %d\n", *counter);
-	}
-	rdtsc(&low1, &high1);
-	printf("start: %d%d\n", high, low);
-	printf("end: %d%d\n", high1, low1);
-	printf("total: %d%d\n", high1 - high, low1 - low);
-	setPitInterval(0);
+	printf("CpuFreq: %d\n", _cpuFreqTest());
 }
 
 int asd_cmd(int argc, char *argv[]) {
