@@ -27,7 +27,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/* You need to include a file with fairly(ish) compliant printf prototype, Decimal and String support like %s and %d and this is truely all you need! */
+/* You need to include a file with fairly(ish) compliant printf prototype, 
+Decimal and String support like %s and %d and this is truely all you need! */
 //#include <stdio.h> /* for printf(); */
 
 /* Required Declarations */
@@ -71,7 +72,8 @@ __inline__ uint64_t rdtsc() {
 		"xorl %%eax,%%eax \n        cpuid"
 		::: "%rax", "%rbx", "%rcx", "%rdx"
 	);
-	/* We cannot use "=A", since this would use %rax on x86_64 and return only the lower 32bits of the TSC */
+	/* We cannot use "=A", since this would use %rax on x86_64 and return only 
+	the lower 32bits of the TSC */
 	__asm__ __volatile__ ("rdtsc" : "=a" (lo), "=d" (hi));
 	lo;
 	hi;
@@ -82,10 +84,12 @@ int do_intel(void);
 int do_amd(void);
 void printregs(int eax, int ebx, int ecx, int edx);
 
-#define cpuid(in, a, b, c, d) __asm__("cpuid": "=a" (a), "=b" (b), "=c" (c), "=d" (d) : "a" (in));
+#define cpuid(in, a, b, c, d) __asm__("cpuid": "=a" (a), "=b" (b), \
+	"=c" (c), "=d" (d) : "a" (in));
 
 /* Simply call this function detect_cpu(); */
-int detect_cpu(void) { /* or main() if your trying to port this as an independant application */
+int detect_cpu(void) { 
+/* or main() if your trying to port this as an independant application */
 	unsigned long ebx, unused;
 	cpuid(0, unused, ebx, unused, unused);
 	switch(ebx) {
@@ -130,7 +134,9 @@ char *Intel[] = {
 	"Mobile Intel(R) Celeron(R) processor"
 };
 
-/* This table is for those brand strings that have two values depending on the processor signature. It should have the same number of entries as the above table. */
+/* This table is for those brand strings that have two values depending on 
+the processor signature. It should have the same number of entries as the 
+above table. */
 char *Intel_Other[] = {
 	"Reserved", 
 	"Reserved", 
@@ -283,11 +289,14 @@ int do_intel(void) {
 	}
 	printf("\n");
 	cpuid(0x80000000, max_eax, unused, unused, unused);
-	/* Quok said: If the max extended eax value is high enough to support the processor brand string
-	(values 0x80000002 to 0x80000004), then we'll use that information to return the brand information. 
-	Otherwise, we'll refer back to the brand tables above for backwards compatibility with older processors. 
-	According to the Sept. 2006 Intel Arch Software Developer's Guide, if extended eax values are supported, 
-	then all 3 values for the processor brand string are supported, but we'll test just to make sure and be safe. */
+	/* Quok said: If the max extended eax value is high enough to support 
+	the processor brand string (values 0x80000002 to 0x80000004), then we'll 
+	use that information to return the brand information. Otherwise, we'll
+	refer back to the brand tables above for backwards compatibility with
+	older processors. According to the Sept. 2006 Intel Arch Software 
+	Developer's Guide, if extended eax values are supported, then all 3
+	values for the processor brand string are supported, but we'll test
+	just to make sure and be safe. */
 	if(max_eax >= 0x80000004) {
 		printf("Brand: ");
 		if(max_eax >= 0x80000002) {

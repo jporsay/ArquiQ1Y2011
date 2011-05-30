@@ -32,7 +32,8 @@ int help_cmd(int argc, char *argv[]) {
 		for( i=0; getCmdsTable()[i].func != NULL; i++) {
 			printf("%s\n", getCmdsTable()[i].name);
 		}
-		printf("\nType in help \"cmdName\" to see the help menu for that command.\n");
+		printf("\nType in help \"cmdName\" to see the help menu for that \
+			command.\n");
 	}
 }
 
