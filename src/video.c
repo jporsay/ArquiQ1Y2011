@@ -14,6 +14,7 @@ void writeInVideo(char *string, size_t count) {
 		char ascii = string[i];
 		if (!specialAscii(ascii)) {
 			video.address[getOffset()] = ascii;
+			video.address[getOffset() + 1] = getVideoColor();
 			if (getOffset() == TOTAL_VIDEO_SIZE - 2) {
 				scroll(1);
 				setPosition(getCurrRow(), 0);
