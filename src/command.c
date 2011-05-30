@@ -63,7 +63,9 @@ int test_cmd(int argc, char *argv[]) {
 }
 
 int asd_cmd(int argc, char *argv[]) {
-	printf("\nIngrese un caracter: ");
-	printf("%c", getchar());
+	int n;
+	while (scanf("%d", &n)) {
+		printf("%d\n", n);
+	}
 }
 

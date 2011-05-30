@@ -41,5 +41,34 @@ void pute(double n, int upperE);
 char getchar();
 void putchar(char c);
 
+int scanf(const char *format, ...);
+int getLongDec(long * ptr);
+int getLongInt(long * ptr);
+int getLongUDec(long * ptr);
+int getLongHex(long * ptr);
+int getLongOct(long * ptr);
+int getDouble(double * ptr);
+void getDoubleDecimals(double * ptr, int i);
+int getLongDbl(long double * ptr);
+void getLongDblDecimals(long double * ptr, int i);
+int getShortDec(short * ptr);
+int getShortInt(short * ptr);
+int getShortUDec(short * ptr);
+int getShortHex(short * ptr);
+int getShortOct(short * ptr);
+int getDec(int * ptr);
+int getInt(int * ptr);
+int getUDec(int * ptr);
+int getHex(int * ptr);
+int getOct(int * ptr);
+void getString(char *);
+int getFloat(float * ptr);
+void getFloatDecimals(float * ptr, int i);
+int isdigit(char c);
+int isalpha(char c);
+int isalnum(char c);
+int isupper(char c);
+int islower(char c);
+
 #endif
 
