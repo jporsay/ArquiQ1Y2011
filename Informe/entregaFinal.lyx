@@ -36,6 +36,7 @@
 \tracking_changes false
 \output_changes false
 \author "" 
+\author "" 
 \end_header
 
 \begin_body
@@ -67,9 +68,13 @@ Para una buena organizacion del codigo, se decidió realizar varios archivos
 
 \begin_layout Standard
 A continuacion se listan los mas importantes:
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 Interrupt: Cada vez que llega una iterrupcion al micro (ya sea por software
  o por harware), se ejecuta el handler correspondiente (programado en ASM)
  que se ocupa de llamar a la funcion en C que la maneja.
@@ -77,6 +82,7 @@ Interrupt: Cada vez que llega una iterrupcion al micro (ya sea por software
  Este contiene la logica necesaria para cada interrupcion.
 \end_layout
 
+\begin_deeper
 \begin_layout Standard
 Actualmente solo se manejan las interrupciones 
 \begin_inset Formula $80h$
@@ -109,6 +115,7 @@ Actualmente solo se manejan las interrupciones
 
 \end_layout
 
+\end_deeper
 \begin_layout Itemize
 Keyboard: Luego de leido el scanCode de la tecla presionada (desde el manejador
  de la interrupcion correspondiente), se 
@@ -146,10 +153,24 @@ tomar
 
 \end_deeper
 \begin_layout Itemize
-Video: Es el encargado de administrar el sector de video.
- Ya que por cada letra hay que grabar el caracter y a continuacion siu color.
- Para futros agregados se considero que el que tener por separado este archivo
- seria de gran utilidad.
+Video: Funciona como un controlador de video.
+ Es el encargado de administrar el la porcion de memoria asigada a memoria.
+ Ya que por cada caracter que se quiera mostrar, hay que decidir en que
+ columna hay que ponerlo, en que fila y con que colores, se decidió que
+ seria muy útil tener este controlador.
+ Siempre que por 
+\begin_inset Formula $io$
+\end_inset
+
+ se indica que se quiere escribir un buffer por la 
+\begin_inset Formula $salida$
+\end_inset
+
+ 
+\begin_inset Formula $estadard$
+\end_inset
+
+, se llama a este controlador para que se graben adecuadamente.
 \end_layout
 
 \begin_deeper
@@ -188,10 +209,214 @@ Vector de comandos: Es un vector de estructuras en donde cada elemento es
  ejecuta dicho comando y un char* que es la ayuda del comando.
 \end_layout
 
-\begin_layout Standard
+\end_deeper
+\begin_layout Itemize
+Commands: Aqui se encuentra la definicion de cada comando mencionado en
+ el punto anterior.
+ Para ver una lista de comandos que se ofrecen basta ejecutar 
+\begin_inset Formula $“help”$
+\end_inset
 
+.
+\end_layout
+
+\begin_layout Itemize
+Kernel: Esta es la parte mas imprtante de la implentacion ya que, siempre
+ que se desea realiza un 
+\begin_inset Formula $read$
+\end_inset
+
+ o un 
+\begin_inset Formula $write$
+\end_inset
+
+, es realizado siempre a traves de este.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Tal como sugeria el archivo 
+\begin_inset Formula $kernel.h$
+\end_inset
+
+ suministrado por la cetdra, se ofrecen dos metodos, __
+\begin_inset Formula $read$
+\end_inset
+
+ y __
+\begin_inset Formula $write$
+\end_inset
+
+.
+ Uno de los parametros requeridos, es el 
+\begin_inset Formula $file$
+\end_inset
+
+ 
+\begin_inset Formula $descriptor$
+\end_inset
+
+ que indica a donde que quiere acceder.
+ Actualmente se tienen implementados 
+\begin_inset Formula $tres$
+\end_inset
+
+ tipos de 
+\begin_inset Formula $file$
+\end_inset
+
+ 
+\begin_inset Formula $descriptors$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Itemize
+Si se quiere escribir en 
+\begin_inset Formula $pantalla$
+\end_inset
+
+, se realiza un __
+\begin_inset Formula $write$
+\end_inset
+
+ con parámetro 
+\begin_inset Formula $STD$
+\end_inset
+
+_
+\begin_inset Formula $OUT$
+\end_inset
+
+ o bien 
+\begin_inset Formula $STD$
+\end_inset
+
+_
+\begin_inset Formula $ERR$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+Si se quiere leer del 
+\begin_inset Formula $teclado$
+\end_inset
+
+, se realiza un __
+\begin_inset Formula $read$
+\end_inset
+
+ con parámetro 
+\begin_inset Formula $STD$
+\end_inset
+
+_
+\begin_inset Formula $IN$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Cada vez que alguna de las funciones es invocada, se ejectua un 
+\begin_inset Formula $SystemCall$
+\end_inset
+
+ quien se ocupa de invocar a la interupcion 
+\begin_inset Formula $int80h$
+\end_inset
+
+ y esta es majedada (como ya se menciono) por el 
+\begin_inset Formula $int80$
+\end_inset
+
+ 
+\begin_inset Formula $handler$
+\end_inset
+
+.
 \end_layout
 
 \end_deeper
+\begin_layout Section
+Manual de uso
+\end_layout
+
+\begin_layout Standard
+Para ver cuales son son comandos disponibles, basta con ejecutar el comando
+ 
+\begin_inset Formula $help$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Para ejecutar cualquier comando valido, basta escribir 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $nombreComando$
+\end_inset
+
+ 
+\begin_inset Formula $argumentos$
+\end_inset
+
+ 
+\begin_inset Formula $separados$
+\end_inset
+
+ 
+\begin_inset Formula $por$
+\end_inset
+
+ 
+\begin_inset Formula $espacios$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ por ej, si se invoca al comando 
+\begin_inset Formula $help$
+\end_inset
+
+ 
+\begin_inset Formula $random$
+\end_inset
+
+, se desplegara un menu con una breve explicacion de como funciona el comando
+ random.
+\end_layout
+
+\begin_layout Section
+CPU Speed
+\end_layout
+
+\begin_layout Standard
+Para el calculo de la velocidad de la CPU se decidió calcular cuantas veces
+ se llegaba a incrementar una variable entre dos timerTicks.
+ Es decir, calculamos la cantidad de 
+\begin_inset Formula $iteracciones$
+\end_inset
+
+ que la CPU es capaz de realizar en este intervalo tiempo.
+ Sin embargo, como este valor puede llegar a variar en cada mdicion ya que
+ la CPU puede estar mas o menos ocupada, se decidió que lo mejor era realizar
+ 
+\begin_inset Formula $N$
+\end_inset
+
+ mediciones y luego calcular el promedio de las mismas.
+ 
+\end_layout
+
 \end_body
 \end_document
