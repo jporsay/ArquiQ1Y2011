@@ -1,8 +1,11 @@
 #include "../include/interrupts.h"
 
-unsigned int count = 0;
+int getIrq0Count() {
+	int count2 = count;
+	return count2;
+}
 
-unsigned int *getIrq0Count() {
+int *getIrq0CountPointer() {
 	return &count;
 }
 
