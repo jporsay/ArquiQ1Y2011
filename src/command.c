@@ -48,7 +48,8 @@ int setPit_cmd(int argc, char *argv[]) {
 }
 
 int resetPit_cmd(int argc, char *argv[]) {
-	return setPit_cmd(BASE_FREQUENCY);
+	printf("Setting PIT Interval timer to: %d\n", BASE_FREQUENCY);
+	setPitInterval(BASE_FREQUENCY);
 }
 
 int countDown_cmd(int argc, char *argv[]) {
