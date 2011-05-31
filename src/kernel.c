@@ -3,6 +3,7 @@
 DESCR_INT idt[0x81];			/* IDT de 81h entradas*/
 IDTR idtr;						/* IDTR */
 
+void doubleFlagsFix(double n);
 
 kmain() {
 	int i,num;
@@ -29,7 +30,7 @@ kmain() {
 	initKeyBoard();
 	initVideo();
 	initShell();
-	
+	doubleFlagsFix(1.1);
 	while (1) {
 		updateShell();
 	}
@@ -60,4 +61,6 @@ size_t __write(int fd, const void * buffer, size_t count) {
 	return count;
 }
 
+void doubleFlagsFix(double n) {
+}
 
