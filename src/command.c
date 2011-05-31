@@ -56,13 +56,15 @@ int countDown_cmd(int argc, char *argv[]) {
 }
 
 int getCPUspeed_cmd(int argc, char *argv[]) {
-	printf("Beginning IPS calculation...\n");
-	isTesting = TRUE;
-	count = 0;
-	pos = 0;
-	while(isTesting == TRUE) {
-		count++;
+	int cpuspeed;
+	int iterations = 10;
+	int i = iterations;
+	int total = 0;
+	while (i-- > 0) {
+		cpuspeed = _getCpuSpeed();
+		total += cpuspeed / iterations;
 	}
+	printf("Detected CPU speed: %iMHz\n", total);
 }
 
 int random_cmd(int argc, char *argv[]) {
@@ -74,8 +76,6 @@ void dummyFunc(int eax, int ebx) {
 }
 
 int test_cmd(int argc, char *argv[]) {
-	int cpuspeed = _getCpuSpeed();
-	printf("Detected CPU speed: %i\n", (int)cpuspeed);
 }
 
 int asd_cmd(int argc, char *argv[]) {
@@ -112,5 +112,4 @@ int setAppearance_cmd(int argc, char *argv[]) {
 		setVideoColor(bg, fg);
 	}
 }
-
 

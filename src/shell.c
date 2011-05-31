@@ -30,9 +30,7 @@ void initShell() {
 	cleanBuffer();
 	prntWelcomeMsg();
 	printf(SHELL_TEXT);
-	int* i = getIrq0CountPointer();
-	*i = 0;
-	isTesting = FALSE;
+	_initTTCounter();
 }
 
 
