@@ -44,7 +44,7 @@ void putchar(char c);
 int scanf(const char *format, ...); 
 int gets(char* ans);
 int getd(int* n);
-int getf(float* n);
+int getf(double* n);
 
 int parseHexa(char c);
 int isDigit(char c);
