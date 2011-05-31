@@ -41,8 +41,15 @@ void pute(double n, int upperE);
 char getchar();
 void putchar(char c);
 
+int scanf(const char *format, ...); 
+int gets(char* ans);
+int getd(int* n);
+int getf(float* n);
+
 int parseHexa(char c);
 int isDigit(char c);
 char toLower(char c);
+int digits(int n);
+
 #endif
 

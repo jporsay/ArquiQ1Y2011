@@ -79,8 +79,18 @@ int test_cmd(int argc, char *argv[]) {
 }
 
 int asd_cmd(int argc, char *argv[]) {
-	printf("Ingrese un caracter: ");
-	printf("%c\n", getchar());
+/*    int n;
+    while (scanf("%d", & n))
+        printf("%d\n", n);	
+	
+	return;*/
+	char ans[10];
+	float n;
+	printf("IGNORING\n");
+	scanf("%f", &n);
+	printf("\nIngrese un texto: ");
+	scanf("%f", &n);
+	printf("\nTexto leido: %f\n", n);
 }
 
 int setAppearance_cmd(int argc, char *argv[]) {

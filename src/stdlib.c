@@ -196,4 +196,103 @@ int parseHexa(char c) {
 	return -1;
 }
 
+int scanf(const char *format, ...) {
+	va_list args;
+	va_start(args, format);
+	int i = 0, parsed = 0;
+	int insidePercentage = FALSE;
+	char* c;
+	while(format[i] != '\0') {
+		//IGNORING ALL BUT %
+		if (insidePercentage) {
+			switch(format[i]) {
+				case 's':
+					parsed += gets(va_arg(args, char *));
+					break;
+				case 'd':
+					parsed += getd(va_arg(args, int *));
+					break;
+				case 'c':
+					c = va_arg(args, char *);
+					*c = getchar();
+					parsed++;
+					break;
+				case 'f':
+					parsed += getf(va_arg(args, float *));
+					break;
+			}
+			insidePercentage = FALSE;
+		}
+		
+		if (format[i] == '%') {
+			insidePercentage = TRUE;
+		}
+		i++;
+	}
+	return parsed;
+}
+
+int gets(char* ans) {
+	char c;
+	int index = 0;
+	do {
+		c = getchar();
+		ans[index++] = c;
+		putchar(c);
+	} while( c != ' ');
+	ans[index++] = '\0';
+	return index == 0 ? 0 : 1;
+}
+
+int getd(int* n) {
+	char c;
+	int total = 0;
+	int index = 0;
+	int isDig;
+	do {
+		c = getchar();
+		isDig = isDigit(c); 
+		if (isDig) {
+			total *= 10;
+			total += c - '0';
+		}
+		putchar(c);
+	} while(isDig);
+	*n = total;
+	return index == 0 ? 0 : 1;
+}
+
+int getf(float* ans) {
+	int n1 = 0, n2, isDig, n1IsValid = FALSE;
+	char c;
+	do {
+		//Se contruye la parte entera
+		c = getchar();
+		isDig = isDigit(c); 
+		if (isDig) {
+			n1 *= 10;
+			n1 += c - '0';
+			n1IsValid = TRUE;
+		}
+		putchar(c);
+	} while(isDig);
+		
+	if (n1IsValid && c == '.') {
+		printf("\nENTERA: %d\n", n1);
+		getd(&n2);
+		*ans = n2 / (float) pow(10, digits(n2));
+		*ans = n1 + *ans;
+		return 1;
+	}
+	return 0;
+}
+
+int digits(int n) {
+	int digits = 0;
+	while(n) {
+		n /= 10;
+		digits++;
+	}
+	return digits;
+}
 
