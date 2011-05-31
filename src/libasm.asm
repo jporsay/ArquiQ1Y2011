@@ -225,7 +225,7 @@ _getCpuSpeed:
 	rdtsc                   ; read time stamp counter
 	mov	[low], eax
 	mov	[high], edx
-	add	ebx, 5             ; Set time delay value ticks.
+	add	ebx, 2             ; Set time delay value ticks.
 	; remember: so far ebx = ~[irq0]-1, so the next tick is
 	; two steps ahead of the current ebx ;)
 
@@ -240,6 +240,8 @@ _getCpuSpeed:
 	; This adjusts for MHz.
 	; so for this: f(100) = (1/100) * 1,000,000 = 10000
 	; we use 18.2, so 1/18.2 * 1000000 = 54945
+	mov ebx, 54945
+    div ebx
 	; ax contains measured speed in MHz
 .endasd:
 	mov esp, ebp
@@ -269,7 +271,6 @@ _cpuFreqTest:
 	
 	; 1 / 18.2 * 1000000 = 54945
 	mov ebx, 54945*INTERVAL_IN_TICKS
-	and eax, 0x1ffffff
 	div ebx ; result is in ax
 .cpufexit:
 	mov esp, ebp

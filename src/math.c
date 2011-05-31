@@ -10,11 +10,15 @@ int pow(int base, int power) {
 }
 
 int random() {
-	seed = (71 * seed + 13) % 101;
-	return seed;
+	seed = (7717*seed + 6007)%101;
+	return abs(seed);
 }
 
 void setSeed(long s) {
 	seed = s;
+}
+
+int abs(int n) {
+	return n >= 0 ? n : -n;
 }
 

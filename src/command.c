@@ -30,22 +30,39 @@ int help_cmd(int argc, char *argv[]) {
 		int i;
 		printf("\nAvailable commands:\n\n");
 		for( i=0; getCmdsTable()[i].func != NULL; i++) {
-			printf("%s\n", getCmdsTable()[i].name);
+			printf("\t%s\n", getCmdsTable()[i].name);
 		}
-		printf("\nType in help \"cmdName\" to see the help menu for that command.\n");
+		printf("\nType in help \"cmdName\" to see the help menu for that \
+command.\n");
 	}
 }
 
 int setPit_cmd(int argc, char *argv[]) {
+	size_t interval = (size_t) *argv[0];
+	if (interval > 0) {
+		printf("Setting PIT Interval timer to: %d\n", interval);
+		setPitInterval(interval);
+	} else {
+		printf("Invalid PIT interval.\n");
+	}
 }
 
 int resetPit_cmd(int argc, char *argv[]) {
+	printf("Setting PIT Interval timer to: %d\n", BASE_FREQUENCY);
+	setPitInterval(BASE_FREQUENCY);
 }
 
 int countDown_cmd(int argc, char *argv[]) {
 }
 
-int CPUspeed_cmd(int argc, char *argv[]) {
+int getCPUspeed_cmd(int argc, char *argv[]) {
+	printf("Beginning IPS calculation...\n");
+	isTesting = TRUE;
+	count = 0;
+	pos = 0;
+	while(isTesting == TRUE) {
+		count++;
+	}
 }
 
 int random_cmd(int argc, char *argv[]) {
@@ -64,3 +81,24 @@ int test_cmd(int argc, char *argv[]) {
 int asd_cmd(int argc, char *argv[]) {
 	printf("ttCounter: %d\n", _getTTCounter());
 }
+
+int setAppearance_cmd(int argc, char *argv[]) {
+	if (argc != 2) {
+		printf("You need to call this function with 2 colors\n");
+	} else {
+		char* foreGround = argv[0];
+		char* backGround = argv[1];
+		
+		int fg = parseHexa(foreGround[0]);
+		int bg = parseHexa(backGround[0]);
+		printf("%d  %d\n", fg, bg);
+		if (strlen(foreGround) != 1 || strlen(backGround) != 1 || fg == -1
+			|| bg == -1) {
+			printf("Both arguments must be a hexadecimal number between 0 \
+				and F\n");
+			return;
+		}
+		setVideoColor(bg, fg);
+	}
+}
+

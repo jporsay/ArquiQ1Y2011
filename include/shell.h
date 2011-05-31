@@ -8,7 +8,9 @@
 #include "stdlib.h"
 #include "command.h"
 
-#define SHELL_TEXT	"gatOS> "
+#define WELCOME_MSG	"Welcome to GAT O.S.\n\tFor a list of availables commands \
+please type in help\n\n"
+#define SHELL_TEXT	"GatOS> "
 
 #define BUFFER_SIZE	1024
 

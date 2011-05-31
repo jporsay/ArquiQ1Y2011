@@ -4,21 +4,23 @@ void excecuteCmd(char* buffer);
 int parse_cmd(char* buffer);
 int execute(int cmdId);
 char** getArguments(char* buffer, int* argc);
+void prntWelcomeMsg();
 
 char* argv[MAX_ARG_DIM];
 int currPos;
 char shellBuffer[BUFFER_SIZE];
 
 cmd_table_entry cmd_table[] = {
-	{"help", "this is the help help function", help_cmd},
-	{"restart", "this is the restart help function", restart_cmd},
-	{"clear", "this is the clear screen help function", clear_cmd},
-	{"CPUspeed", "this is the CPUspeed help function", CPUspeed_cmd},
-	{"countDown", "this is the countDown help function", countDown_cmd},
-	{"resetPit", "this is the resetPit help function", resetPit_cmd},
-	{"setPit", "this is the setPit help function", setPit_cmd},
-	{"random", "this is the random help function", random_cmd},
-	{"echo", "this is the echo help function", echo_cmd},
+	{"help", 			HELP_HELP, help_cmd},
+	{"restart", 		HELP_RESTART, restart_cmd},
+	{"clear", 			HELP_CLEAR, clear_cmd},
+	{"getCPUspeed", 	HELP_GETCPUSPEED, getCPUspeed_cmd},
+	{"countDown", 		HELP_COUNTDOWN, countDown_cmd},
+	{"resetPit", 		HELP_RESETPIT, resetPit_cmd},
+	{"setPit", 			HELP_SETPIT, setPit_cmd},
+	{"random", 			HELP_RANDOM, random_cmd},
+	{"echo", 			HELP_ECHO, echo_cmd},
+	{"setAppareance",	HELP_SETAPPEARANCE, setAppearance_cmd},
 	{"test", "", test_cmd},
 	{"asd", "", asd_cmd},
 	{"", "", NULL}
@@ -26,10 +28,12 @@ cmd_table_entry cmd_table[] = {
 
 void initShell() {
 	cleanBuffer();
+	prntWelcomeMsg();
 	printf(SHELL_TEXT);
 	_initTTCounter();
 	int* i = getIrq0CountPointer();
 	*i = 0;
+	isTesting = FALSE;
 }
 
 
@@ -141,4 +145,8 @@ int getCmdIndex(char * cmdName) {
 	return -1;
 }
 
+void prntWelcomeMsg() {
+	//TODO: Podria mostrarse un msj con colores y logo ascii eventualmente.
+	printf(WELCOME_MSG);
+}
 

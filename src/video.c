@@ -111,6 +111,10 @@ void setVideoForeground(byte color) {
 void setVideoColor(byte bg, byte fg) {
 	setVideoForeground(fg);
 	setVideoBackground(bg);
+	int i;
+	for (i = 1; i < TOTAL_VIDEO_SIZE; i+=2) {
+		video.address[i] = getVideoColor();
+	}
 }
 
 char getVideoColor() {
@@ -161,23 +165,27 @@ void cls() {
 
 int specialAscii(char ascii) {
 	int ret = TRUE;
+	int tab;
 	switch (ascii) {
 		case '\n':
 			setPosition(getCurrRow() + 1, 0);
-			setCursor(getCurrRow(), getCurrColumn());
 			break;
 		case '\t': //Tab
+				tab = (getCurrColumn() % TAB_SIZE != 0) ? 
+					TAB_SIZE - (getCurrColumn() % TAB_SIZE) : TAB_SIZE;
+				if (getCurrColumn() + tab < COLUMNS) {
+					setPosition(getCurrRow(), getCurrColumn() + tab);
+				}
 			break;
 		case '\b': //Backspace
 			setOffset(getOffset() - 2);
 			video.address[getOffset()] = ' ';
-			setCursor(getCurrRow(), getCurrColumn());
 			break;
 		default:
 			ret = FALSE;
 			break;
 	}
-	
+	setCursor(getCurrRow(), getCurrColumn());
 	return ret;
 }
 

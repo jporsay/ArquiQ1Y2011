@@ -178,3 +178,22 @@ void memcpy(void* from, void* src, size_t count) {
 	}
 }
 
+int isDigit(char c) {
+	return (0 <= c - '0') && (c - '0' <= 9);
+}
+
+char toLower(char c) {
+	char diff = 'a' - 'A';
+	return ((c - 'a') < 0) ? c + diff : c;
+}
+
+int parseHexa(char c) {
+	if (isDigit(c)) {
+		return c - '0';
+	} else if (toLower(c) <= 'f' && toLower(c) >= 'a') {
+		return c - 'a' + 10;
+	}
+	return -1;
+}
+
+
