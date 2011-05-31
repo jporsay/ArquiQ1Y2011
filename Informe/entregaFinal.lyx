@@ -576,22 +576,156 @@ echo
 CPU Speed
 \end_layout
 
+\begin_layout Subsection
+Notas
+\end_layout
+
 \begin_layout Standard
-Para el cálculo de la velocidad de la CPU se decidió calcular cuantas veces
- se llegaba a incrementar una variable entre dos timerTicks.
- Es decir, calculamos la cantidad de 
-\begin_inset Formula $iteraciones$
-\end_inset
+Para el cálculo de la velocidad de la CPU se tuvieron en cuenta los siguientes
+ factores:
+\end_layout
 
- que la CPU es capaz de realizar en este intervalo de tiempo.
- Sin embargo, como este valor puede llegar a variar en cada medición ya
- que la CPU puede estar mas o menos ocupada, se decidió que lo mejor era
- realizar 
-\begin_inset Formula $N$
-\end_inset
-
- mediciones y luego calcular el promedio de las mismas.
+\begin_layout Standard
+Antes de realizar el cálculo de la velocidad, se testea la presencia de
  
+\series bold
+cpuid
+\series default
+\emph on
+.
+ 
+\emph default
+Si el test pasa, se procede a chequear la presencia de
+\emph on
+ 
+\series bold
+\emph default
+rdtsc 
+\series default
+o 
+\series bold
+rdmsr
+\series default
+.
+ Si existe algúna de ellas, se procede con el testeo.
+\end_layout
+
+\begin_layout Standard
+El cálculo de la velocidad es el resultado de un promedio de 
+\emph on
+n
+\emph default
+ llamadas a la función que realiza el cálculo.
+\end_layout
+
+\begin_layout Standard
+Para realizar esta función, fue necesario implementar algo parecido al funcionam
+iento del Bios (40h:6Ch), por lo que en cada irq0, se incrementa un contador.
+\end_layout
+
+\begin_layout Subsection
+Out-of-Order-Execution e Instrucciones Serializadoras
+\end_layout
+
+\begin_layout Standard
+A partir de la familia de procesadores 
+\emph on
+Pentium II
+\emph default
+ y 
+\emph on
+Pentium Pro, 
+\emph default
+apareció algo llamado 
+\series bold
+\emph on
+out-of-order-execution
+\series default
+\emph default
+.
+ Ésto significa que las instrucciónes no necesariamente son llamadas en
+ el órden en el que aparecen en el código.
+ Esto es un problema, dado que para medir la velocidad, es necesario que
+ las funciones de 
+\series bold
+rdtsc 
+\series default
+o 
+\series bold
+rdmsr
+\series default
+ se ejecuten en el momento requerido.
+ Para solucionarlo, es necesario el uso de una instrucción serializadora.
+ El objetivo de ésta es forzar al procesador que termine todas las modificacione
+s pendientes a los flags, registros y memoria por instrucciones anteriores
+ antes de buscar y ejecutar la próxima instrucción.
+ Ésto asegura que 
+\series bold
+rdtsc
+\series default
+ se ejecute cuando es debido y no antes.
+\end_layout
+
+\begin_layout Standard
+Teniendo ésto, el código para medir la velocidad de la cpu es simple.
+\end_layout
+
+\begin_layout Subsection
+Implementación
+\end_layout
+
+\begin_layout Standard
+Se carga inicialmente el valor del contador de irq0s en ebx, y se espera
+ al próximo tick.
+ Una vez que éste sucede, se llama a 
+\series bold
+rdtsc 
+\series default
+para conseguir el 
+\emph on
+time stamp counter
+\emph default
+,
+\emph on
+ 
+\emph default
+y se lo almacena en 2 variables (parte baja y alta).
+ Luego, se incrementa a ebx en 
+\emph on
+intervalo + 1
+\emph default
+ (el + 1 es debido a que en éste momento, ebx es 
+\emph on
+irq0 counter - 1
+\emph default
+).
+ Se espera a que el irq0 counter llegue al valor de ebx, y se realiza otra
+ medición con 
+\series bold
+rdtsc
+\series default
+.
+ Una vez obtenida, se resta a eax, el valor de la parte baja de rdtsc almacenada
+ anteriormente, y a edx, se le resta con borrow el valor de la parte alta
+ almacenada.
+ Teniendo en eax la diferencia del 
+\emph on
+time stamp counter
+\emph default
+, se procede a dividirlo por uno dividido la frecuencia del pit (18.2) y
+ multiplicarlo por un millon (para acomodar el resultado a MHz) y multiplicarlo
+ por el intervalo usado anteriormente:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $tsc/(\frac{1}{18.2}*1000000*intervalo)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Esta división deja en eax el valor de la velocidad de la CPU en MHz.
 \end_layout
 
 \end_body
