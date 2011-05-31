@@ -37,45 +37,46 @@ command.\n");
 	}
 }
 
-int setPit_cmd(int argc, char *argv[]) {
-	size_t interval = (size_t) *argv[0];
-	if (interval > 0) {
-		printf("Setting PIT Interval timer to: %d\n", interval);
-		setPitInterval(interval);
-	} else {
-		printf("Invalid PIT interval.\n");
-	}
-}
-
-int resetPit_cmd(int argc, char *argv[]) {
-	printf("Setting PIT Interval timer to: %d\n", BASE_FREQUENCY);
-	setPitInterval(BASE_FREQUENCY);
-}
-
-int countDown_cmd(int argc, char *argv[]) {
-}
-
-int getCPUspeed_cmd(int argc, char *argv[]) {
+int calculateCpuSpeed(int (*method)()) {
 	int cpuspeed;
 	int iterations = 10;
 	int i = iterations;
 	int total = 0;
+
 	while (i-- > 0) {
-		cpuspeed = _getCpuSpeed();
+		cpuspeed = (*method)();
 		total += cpuspeed / iterations;
 	}
-	printf("Detected CPU speed: %iMHz\n", total);
+	return total;
 }
+
+int getCPUspeed_cmd(int argc, char *argv[]) {
+	int speed;
+	if (_cpuIdTest() != 1) {
+		printf("error: cpuid instruction is not supported.");
+		return FALSE;
+	}
+
+	if (_rdtscTest() > 0) {
+		speed = calculateCpuSpeed(_tscGetCpuSpeed);
+	} else if (_rdmsrTest() > 0) {
+		speed = calculateCpuSpeed(_msrGetCpuSpeed);
+	} else {
+		printf("error: rdtsc or rdmsr should be available to \
+			perform this command");
+			return FALSE;
+	}
+	
+	printf("Detected CPU speed: %iMHz\n", speed);
+}
+
 
 int random_cmd(int argc, char *argv[]) {
 	printf("%d", random());
 }
 
-void dummyFunc(int eax, int ebx) {
-	printf("%d %d\n", eax, ebx);
-}
-
 int test_cmd(int argc, char *argv[]) {
+	printf("Hola hola %f", (double)3.1234);
 }
 
 int asd_cmd(int argc, char *argv[]) {

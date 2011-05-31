@@ -6,7 +6,6 @@
 #include "defs.h"
 #include "video.h"
 #include "interrupts.h"
-#include "timer.h"
 #include "kasm.h"
 #include "defs.h"
 

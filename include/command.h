@@ -5,7 +5,6 @@
 #include "kasm.h"
 #include "shell.h"
 #include "video.h"
-#include "timer.h"
 #include "math.h"
 #include "cpu.h"
 #include "interrupts.h"
@@ -15,15 +14,6 @@
 #define HELP_RESTART		"Restarts the OS"
 
 #define HELP_CLEAR			"Clears the screen"
-
-#define HELP_SETPIT			"[speed]\n\nSets the PIT interval timer to the \
-given speed"
-
-#define HELP_RESETPIT		"Resets the PIT interval timer to it's default \
-speed"
-
-#define HELP_COUNTDOWN		"[seconds]\n\nPrints down a coundown form seconds \
-to 0"
 
 #define HELP_GETCPUSPEED	"Measures the CPU speed and prints out its value."
 
