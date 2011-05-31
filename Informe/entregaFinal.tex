@@ -1,0 +1,228 @@
+%% LyX 2.0.0 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{amstext}
+\PassOptionsToPackage{normalem}{ulem}
+\usepackage{ulem}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+\newcommand{\lyxmathsym}[1]{\ifmmode\begingroup\def\b@ld{bold}
+  \text{\ifx\math@version\b@ld\bfseries\fi#1}\endgroup\else#1\fi}
+
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+
+\title{Trabajo Práctico Especial}
+
+\maketitle
+Objetivo: Realizar un programa que muestre algunas de las características
+del Modo protegido de los microprocesadores de Intel. 
+
+
+\section{Implementacion}
+
+En esta sección se explicará el funcionamiento interno del sistema
+operativo desarollado y por qué se eligió tal implementación.
+
+Para una buena organización del código, se optó por realizar varios
+archivos que se encargaran de manejar tareas específicas (un estilo
+$"objetoso"$) y de este modo poder lograr un programa modularizado
+y por sobre todo implementable.
+
+A continuación se listan los archivos que se han considerado como
+los mas importantes:\\
+
+\begin{itemize}
+\item \uline{Interrupt:} Cada vez que llega una iterrupcion al micro
+(ya sea por software o por harware), se ejecuta el handler correspondiente
+(programado en ASM) que se ocupa de llamar a la función handler en
+$C$ que la maneja. Aquí es donde entra en juego el archivo Interrupt.c.
+Este contiene la logica necesaria para cada interrupcion.
+
+
+Actualmente solo se manejan las interrupciones $80h$, $9$$(teclado)$,
+y la $8$$(timer$ $tick)$.\\
+
+
+\item \uline{Keyboard:} Luego de leido el scanCode de la tecla presionada
+(desde el manejador de la interrupción correspondiente), se {}``avisa''
+a este archivo el scanCode y este se encarga de guardar el caracter
+que corresponda en el buffer del teclado.
+
+
+Para el buffer de teclado de decidió implementar un buffer circular,
+en donde cada vez que llega un caracter, se agrega al a continuacion
+del anterior (se ignora si se llego o no al final del arreglo). Esto
+tiene la ventaja que nunca hace falta limpiar el buffer ya que aunque
+se llene, solo hay que {}``tomar'' las caracteres no leidos del
+buffer para que automaticamente se haga lugar para las nuevas.\\
+
+
+\item \uline{Video:} Funciona como un controlador de video. Es el encargado
+de administrar la porción de memoria asigada a memoria. Ya que por
+cada caracter que se quiera mostrar, hay que decidir en que columna
+hay que ponerlo, en que fila y con que colores; se decidió que seria
+muy útil tener este controlador. 
+
+
+Siempre que por $io$ se indica que se quiere escribir un buffer por
+la $salida$ $estadard$, se llama a este controlador para que se
+graben adecuadamente.
+
+
+Si bien en memoria el sector destinado para la pantalla es contínuo,
+se implemto todo como si se estuviese trabajando sobre una matriz
+($getCurrRow()$ y $getCurrColumn()$ se encargan de realizar las
+transormaciones matemáticas correspondientes).\\
+
+
+\item \uline{Shell:} Se encarga de tomar los caracteres del buffer del
+teclado (siempre que los haya) y decidir si se muestran o no en pantalla.
+En la actual implementación, se tiene una shell con un buffer de tamaño
+fijo en donde se van guardando los caracteres tomados del buffer del
+teclado. Cuando el usuario indica que quiere ejecutar el comando ingresado,
+se busca si lo escrito coincide con el nombre de algún comando que
+tiene guardado internamente en el vector de comandos.
+
+\begin{itemize}
+\item Vector de comandos: Es un vector de estructuras en donde cada elemento
+es una estructua que contiene: nombre de comando, puntero a la función
+que ejecuta dicho comando y un char{*} que es la ayuda del comando.
+\end{itemize}
+
+Actualmente la shell es capaz de aceptar argumentos por línea de comandos.
+Esto fue logrado con relativa facilidad gracias a que se convino que
+todos los comandos recibirian los mismos argumentos, por lo que, visto
+desde esta perspectiva, invocar a uno u otro comando con los argumentos
+tomados es indiferente.
+
+\item \uline{Commands:} Aquí se encuentra la rutina de cada comando mencionado
+en el punto anterior. Para ver una lista de comandos que se ofrecen
+basta ejecutar $\lyxmathsym{\textquotedblleft}help\lyxmathsym{\textquotedblright}$.
+\item \uline{Kernel: }Esta es la parte mas imprtante de la implentación
+ya que, siempre que se desea realiza un $read$ o un $write$, es
+realizado siempre a través de este.
+
+
+Tal como sugería el archivo $kernel.h$ suministrado por la cetdra,
+se ofrecen dos métodos, \_\_$read$ y \_\_$write$. Uno de los parámetros
+requeridos, es el $file$ $descriptor$ que indica a donde se quiere
+acceder. Actualmente se tienen implementados $tres$ tipos de $file$
+$descriptors$:
+\begin{itemize}
+\item Si se quiere escribir en $pantalla$, se realiza un \_\_$write$ con
+parámetro $STD$\_$OUT$ o bien $STD$\_$ERR$. 
+\item Si se quiere leer del $teclado$, se realiza un \_\_$read$ con parámetro
+$STD$\_$IN$.
+\end{itemize}
+
+Cada vez que alguna de estas funciones es invocada, se ejectua un
+\_$SystemCall$ (llamda a ASM) quien se ocupa de invocar a la interupcion
+$int80h$ y esta es manejada (como ya se mencionó) por el $int80$
+$handler$.
+
+\end{itemize}
+
+\section{Manual de uso}
+
+Para ver cuáles son los comandos disponibles, basta con ejecutar el
+comando $help$.
+
+Para ejecutar cualquier comando valido, basta escribir {}``$nombreComando$
+$argumentos$ $separados$ $por$ $espacios$'' por ej, si se invoca
+al comando $help$ $random$, se desplegará un menú con una breve
+explicación de como funciona el comando random.\\
+
+
+
+\subsection{Comandos actualmente disponibles:}
+\begin{itemize}
+\item help
+\item echo
+\item restart
+\item clear
+\item getCPUspeed
+\item countDown
+\item setPit
+\item resetPit
+\item random
+\item setAppareance\\
+
+\end{itemize}
+Observaciones: 
+\begin{itemize}
+\item Notar que se considera a cada espacio como un nuevo argumento. Por
+lo que la invoación a una función con varios espacios en entre los
+argumentos, es lo mismo que mandar un argumento {}``'' (char {*}
+apuntando a un '\textbackslash{}0') en el medio. 
+\item Si se colocan espacios al principio de cada comando, el resultado
+final no debe esperarse igual a que poner el comando sin los espacios.
+Es decir: '' echo'' no ejecutará el comando llamado {}``echo''
+(sin espacio al principio)
+\end{itemize}
+
+\section{CPU Speed}
+
+
+\subsection{Notas}
+
+Para el cálculo de la velocidad de la CPU se tuvieron en cuenta los
+siguientes factores:
+
+Antes de realizar el cálculo de la velocidad, se testea la presencia
+de \textbf{cpuid}\emph{. }Si el test pasa, se procede a chequear la
+presencia de\emph{ }\textbf{rdtsc }o \textbf{rdmsr}. Si existe algúna
+de ellas, se procede con el testeo.
+
+El cálculo de la velocidad es el resultado de un promedio de \emph{n}
+llamadas a la función que realiza el cálculo.
+
+Para realizar esta función, fue necesario implementar algo parecido
+al funcionamiento del Bios (40h:6Ch), por lo que en cada irq0, se
+incrementa un contador.
+
+
+\subsection{Out-of-Order-Execution e Instrucciones Serializadoras}
+
+A partir de la familia de procesadores \emph{Pentium II} y \emph{Pentium
+Pro, }apareció algo llamado \textbf{\emph{out-of-order-execution}}.
+Ésto significa que las instrucciónes no necesariamente son llamadas
+en el órden en el que aparecen en el código. Esto es un problema,
+dado que para medir la velocidad, es necesario que las funciones de
+\textbf{rdtsc }o \textbf{rdmsr} se ejecuten en el momento requerido.
+Para solucionarlo, es necesario el uso de una instrucción serializadora.
+El objetivo de ésta es forzar al procesador que termine todas las
+modificaciones pendientes a los flags, registros y memoria por instrucciones
+anteriores antes de buscar y ejecutar la próxima instrucción. Ésto
+asegura que \textbf{rdtsc} se ejecute cuando es debido y no antes.
+
+Teniendo ésto, el código para medir la velocidad de la cpu es simple.
+
+
+\subsection{Implementación}
+
+Se carga inicialmente el valor del contador de irq0s en ebx, y se
+espera al próximo tick. Una vez que éste sucede, se llama a \textbf{rdtsc
+}para conseguir el \emph{time stamp counter},\emph{ }y se lo almacena
+en 2 variables (parte baja y alta). Luego, se incrementa a ebx en
+\emph{intervalo + 1} (el + 1 es debido a que en éste momento, ebx
+es \emph{irq0 counter - 1}). Se espera a que el irq0 counter llegue
+al valor de ebx, y se realiza otra medición con \textbf{rdtsc}. Una
+vez obtenida, se resta a eax, el valor de la parte baja de rdtsc almacenada
+anteriormente, y a edx, se le resta con borrow el valor de la parte
+alta almacenada. Teniendo en eax la diferencia del \emph{time stamp
+counter}, se procede a dividirlo por uno dividido la frecuencia del
+pit (18.2) y multiplicarlo por un millon (para acomodar el resultado
+a MHz) y multiplicarlo por el intervalo usado anteriormente:
+
+$tsc/(\frac{1}{18.2}*1000000*intervalo)$
+
+Esta división deja en eax el valor de la velocidad de la CPU en MHz.
+\end{document}
