@@ -104,18 +104,11 @@ void puts(char* s) {
 }
 
 void putf(double n) {
-	putchar((int)(3) + '0');
-	n = n - (int)n;
-	if (n == 0) return;
+	puti((int)n);
 	putchar('.');
-	int precision = 0;
-	while (n != 0 && precision < F_PRECISION) {
-		n *= 10;
-		puti((int)n);
-		n = n - (int)n;
-		precision++;
-	}
-		
+	n = n - (int)n;
+	n *= pow(10, F_PRECISION);
+	puti((int)n);
 }
 
 void pute(double n, int upperE) {
@@ -278,7 +271,6 @@ int getf(float* ans) {
 	} while(isDig);
 		
 	if (n1IsValid && c == '.') {
-		printf("\nENTERA: %d\n", n1);
 		getd(&n2);
 		*ans = n2 / (float) pow(10, digits(n2));
 		*ans = n1 + *ans;
