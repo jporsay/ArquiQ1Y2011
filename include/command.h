@@ -6,7 +6,6 @@
 #include "shell.h"
 #include "video.h"
 #include "math.h"
-#include "cpu.h"
 #include "interrupts.h"
 
 #define HELP_HELP			"Shows this help function"
