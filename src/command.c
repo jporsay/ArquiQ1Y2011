@@ -42,7 +42,7 @@ int calculateCpuSpeed(int (*method)()) {
 	int iterations = 10;
 	int i = iterations;
 	int total = 0;
-
+	printf("Calculating CPU speed, please wait...\n");
 	while (i-- > 0) {
 		cpuspeed = (*method)();
 		total += cpuspeed / iterations;
@@ -53,17 +53,19 @@ int calculateCpuSpeed(int (*method)()) {
 int getCPUspeed_cmd(int argc, char *argv[]) {
 	int speed;
 	if (_cpuIdTest() != 1) {
-		printf("error: cpuid instruction is not supported.");
+		printf("error: cpuid instruction is not supported.\n");
 		return FALSE;
 	}
-
+	printf("Detected cpuid instruction...\n");
 	if (_rdtscTest() > 0) {
+		printf("Using rdtsc to perform measurement...\n");
 		speed = calculateCpuSpeed(_tscGetCpuSpeed);
 	} else if (_rdmsrTest() > 0) {
+		printf("Using rdmsr to perform measurement...\n");
 		speed = calculateCpuSpeed(_msrGetCpuSpeed);
 	} else {
 		printf("error: rdtsc or rdmsr should be available to \
-			perform this command");
+			perform this command\n");
 			return FALSE;
 	}
 	
