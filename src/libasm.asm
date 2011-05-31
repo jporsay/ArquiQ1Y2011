@@ -28,8 +28,6 @@ SECTION .bss
 ttcounter 	resd 1
 low			resd 1
 high		resd 1
-dlow		resd 1
-dhigh		resd 1
 
 SECTION .text
 
