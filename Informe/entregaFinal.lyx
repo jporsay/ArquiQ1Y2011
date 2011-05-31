@@ -56,13 +56,13 @@ Implementacion
 \end_layout
 
 \begin_layout Standard
-En esta seccion se explicara el funcionamiento interno del sistema operativo
+En esta sección se explicará el funcionamiento interno del sistema operativo
  desarollado y porque se eligio tal implementacion.
 \end_layout
 
 \begin_layout Standard
-Para una buena organizacion del codigo, se trato de realizar varios archivos
- que se encargarían de manejar tareas especificas(un estilo 
+Para una buena organizacion del codigo, se optó por realizar varios archivos
+ que se encargaran de manejar tareas especificas (un estilo 
 \begin_inset Formula $"objetoso"$
 \end_inset
 
@@ -71,7 +71,7 @@ Para una buena organizacion del codigo, se trato de realizar varios archivos
 \end_layout
 
 \begin_layout Standard
-A continuacion se listan los archivos que se han considerado como los mas
+A continuación se listan los archivos que se han considerado como los mas
  importantes:
 \begin_inset Newline newline
 \end_inset
@@ -86,7 +86,11 @@ Interrupt:
 \bar default
  Cada vez que llega una iterrupcion al micro (ya sea por software o por
  harware), se ejecuta el handler correspondiente (programado en ASM) que
- se ocupa de llamar a la funcion en C que la maneja.
+ se ocupa de llamar a la funcion handler en 
+\begin_inset Formula $C$
+\end_inset
+
+ que la maneja.
  Aqui es donde entra en juego el archivo Interrupt.c.
  Este contiene la logica necesaria para cada interrupcion.
 \end_layout
@@ -146,7 +150,8 @@ avisa
 \begin_deeper
 \begin_layout Standard
 Para el buffer de teclado de decidió implementar un buffer circular, en
- donde cada vez que llega un caracter, se agrega al a continuacion del anterior.
+ donde cada vez que llega un caracter, se agrega al a continuacion del anterior
+ (se ignora si se llego o no al final del arreglo).
  Esto tiene la ventaja que nunca hace falta limpiar el buffer ya que aunque
  se llene, solo hay que 
 \begin_inset Quotes eld
@@ -171,11 +176,16 @@ tomar
 Video:
 \bar default
  Funciona como un controlador de video.
- Es el encargado de administrar el la porcion de memoria asigada a memoria.
+ Es el encargado de administrar la porcion de memoria asigada a memoria.
  Ya que por cada caracter que se quiera mostrar, hay que decidir en que
- columna hay que ponerlo, en que fila y con que colores, se decidió que
+ columna hay que ponerlo, en que fila y con que colores; se decidió que
  seria muy útil tener este controlador.
- Siempre que por 
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Siempre que por 
 \begin_inset Formula $io$
 \end_inset
 
@@ -190,7 +200,6 @@ Video:
 , se llama a este controlador para que se graben adecuadamente.
 \end_layout
 
-\begin_deeper
 \begin_layout Standard
 Si bien en memoria el sector destinado para la pantalla es contínuo, se
  implemto todo como si se estuviese trabajando sobre una matriz (
@@ -534,7 +543,7 @@ Si se colocan espacios al principio de cada comando, el resultado final
 \begin_inset Quotes erd
 \end_inset
 
- no va a ejecutar el comando llamado 
+ no ejecutará el comando llamado 
 \begin_inset Quotes eld
 \end_inset
 
