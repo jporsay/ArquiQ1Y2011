@@ -235,7 +235,7 @@ int gets(char* ans) {
 		c = getchar();
 		ans[index++] = c;
 		putchar(c);
-	} while( c != ' ');
+	} while( c != '\n');
 	ans[index++] = '\0';
 	return index == 0 ? 0 : 1;
 }

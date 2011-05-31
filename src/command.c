@@ -77,25 +77,6 @@ int random_cmd(int argc, char *argv[]) {
 	printf("%d", random());
 }
 
-int test_cmd(int argc, char *argv[]) {
-	printf("Hola hola %f", (double)3.1234);
-}
-
-int asd_cmd(int argc, char *argv[]) {
-/*    int n;
-    while (scanf("%d", & n))
-        printf("%d\n", n);	
-	
-	return;*/
-	char ans[10];
-	float n;
-	printf("IGNORING\n");
-	scanf("%f", &n);
-	printf("\nIngrese un texto: ");
-	scanf("%f", &n);
-	printf("\nTexto leido: %f\n", n);
-}
-
 int setAppearance_cmd(int argc, char *argv[]) {
 	if (argc != 2) {
 		printf("You need to call this function with 2 colors\n");
@@ -105,7 +86,6 @@ int setAppearance_cmd(int argc, char *argv[]) {
 		
 		int fg = parseHexa(foreGround[0]);
 		int bg = parseHexa(backGround[0]);
-		printf("%d  %d\n", fg, bg);
 		if (strlen(foreGround) != 1 || strlen(backGround) != 1 || fg == -1
 			|| bg == -1) {
 			printf("Both arguments must be a hexadecimal number between 0 \
@@ -114,5 +94,38 @@ int setAppearance_cmd(int argc, char *argv[]) {
 		}
 		setVideoColor(bg, fg);
 	}
+}
+
+int getchar_cmd(int argc, char *argv[]) {
+	printf("Please type in a character\n");
+	char c = getchar();
+	printf("You pressed: %c\n", c);
+}
+
+int printf_cmd(int argc, char *argv[]) {
+	printf("testing printf...\n\n");
+	printf("Printing a double: %f\n", 123.456789);
+	printf("Printing an integer: %d\n", 99);
+	printf("Printing an unsigned integer: %u\n", 31231231);
+	printf("Printing a string %s\n", "This is a real cool string!");
+	printf("Printing in lowercase hexadecimal notation: %x\n", 0x55fa);
+	printf("Printing in uppercase hexadecimal notation: %X\n", 0x55fa);
+	printf("Printing a single char: %c\n", 'c');
+}
+
+int scanf_cmd(int argc, char *argv[]) {
+	int n;
+	char vec[50];
+	printf("Please type in a number: ");
+	scanf("%d", &n);
+	printf("scanf said you typed in: %d\n\n", n);
+	
+	printf("An other one...Please type in some short text: ");
+	scanf("%s", vec);
+	printf("scanf said you typed in: %s\n\n", vec);
+	
+	printf("One more...Please type in a single character: ");
+	scanf("%c", vec);
+	printf("\nscanf said you typed in: %c\n\n", vec[0]);
 }
 
