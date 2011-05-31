@@ -15,16 +15,14 @@ cmd_table_entry cmd_table[] = {
 	{"restart", 		HELP_RESTART, restart_cmd},
 	{"clear", 			HELP_CLEAR, clear_cmd},
 	{"getCPUspeed", 	HELP_GETCPUSPEED, getCPUspeed_cmd},
-	{"countDown", 		HELP_COUNTDOWN, countDown_cmd},
-	{"resetPit", 		HELP_RESETPIT, resetPit_cmd},
-	{"setPit", 			HELP_SETPIT, setPit_cmd},
 	{"random", 			HELP_RANDOM, random_cmd},
 	{"echo", 			HELP_ECHO, echo_cmd},
-	{"setAppareance",	HELP_SETAPPEARANCE, setAppearance_cmd},
+	{"setAppearance",	HELP_SETAPPEARANCE, setAppearance_cmd},
 	{"test", "", test_cmd},
 	{"asd", "", asd_cmd},
 	{"", "", NULL}
 };
+
 
 void initShell() {
 	cleanBuffer();

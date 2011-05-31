@@ -16,15 +16,17 @@ void _Cli(void);        /* Deshabilita interrupciones  */
 void _Sti(void);	 /* Habilita interrupciones  */
 
 void _reset();
-char _cpuIdTest();
+int _cpuIdTest();
+int _rdtscTest();
+int _rdmsrTest();
 void _int_08_hand();	/* Timer tick */
 void _int_09_hand();	/* Keyboard */
 void _int_80_hand();
 void _SysCall();
 void _initTTCounter();
 int _getTTCounter();
-int _getCpuSpeed();
-int _cpuFreqTest();
+int _tscGetCpuSpeed();
+int _msrGetCpuSpeed();
 void _debug (void);
 
 #endif
