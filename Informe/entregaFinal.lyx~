@@ -1,42 +1,60 @@
-#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
-\lyxformat 345
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
 \begin_document
 \begin_header
 \textclass article
 \use_default_options true
+\maintain_unincluded_children false
 \language english
+\language_package default
 \inputencoding auto
+\fontencoding global
 \font_roman default
 \font_sans default
 \font_typewriter default
 \font_default_family default
+\use_non_tex_fonts false
 \font_sc false
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
 
 \graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
 \paperfontsize default
 \use_hyperref false
 \papersize default
 \use_geometry false
 \use_amsmath 1
 \use_esint 1
+\use_mhchem 1
+\use_mathdots 1
 \cite_engine basic
 \use_bibtopic false
+\use_indices false
 \paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
-\defskip medskip
+\paragraph_indentation default
 \quotes_language english
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
 \tracking_changes false
 \output_changes false
-\author "" 
-\author "" 
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
 \end_header
 
 \begin_body
@@ -57,12 +75,12 @@ Implementacion
 
 \begin_layout Standard
 En esta sección se explicará el funcionamiento interno del sistema operativo
- desarollado y porque se eligio tal implementacion.
+ desarollado y por qué se eligió tal implementación.
 \end_layout
 
 \begin_layout Standard
-Para una buena organizacion del codigo, se optó por realizar varios archivos
- que se encargaran de manejar tareas especificas (un estilo 
+Para una buena organización del código, se optó por realizar varios archivos
+ que se encargaran de manejar tareas específicas (un estilo 
 \begin_inset Formula $"objetoso"$
 \end_inset
 
@@ -86,12 +104,12 @@ Interrupt:
 \bar default
  Cada vez que llega una iterrupcion al micro (ya sea por software o por
  harware), se ejecuta el handler correspondiente (programado en ASM) que
- se ocupa de llamar a la funcion handler en 
+ se ocupa de llamar a la función handler en 
 \begin_inset Formula $C$
 \end_inset
 
  que la maneja.
- Aqui es donde entra en juego el archivo Interrupt.c.
+ Aquí es donde entra en juego el archivo Interrupt.c.
  Este contiene la logica necesaria para cada interrupcion.
 \end_layout
 
@@ -135,7 +153,7 @@ Actualmente solo se manejan las interrupciones
 Keyboard:
 \bar default
  Luego de leido el scanCode de la tecla presionada (desde el manejador de
- la interrupcion correspondiente), se 
+ la interrupción correspondiente), se 
 \begin_inset Quotes eld
 \end_inset
 
@@ -176,7 +194,7 @@ tomar
 Video:
 \bar default
  Funciona como un controlador de video.
- Es el encargado de administrar la porcion de memoria asigada a memoria.
+ Es el encargado de administrar la porción de memoria asigada a memoria.
  Ya que por cada caracter que se quiera mostrar, hay que decidir en que
  columna hay que ponerlo, en que fila y con que colores; se decidió que
  seria muy útil tener este controlador.
@@ -210,7 +228,7 @@ Si bien en memoria el sector destinado para la pantalla es contínuo, se
 \begin_inset Formula $getCurrColumn()$
 \end_inset
 
- se encargan de realizar las transormaciones matematicas correspondientes).
+ se encargan de realizar las transormaciones matemáticas correspondientes).
 \begin_inset Newline newline
 \end_inset
 
@@ -224,8 +242,8 @@ Si bien en memoria el sector destinado para la pantalla es contínuo, se
 Shell:
 \bar default
  Se encarga de tomar los caracteres del buffer del teclado (siempre que
- los halla) y decidir si se muestran o no en pantalla.
- En la actual implementacion, se tiene una shell con un buffer de tamaño
+ los haya) y decidir si se muestran o no en pantalla.
+ En la actual implementación, se tiene una shell con un buffer de tamaño
  fijo en donde se van guardando los caracteres tomados del buffer del teclado.
  Cuando el usuario indica que quiere ejecutar el comando ingresado, se busca
  si lo escrito coincide con el nombre de algún comando que tiene guardado
@@ -235,12 +253,12 @@ Shell:
 \begin_deeper
 \begin_layout Itemize
 Vector de comandos: Es un vector de estructuras en donde cada elemento es
- una estructua que contiene: nombre de comando, puntero a la funcion que
+ una estructua que contiene: nombre de comando, puntero a la función que
  ejecuta dicho comando y un char* que es la ayuda del comando.
 \end_layout
 
 \begin_layout Standard
-Actualmente la shell es capaz de aceptar argumentos por linea de comandos.
+Actualmente la shell es capaz de aceptar argumentos por línea de comandos.
  Esto fue logrado con relativa facilidad gracias a que se convino que todos
  los comandos recibirian los mismos argumentos, por lo que, visto desde
  esta perspectiva, invocar a uno u otro comando con los argumentos tomados
@@ -253,7 +271,7 @@ Actualmente la shell es capaz de aceptar argumentos por linea de comandos.
 \bar under
 Commands:
 \bar default
- Aqui se encuentra la rutina de cada comando mencionado en el punto anterior.
+ Aquí se encuentra la rutina de cada comando mencionado en el punto anterior.
  Para ver una lista de comandos que se ofrecen basta ejecutar 
 \begin_inset Formula $“help”$
 \end_inset
@@ -266,7 +284,7 @@ Commands:
 \bar under
 Kernel: 
 \bar default
-Esta es la parte mas imprtante de la implentacion ya que, siempre que se
+Esta es la parte mas imprtante de la implentación ya que, siempre que se
  desea realiza un 
 \begin_inset Formula $read$
 \end_inset
@@ -275,16 +293,16 @@ Esta es la parte mas imprtante de la implentacion ya que, siempre que se
 \begin_inset Formula $write$
 \end_inset
 
-, es realizado siempre a traves de este.
+, es realizado siempre a través de este.
 \end_layout
 
 \begin_deeper
 \begin_layout Standard
-Tal como sugeria el archivo 
+Tal como sugería el archivo 
 \begin_inset Formula $kernel.h$
 \end_inset
 
- suministrado por la cetdra, se ofrecen dos metodos, __
+ suministrado por la cetdra, se ofrecen dos métodos, __
 \begin_inset Formula $read$
 \end_inset
 
@@ -293,7 +311,7 @@ Tal como sugeria el archivo
 \end_inset
 
 .
- Uno de los parametros requeridos, es el 
+ Uno de los parámetros requeridos, es el 
 \begin_inset Formula $file$
 \end_inset
 
@@ -301,7 +319,7 @@ Tal como sugeria el archivo
 \begin_inset Formula $descriptor$
 \end_inset
 
- que indica a donde que quiere acceder.
+ que indica a donde se quiere acceder.
  Actualmente se tienen implementados 
 \begin_inset Formula $tres$
 \end_inset
@@ -375,7 +393,7 @@ Cada vez que alguna de estas funciones es invocada, se ejectua un _
 \begin_inset Formula $int80h$
 \end_inset
 
- y esta es majedada (como ya se menciono) por el 
+ y esta es manejada (como ya se mencionó) por el 
 \begin_inset Formula $int80$
 \end_inset
 
@@ -392,7 +410,7 @@ Manual de uso
 \end_layout
 
 \begin_layout Standard
-Para ver cuales son los comandos disponibles, basta con ejecutar el comando
+Para ver cuáles son los comandos disponibles, basta con ejecutar el comando
  
 \begin_inset Formula $help$
 \end_inset
@@ -437,7 +455,7 @@ Para ejecutar cualquier comando valido, basta escribir
 \begin_inset Formula $random$
 \end_inset
 
-, se desplegara un menu con una breve explicacion de como funciona el comando
+, se desplegará un menú con una breve explicación de como funciona el comando
  random.
 \begin_inset Newline newline
 \end_inset
@@ -499,7 +517,7 @@ Observaciones:
 
 \begin_layout Itemize
 Notar que se considera a cada espacio como un nuevo argumento.
- Por lo que la invoacion a una funcion con varios espacios en entre los
+ Por lo que la invoación a una función con varios espacios en entre los
  argumentos, es lo mismo que mandar un argumento 
 \begin_inset Quotes eld
 \end_inset
@@ -559,16 +577,16 @@ CPU Speed
 \end_layout
 
 \begin_layout Standard
-Para el calculo de la velocidad de la CPU se decidió calcular cuantas veces
+Para el cálculo de la velocidad de la CPU se decidió calcular cuantas veces
  se llegaba a incrementar una variable entre dos timerTicks.
  Es decir, calculamos la cantidad de 
-\begin_inset Formula $iteracciones$
+\begin_inset Formula $iteraciones$
 \end_inset
 
- que la CPU es capaz de realizar en este intervalo tiempo.
- Sin embargo, como este valor puede llegar a variar en cada mdicion ya que
- la CPU puede estar mas o menos ocupada, se decidió que lo mejor era realizar
- 
+ que la CPU es capaz de realizar en este intervalo de tiempo.
+ Sin embargo, como este valor puede llegar a variar en cada medición ya
+ que la CPU puede estar mas o menos ocupada, se decidió que lo mejor era
+ realizar 
 \begin_inset Formula $N$
 \end_inset
 
