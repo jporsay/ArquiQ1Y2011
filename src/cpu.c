@@ -33,39 +33,6 @@ Decimal and String support like %s and %d and this is truely all you need! */
 
 /* Required Declarations */
 
-unsigned int measureClockCyclesForWhile() {
-	uint64_t cc;
-	uint64_t ccp = 0;
-	int iterations = 100;
-	int i = 1;
-	int j = iterations;
-	while (j-- > 0) {
-		cc = rdtsc();
-		while (i-- > 0){}
-		cc = cc - rdtsc();
-		ccp += cc;
-	}
-	int test = ((unsigned int) ccp) / iterations;
-	return ((unsigned int) ccp) / iterations;
-	
-}
-
-double getCpuSpeed() {
-	double ccpi = measureClockCyclesForWhile();
-	unsigned int* count = getIrq0CountPointer();
-	unsigned int cnt = 0;
-	uint64_t cc;
-	*count = 0;
-	cc = rdtsc();
-	while (*count < 20) {
-		cnt++;
-	}
-	cc = rdtsc() - cc;
-	double cpufreq = cnt * ccpi / 1000;
-//	printf("%u\n", (unsigned int)cpufreq);
-	return cpufreq;
-}
-
 __inline__ uint64_t rdtsc() {
 	unsigned int lo, hi;
 	__asm__ __volatile__ (      // serialize

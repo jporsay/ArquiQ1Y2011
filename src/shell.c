@@ -31,9 +31,6 @@ void initShell() {
 	prntWelcomeMsg();
 	printf(SHELL_TEXT);
 	_initTTCounter();
-	int* i = getIrq0CountPointer();
-	*i = 0;
-	isTesting = FALSE;
 }
 
 

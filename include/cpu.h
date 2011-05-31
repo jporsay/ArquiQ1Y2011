@@ -6,5 +6,4 @@
 
 int detect_cpu(void);
 __inline__ uint64_t rdtsc();
-double getCpuSpeed();
 #endif

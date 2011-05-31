@@ -25,11 +25,11 @@ OFFSET_TICK_COUNT	equ 6Ch
 INTERVAL_IN_TICKS	equ 10
 
 SECTION .bss
-ttcounter 	resd 0
-low			resb 0
-high		resb 0
-dlow		resb 0
-dhigh		resb 0
+ttcounter 	resd 1
+low			resd 1
+high		resd 1
+dlow		resd 1
+dhigh		resd 1
 
 SECTION .text
 
@@ -221,58 +221,32 @@ _getCpuSpeed:
 .wait_irq0:
 	cmp  ebx, [ttcounter]
 	jz	.wait_irq0
+	push ebx
 	cpuid
 	rdtsc                   ; read time stamp counter
-	mov	[low], eax
+	mov [low], eax
 	mov	[high], edx
-	add	ebx, 2             ; Set time delay value ticks.
-	; remember: so far ebx = ~[irq0]-1, so the next tick is
-	; two steps ahead of the current ebx ;)
+	pop ebx
+	add	ebx, INTERVAL_IN_TICKS + 1             ; Set time delay value ticks.
 
 .wait_for_elapsed_ticks:
 	cmp	ebx, [ttcounter] ; Have we hit the delay?
 	jnz	.wait_for_elapsed_ticks
+	mov eax, 0
+	push ebx
 	cpuid
 	rdtsc
 	sub eax, [low]  ; Calculate TSC
 	sbb edx, [high]
+	pop ebx
 	; f(total_ticks_per_Second) =  (1 / total_ticks_per_Second) * 1,000,000
 	; This adjusts for MHz.
 	; so for this: f(100) = (1/100) * 1,000,000 = 10000
 	; we use 18.2, so 1/18.2 * 1000000 = 54945
-	mov ebx, 54945
+	mov ebx, 54945 * INTERVAL_IN_TICKS
     div ebx
 	; ax contains measured speed in MHz
-.endasd:
-	mov esp, ebp
-	pop ebp
-	ret
-
-_cpuFreqTest:
-	push ebp
-	mov ebp, esp
-
-	mov	ebx, [ttcounter]
-.wait_for_new_tick:
-	cmp	ebx, [ttcounter]
-	je	.wait_for_new_tick
-
-	rdtsc
-	mov	[low], eax ; set tscLoDword
-	mov [high], edx ; set tscHiDword
-	add ebx, INTERVAL_IN_TICKS + 1
-.wait_for_elapsed_ticks:
-	cmp	ebx, [ttcounter]
-	jg	.wait_for_elapsed_ticks
-	
-	rdtsc
-	sub eax, [low]
-	sbb edx, [high]
-	
-	; 1 / 18.2 * 1000000 = 54945
-	mov ebx, 54945*INTERVAL_IN_TICKS
-	div ebx ; result is in ax
-.cpufexit:
+.end:
 	mov esp, ebp
 	pop ebp
 	ret
