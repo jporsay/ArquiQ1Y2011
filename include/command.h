@@ -35,8 +35,10 @@ int resetPit_cmd(int argc, char *argv[]);
 int countDown_cmd(int argc, char *argv[]);
 int getCPUspeed_cmd(int argc, char *argv[]);
 int random_cmd(int argc, char *argv[]);
-int test_cmd(int argc, char *argv[]);
-int asd_cmd(int argc, char *argv[]);
-void dummyFunc(int eax, int ebx);
 int setAppearance_cmd(int argc, char *argv[]);
+
+int getchar_cmd(int argc, char *argv[]);
+int scanf_cmd(int argc, char *argv[]);
+int printf_cmd(int argc, char *argv[]);
+
 #endif

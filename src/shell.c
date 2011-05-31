@@ -18,8 +18,9 @@ cmd_table_entry cmd_table[] = {
 	{"random", 			HELP_RANDOM, random_cmd},
 	{"echo", 			HELP_ECHO, echo_cmd},
 	{"setAppearance",	HELP_SETAPPEARANCE, setAppearance_cmd},
-	{"test", "", test_cmd},
-	{"asd", "", asd_cmd},
+	{"getchar", "Funcion para la catedra para testeo de getchar\n", getchar_cmd},
+	{"printf", "Funcion para la catedra para testeo de printf\n", printf_cmd},
+	{"scanf", "Funcion para la catedra para testeo de scanf\n", scanf_cmd},
 	{"", "", NULL}
 };
 
