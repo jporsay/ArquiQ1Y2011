@@ -222,6 +222,7 @@ _rdtscTest:
 	mov esp, ebp
 	pop ebp
 	ret
+	
 _rdmsrTest:
 	push ebp
 	mov ebp, esp
