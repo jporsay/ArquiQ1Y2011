@@ -105,6 +105,9 @@ void puts(char* s) {
 
 void putf(double n) {
 	puti((int)n);
+	if(n == 0) {
+		return;
+	}
 	putchar('.');
 	n = n - (int)n;
 	n *= pow(10, F_PRECISION);
@@ -211,7 +214,7 @@ int scanf(const char *format, ...) {
 					parsed++;
 					break;
 				case 'f':
-					parsed += getf(va_arg(args, float *));
+					parsed += getf(va_arg(args, double *));
 					break;
 			}
 			insidePercentage = FALSE;
@@ -252,14 +255,15 @@ int getd(int* n) {
 		putchar(c);
 	} while(isDig);
 	*n = total;
-	return index == 0 ? 0 : 1;
+	return (index == 0) ? 0 : (c==' ' || c=='\n');
 }
 
-int getf(float* ans) {
+int getf(double* ans) {
 	int n1 = 0, n2, isDig, n1IsValid = FALSE;
 	char c;
+	double total = 0, aux = 0;
 	do {
-		//Se contruye la parte entera
+		//Se lee primero la parte entera
 		c = getchar();
 		isDig = isDigit(c); 
 		if (isDig) {
@@ -269,11 +273,14 @@ int getf(float* ans) {
 		}
 		putchar(c);
 	} while(isDig);
-		
+	
+	//luego de la parte entera tiene que venir un punto.
 	if (n1IsValid && c == '.') {
 		getd(&n2);
-		*ans = n2 / (float) pow(10, digits(n2));
-		*ans = n1 + *ans;
+		aux = (double) pow(10, digits(n2));
+		n2 /= aux;
+		aux = n1 + n2;
+		*ans = aux;
 		return 1;
 	}
 	return 0;
