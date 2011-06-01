@@ -94,7 +94,11 @@ int parse_cmd(char* buffer) {
 		}
 	}
 	
-	return match;
+	if (match == -1) {
+		return -1;
+	}
+	char next = shellBuffer[strlen(cmd_table[match].name)];
+	return  (next == ' ' || next == '\0') ? match : -1;
 }
 
 
