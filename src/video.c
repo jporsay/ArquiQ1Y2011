@@ -8,6 +8,11 @@ void initVideo() {
 	setCursor(0, 0);
 }
 
+/*
+	Escribe en pantalla count caracteres, desde string con color de fuente 
+	fgc y color de fondo bgs.
+	Estos caracteres se agregan al final del ultimo caracter mandado. 
+*/
 void writeInVideoColors(char *string, size_t count, int fgc, int bgc) {
 	int i = 0;
 	while (i < count) {
@@ -31,6 +36,9 @@ void writeInVideo(char *string, size_t count) {
 	writeInVideoColors(string, count, video.fgColor, video.bgColor);
 }
 
+/*
+	Corre lo mostrado en pantalla lines lineas hacia arriba.
+*/
 void scroll(char lines) {
 	int i;
 	int start = getCurrRow();
@@ -40,6 +48,10 @@ void scroll(char lines) {
 	clearLinesRange(start - lines + 1, start);
 }
 
+/*
+	Copia toda la fila source a la posicion dest. Se copian los caracteres y
+	su formato de color.
+*/
 void copyRow(int source, int dest) {
 	if (dest < 0) {
 		return;
@@ -56,6 +68,10 @@ void copyRow(int source, int dest) {
 	setOffset(posBak);
 }
 
+/*
+	Borra un rango de lineas. Es decir, pisa desde la linea from a la linea
+	to con espacios. No borra el formato de color.
+*/
 void clearLinesRange(int from, int to) {
 	to = to >= ROWS ? ROWS - 1 : to;
 	int i;
@@ -168,6 +184,10 @@ void cls() {
 	setOffset(0);
 }
 
+/*
+	Imprime caracter especiales a ontinuacion del ultimo caracter agregado a 
+	pantalla.
+*/
 int specialAscii(char ascii) {
 	int ret = TRUE;
 	int tab;

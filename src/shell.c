@@ -10,6 +10,9 @@ char* argv[MAX_ARG_DIM];
 int currPos;
 char shellBuffer[BUFFER_SIZE];
 
+/*
+	Tabla de comandos disponibles al usuario en esta shell
+*/
 cmd_table_entry cmd_table[] = {
 	{"help", 			HELP_HELP, help_cmd},
 	{"restart", 		HELP_RESTART, restart_cmd},
@@ -33,6 +36,11 @@ void initShell() {
 }
 
 
+/*
+	Al ser invoacada se fija si se presiono una tecla (buffer del teclado 
+	no vacio) y en cuyo caso, se guaradra en el buffer de la shell y si es 
+	necesario, manda la ejecucion de un programa. 
+*/
 void updateShell() {
 	if (IS_CTRL() && IS_ALT() && IS_DEL()) {
 		_reset();
@@ -63,6 +71,12 @@ void updateShell() {
 	}
 }
 
+/*
+	Verifica si en el buffer recibido existe un comando valido, y de ser asi,
+	lo invoca. 
+	Imprime en pantalla un cartel de error si no se pudo enontrar un comando
+	 valido que concuerde con lo leido.
+*/
 void excecuteCmd(char* buffer) {
 	int cmdLen, argc;
 	char ** arguments;
@@ -79,7 +93,6 @@ void excecuteCmd(char* buffer) {
 }
 
 
-//FIXME: comandos como resetBLABLABVLA se ejecutan ya que matchea con reset.
 int parse_cmd(char* buffer) {
 	int i, cmdLength = -1, aux;
 	int match = -1;
@@ -101,7 +114,10 @@ int parse_cmd(char* buffer) {
 	return  (next == ' ' || next == '\0') ? match : -1;
 }
 
-
+/*
+	Coloca '\0' en cada espacio para poder usar el buffer como parametros de una 
+	llamada a comando
+*/
 char** getArguments(char* buffer, int* argc) {
 	int i = 0, arg = 0;
 	while(buffer[i] != '\0' && arg < MAX_ARG_DIM) {
