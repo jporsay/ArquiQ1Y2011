@@ -8,13 +8,13 @@ void initVideo() {
 	setCursor(0, 0);
 }
 
-void writeInVideo(char *string, size_t count) {
+void writeInVideoColors(char *string, size_t count, int fgc, int bgc) {
 	int i = 0;
 	while (i < count) {
 		char ascii = string[i];
 		if (!specialAscii(ascii)) {
 			video.address[getOffset()] = ascii;
-			video.address[getOffset() + 1] = getVideoColor();
+			video.address[getOffset() + 1] = bgc << 4 | fgc & 0x0F;
 			if (getOffset() == TOTAL_VIDEO_SIZE - 2) {
 				scroll(1);
 				setPosition(getCurrRow(), 0);
@@ -25,6 +25,10 @@ void writeInVideo(char *string, size_t count) {
 		i++;
 	}
 	return;
+}
+
+void writeInVideo(char *string, size_t count) {
+	writeInVideoColors(string, count, video.fgColor, video.bgColor);
 }
 
 void scroll(char lines) {
@@ -47,6 +51,7 @@ void copyRow(int source, int dest) {
 		int index = getOffset();
 		setPosition(dest, column);
 		video.address[getOffset()] = video.address[index];
+		video.address[getOffset() + 1] = video.address[index + 1];
 	}
 	setOffset(posBak);
 }

@@ -122,6 +122,7 @@ void printf(const char *fmt, ...) {
 	va_start(args, fmt);
 	double t;
 	char c;
+	int n;
 	while ((c = *fmt++) != 0) {
 		if (c != '%') {
 			putchar(c);
@@ -133,7 +134,10 @@ void printf(const char *fmt, ...) {
 					break;
 				case 'i':
 				case 'd':
-					puti(va_arg(args, int));
+					n = va_arg(args, int);
+					if (n == 0) {
+						putchar('0');
+					} else puti(n);
 					break;
 				case 'u':
 					putui(va_arg(args, int));
@@ -233,8 +237,14 @@ int gets(char* ans) {
 	int index = 0;
 	do {
 		c = getchar();
-		ans[index++] = c;
-		putchar(c);
+		if ( c!= '\b' || (c == '\b' && index >= 0) ) {
+			if (c == '\b') {
+				ans[index--] = '\0';
+			} else {
+				ans[index++] = c;
+			}
+			putchar(c);
+		}
 	} while( c != '\n');
 	ans[index++] = '\0';
 	return index == 0 ? 0 : 1;
