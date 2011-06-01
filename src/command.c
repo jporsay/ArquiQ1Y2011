@@ -106,7 +106,7 @@ int printf_cmd(int argc, char *argv[]) {
 	printf("testing printf...\n\n");
 	printf("Printing a double: %f\n", 123.456789);
 	printf("Printing an integer: %d\n", 99);
-	printf("Printing an unsigned integer: %u\n", 31231231);
+	printf("Printing an unsigned integer: %u\n", 312312);
 	printf("Printing a string %s\n", "This is a real cool string!");
 	printf("Printing in lowercase hexadecimal notation: %x\n", 0x55fa);
 	printf("Printing in uppercase hexadecimal notation: %X\n", 0x55fa);
@@ -116,6 +116,7 @@ int printf_cmd(int argc, char *argv[]) {
 int scanf_cmd(int argc, char *argv[]) {
 	int n;
 	char vec[50];
+	float f;
 	printf("Please type in a number: ");
 	scanf("%d", &n);
 	printf("scanf said you typed in: %d\n\n", n);
@@ -127,5 +128,9 @@ int scanf_cmd(int argc, char *argv[]) {
 	printf("One more...Please type in a single character: ");
 	scanf("%c", vec);
 	printf("\nscanf said you typed in: %c\n\n", vec[0]);
+	
+	printf("One more...Please type in a double: ");
+	scanf("%f", &f);
+	printf("\nscanf said you typed in: %f\n\n", f);
 }
 
